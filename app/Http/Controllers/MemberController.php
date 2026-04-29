@@ -7,8 +7,21 @@ use App\Models\LibRegion;
 use App\Models\LibClubName;
 use Illuminate\Http\Request;
 
-class MemberController extends Controller
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
+
+class MemberController extends Controller implements HasMiddleware
 {
+    public static function middleware(): array
+    {
+        return [
+            function ($request, $next) {
+                abort_if(!auth()->user()->hasPermission('search_kuya', 'view'), 403, 'Unauthorized action.');
+                return $next($request);
+            }
+        ];
+    }
+
     public function index(Request $request)
     {
         $query = User::query()->with(['region', 'club']);

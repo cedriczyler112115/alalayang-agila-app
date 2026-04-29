@@ -743,8 +743,12 @@
         </div>
 
         <div class="navbar-menu" id="navMenu">
+            @if(auth()->user()->hasPermission('dashboard', 'view'))
             <a href="{{ route('dashboard') }}" class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">Dashboard</a>
+            @endif
+            
             <a href="{{ route('announcements.index') }}" class="nav-link {{ request()->routeIs('announcements.*') ? 'active' : '' }}">Announcements</a>
+
             <div class="dropdown">
                 <div class="nav-link {{ request()->routeIs('profile.location') || request()->routeIs('quick.response') || request()->routeIs('search.kuya') ? 'active' : '' }}" style="cursor: pointer; display: flex; align-items: center; gap: 4px;">
                     Services
@@ -764,9 +768,29 @@
                     </a>
                 </div>
             </div>
+            
             <a href="{{ route('org.structure') }}" class="nav-link {{ request()->routeIs('org.structure') ? 'active' : '' }}">Organizational Structure</a>
+            
+            @if(auth()->user()->is_admin)
             <a href="{{ route('libraries.index') }}" class="nav-link {{ request()->routeIs('libraries.index') ? 'active' : '' }}">Libraries</a>
-            <a href="{{ route('users.index') }}" class="nav-link {{ request()->routeIs('users.*') ? 'active' : '' }}">Users</a>
+            
+            <div class="dropdown">
+                <div class="nav-link {{ request()->routeIs('users.*') || request()->routeIs('access_types.*') ? 'active' : '' }}" style="cursor: pointer; display: flex; align-items: center; gap: 4px;">
+                    Administration
+                    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </div>
+                <div class="dropdown-content">
+                    <a href="{{ route('users.index') }}" class="dropdown-item">
+                        Users
+                    </a>
+                    <a href="{{ route('access_types.index') }}" class="dropdown-item">
+                        Access Types
+                    </a>
+                </div>
+            </div>
+            @endif
 
             <!-- User Dropdown -->
             <div class="dropdown">
@@ -963,6 +987,12 @@
                 }
             }
         };
+
+        // Handle browser back button (bfcache)
+        window.addEventListener('pageshow', function(event) {
+            // Hide the loader whenever the page is shown, especially if restored from bfcache
+            GlobalLoader.hide();
+        });
 
         document.addEventListener('DOMContentLoaded', function() {
             const navToggle = document.getElementById('navToggle');

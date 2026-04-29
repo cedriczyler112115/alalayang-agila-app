@@ -7,11 +7,33 @@ use App\Models\LibRegion;
 use App\Models\LibClubName;
 use Illuminate\Http\Request;
 
-class UserController extends Controller
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
+
+class UserController extends Controller implements HasMiddleware
 {
+    public static function middleware(): array
+    {
+        return [
+            function ($request, $next) {
+                $user = auth()->user();
+                
+                $method = $request->route()->getActionMethod();
+                $action = 'view'; // default
+                
+                if ($method === 'updateStatus') $action = 'edit';
+                
+                abort_if(!$user->hasPermission('users', $action), 403, 'Unauthorized action.');
+                
+                return $next($request);
+            }
+        ];
+    }
     public function index(Request $request)
     {
-        $query = User::with(['region', 'club']);
+        $query = User::with(['region', 'club', 'subscriptionPayments' => function($q) {
+            $q->where('status', 'pending');
+        }]);
 
         // Search by name
         if ($request->filled('search')) {
@@ -36,7 +58,13 @@ class UserController extends Controller
 
         // Filter by Status
         if ($request->filled('status')) {
-            $query->where('status', $request->status);
+            if ($request->status === 'pending_payment') {
+                $query->whereHas('subscriptionPayments', function($q) {
+                    $q->where('status', 'pending');
+                });
+            } else {
+                $query->where('status', $request->status);
+            }
         }
 
         $users = $query->latest()->paginate(12)->withQueryString();
@@ -48,7 +76,9 @@ class UserController extends Controller
             $clubs = LibClubName::orderBy('name')->get();
         }
 
-        return view('users.index', compact('users', 'regions', 'clubs'));
+        $accessTypes = \App\Models\AccessType::all();
+
+        return view('users.index', compact('users', 'regions', 'clubs', 'accessTypes'));
     }
 
     public function updateStatus(Request $request, User $user)

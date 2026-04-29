@@ -5,8 +5,21 @@ namespace App\Http\Controllers;
 use App\Models\Announcement;
 use Illuminate\Http\Request;
 
-class DashboardController extends Controller
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
+
+class DashboardController extends Controller implements HasMiddleware
 {
+    public static function middleware(): array
+    {
+        return [
+            function ($request, $next) {
+                abort_if(!auth()->user()->hasPermission('dashboard', 'view'), 403, 'Unauthorized action.');
+                return $next($request);
+            }
+        ];
+    }
+
     public function index()
     {
         $user = auth()->user();

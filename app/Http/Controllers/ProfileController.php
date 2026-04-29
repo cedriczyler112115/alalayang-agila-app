@@ -7,8 +7,23 @@ use App\Models\LibClubName;
 use App\Models\LibPosition;
 use Illuminate\Http\Request;
 
-class ProfileController extends Controller
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
+
+class ProfileController extends Controller implements HasMiddleware
 {
+    public static function middleware(): array
+    {
+        return [
+            function ($request, $next) {
+                if ($request->route()->getActionMethod() === 'location') {
+                    abort_if(!auth()->user()->hasPermission('member_mapping', 'view'), 403, 'Unauthorized action.');
+                }
+                return $next($request);
+            }
+        ];
+    }
+
     public function edit()
     {
         return view('profile.complete', [

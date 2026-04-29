@@ -10,8 +10,28 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Http;
 
-class QuickResponseController extends Controller
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
+
+class QuickResponseController extends Controller implements HasMiddleware
 {
+    public static function middleware(): array
+    {
+        return [
+            function ($request, $next) {
+                $user = auth()->user();
+                
+                $method = $request->route()->getActionMethod();
+                $action = 'view'; // default
+                
+                if ($method === 'store') $action = 'add';
+                
+                abort_if(!$user->hasPermission('alalayang_agila', $action), 403, 'Unauthorized action.');
+                
+                return $next($request);
+            }
+        ];
+    }
     public function index()
     {
         $help_list = LibHelp::all();

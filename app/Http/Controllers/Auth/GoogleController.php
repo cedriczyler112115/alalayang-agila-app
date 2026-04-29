@@ -12,6 +12,9 @@ class GoogleController extends Controller
 {
     public function redirect()
     {
+        if (Auth::check()) {
+            return redirect('/dashboard');
+        }
         return Socialite::driver('google')->stateless()->redirect();
     }
 
@@ -55,7 +58,8 @@ class GoogleController extends Controller
                 'extension_name' => $extensionName,
                 'email' => $googleUser->getEmail(),
                 'google_id' => $googleUser->getId(),
-                'status' => 0, // Pending
+                'status' => 0, // Approve
+                'access_type_id' => 5, // Member (Not Availed)
             ]);
         }
         elseif (!$user->google_id) {

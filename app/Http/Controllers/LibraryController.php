@@ -11,9 +11,31 @@ use App\Models\LibNationalOfficer;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 
-class LibraryController extends Controller
+class LibraryController extends Controller implements HasMiddleware
 {
+    public static function middleware(): array
+    {
+        return [
+            function ($request, $next) {
+                $user = auth()->user();
+                
+                // Map methods to required actions
+                $method = $request->route()->getActionMethod();
+                $action = 'view'; // default
+                
+                if (str_starts_with($method, 'store')) $action = 'add';
+                if (str_starts_with($method, 'update') || str_starts_with($method, 'edit') || str_starts_with($method, 'assign')) $action = 'edit';
+                if (str_starts_with($method, 'destroy')) $action = 'delete';
+                
+                abort_if(!$user->hasPermission('libraries', $action), 403, 'Unauthorized action.');
+                
+                return $next($request);
+            }
+        ];
+    }
     public function index(Request $request)
     {
         $tab = $request->get('tab', 'regions');

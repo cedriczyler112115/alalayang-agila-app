@@ -10,8 +10,30 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Http;
 
-class AnnouncementController extends Controller
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
+
+class AnnouncementController extends Controller implements HasMiddleware
 {
+    public static function middleware(): array
+    {
+        return [
+            function ($request, $next) {
+                $user = auth()->user();
+                
+                $method = $request->route()->getActionMethod();
+                $action = 'view'; // default
+                
+                if (in_array($method, ['create', 'store'])) $action = 'add';
+                if (in_array($method, ['edit', 'update'])) $action = 'edit';
+                if ($method === 'destroy') $action = 'delete';
+                
+                abort_if(!$user->hasPermission('announcements', $action), 403, 'Unauthorized action.');
+                
+                return $next($request);
+            }
+        ];
+    }
     public function index(Request $request)
     {
         $query = Announcement::query()->where('status', 'published')->with('user');

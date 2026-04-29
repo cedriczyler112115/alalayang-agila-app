@@ -12,6 +12,9 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ChatController;
 
 Route::get('/', function () {
+    if (auth()->check()) {
+        return redirect()->route('dashboard');
+    }
     return redirect('/login');
 });
 
@@ -32,6 +35,9 @@ Route::get('/create-symlink', function () {
 });
 
 Route::get('/login', function () {
+    if (auth()->check()) {
+        return redirect()->route('dashboard');
+    }
     return view('auth.login');
 })->name('login');
 
@@ -94,6 +100,7 @@ Route::middleware('auth')->group(function () {
             Route::get('/search-kuya', [MemberController::class , 'index'])->name('search.kuya');
 
             Route::get('/organizational-structure', function() {
+                abort_if(!auth()->user()->hasPermission('org_structure', 'view'), 403);
                 $regions = \App\Models\LibRegion::all();
                 
                 $regional_officers_all = \App\Models\User::whereNotNull('lib_region_id')
@@ -119,15 +126,25 @@ Route::middleware('auth')->group(function () {
             // Users
             Route::get('/users', [UserController::class , 'index'])->name('users.index');
             Route::post('/users/{user}/status', [UserController::class , 'updateStatus'])->name('users.updateStatus');
+            Route::post('/users/{user}/permissions', [\App\Http\Controllers\PermissionController::class, 'update'])->name('users.updatePermissions');
+
+            // Access Types Management
+            Route::get('/access-types', [\App\Http\Controllers\AccessTypeController::class, 'index'])->name('access_types.index');
+            Route::post('/access-types/{accessType}/permissions', [\App\Http\Controllers\AccessTypeController::class, 'update'])->name('access_types.update');
 
             // Announcements CRUD
             Route::resource('announcements', AnnouncementController::class);
             Route::post('/announcements/{announcement}/comments', [App\Http\Controllers\CommentController::class, 'store'])->name('comments.store');
 
-            // Generic Group Chat Routing
+            // Chat module routes
             Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');
-            Route::get('/chat/{conversation}/messages', [ChatController::class, 'getMessages'])->name('chat.messages');
-            Route::post('/chat/{conversation}/send', [ChatController::class, 'sendMessage'])->name('chat.send');
+            Route::post('/chat/conversations', [ChatController::class, 'createConversation'])->name('chat.conversation.create');
+            Route::post('/chat/messages', [ChatController::class, 'sendMessage'])->name('chat.message.send');
+            Route::get('/chat/conversations/{conversation}/messages', [ChatController::class, 'getMessages'])->name('chat.conversation.messages');
+            
+            // Subscription Payment routes
+            Route::post('/subscription-payment', [\App\Http\Controllers\SubscriptionPaymentController::class, 'store'])->name('subscription.store');
+            Route::post('/subscription-payment/{id}/update', [\App\Http\Controllers\SubscriptionPaymentController::class, 'updateStatus'])->name('subscription.updateStatus');
         }
         );
     });

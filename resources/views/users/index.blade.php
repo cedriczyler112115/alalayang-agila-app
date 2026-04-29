@@ -65,6 +65,7 @@
                         <option value="">All Status</option>
                         <option value="0" {{ request('status') === '0' ? 'selected' : '' }}>Pending</option>
                         <option value="1" {{ request('status') === '1' ? 'selected' : '' }}>Active</option>
+                        <option value="pending_payment" {{ request('status') === 'pending_payment' ? 'selected' : '' }}>Pending Proof of Payment</option>
                     </select>
                 </div>
 
@@ -106,7 +107,14 @@
                         <h3 style="font-size: 1rem; font-weight: 700; color: var(--text-main); margin-bottom: 0.15rem;">
                             {{ $user->fullname }}
                         </h3>
-                        
+                        @php
+                            $pendingPayment = $user->subscriptionPayments->first();
+                        @endphp
+                        @if($pendingPayment)
+                        <span style="display: inline-block; padding: 2px 8px; border-radius: 4px; background-color: rgba(245, 158, 11, 0.1); color: #d97706; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; margin-top: 4px;">
+                            Payment Proof Pending
+                        </span>
+                        @endif
                     </div>
                 </div>
 
@@ -153,15 +161,35 @@
                             </button>
                         </form>
                     @else
-                        <form action="{{ route('users.updateStatus', $user) }}" method="POST">
-                            @csrf
-                            <button type="submit" class="btn btn-outline" style="width: 100%; gap: 10px; border-color: var(--danger); color: var(--danger);" onmouseover="this.style.backgroundColor='var(--danger)'; this.style.color='white'" onmouseout="this.style.backgroundColor='transparent'; this.style.color='var(--danger)'">
+                        <div style="display: flex; gap: 0.5rem; width: 100%;">
+                            <form action="{{ route('users.updateStatus', $user) }}" method="POST" style="flex: 1;">
+                                @csrf
+                                <button type="submit" class="btn btn-outline" style="width: 100%; gap: 10px; border-color: var(--danger); color: var(--danger);" onmouseover="this.style.backgroundColor='var(--danger)'; this.style.color='white'" onmouseout="this.style.backgroundColor='transparent'; this.style.color='var(--danger)'">
+                                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+                                    </svg>
+                                    Cancel
+                                </button>
+                            </form>
+                            @if(auth()->user()->is_admin)
+                            <button type="button" class="btn btn-primary" style="flex: 1; gap: 10px; background-color: var(--accent); border-color: var(--accent);" onclick="openPermissionsModal({{ $user->id }}, '{{ addslashes($user->fullname) }}', {{ $user->is_admin ? 'true' : 'false' }}, '{{ $user->access_type_id }}')">
                                 <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
                                 </svg>
-                                Cancel Approval
+                                Permissions
                             </button>
-                        </form>
+                            @endif
+                        </div>
+                        
+                        @if($pendingPayment && auth()->user()->is_admin)
+                        <button type="button" class="btn btn-outline" style="width: 100%; margin-top: 0.5rem; border-color: #f59e0b; color: #d97706;" onclick="openPaymentProofModal({{ $pendingPayment->id }}, '{{ asset('storage/' . $pendingPayment->receipt_path) }}', '{{ addslashes($user->fullname) }}', '{{ addslashes($user->position->name ?? 'No Position Assigned') }}', '{{ $user->access_type_id }}')">
+                            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="margin-right: 8px;">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                            </svg>
+                            View Payment Proof
+                        </button>
+                        @endif
                     @endif
                 </div>
             </div>
@@ -176,6 +204,44 @@
                 <p style="color: var(--text-muted);">Try adjusting your search or filters to find what you're looking for.</p>
             </div>
         @endforelse
+    </div>
+
+    <!-- Permissions Modal -->
+    <div id="permissionsModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 50; align-items: center; justify-content: center;">
+        <div style="background: var(--card-bg); width: 100%; max-width: 600px; border-radius: var(--radius-lg); overflow: hidden; display: flex; flex-direction: column; max-height: 90vh;">
+            <div style="padding: 1.5rem; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center;">
+                <h3 style="font-size: 1.25rem; font-weight: 600;">Manage Permissions: <span id="permUserName" style="color: var(--accent);"></span></h3>
+                <button type="button" onclick="closePermissionsModal()" style="background: none; border: none; cursor: pointer; color: var(--text-muted);">
+                    <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            <form id="permissionsForm" method="POST" style="overflow-y: auto; padding: 1.5rem;">
+                @csrf
+                <div style="margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border-color);">
+                    <label style="display: flex; align-items: center; gap: 10px; font-weight: 600; cursor: pointer;">
+                        <input type="checkbox" name="is_admin" id="isAdminCheckbox" style="width: 18px; height: 18px;">
+                        Make this user an Administrator
+                    </label>
+                    <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 5px;">Administrators have full access to all modules and can manage other users' permissions.</p>
+                </div>
+                
+                <div id="accessTypeSection">
+                    <h4 style="font-size: 1rem; font-weight: 600; margin-bottom: 0.5rem;">Access Type</h4>
+                    <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;">Select the role for this user to automatically apply predefined permissions.</p>
+                    <select name="access_type_id" id="accessTypeSelect" class="form-control" style="width: 100%; padding: 0.75rem; border-radius: var(--radius-md);">
+                        <option value="">No Access Type</option>
+                        @foreach($accessTypes as $type)
+                            <option value="{{ $type->id }}">{{ $type->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div style="margin-top: 2rem; display: flex; justify-content: flex-end; gap: 10px;">
+                    <button type="button" onclick="closePermissionsModal()" class="btn btn-outline">Cancel</button>
+                    <button type="submit" class="btn btn-primary" style="background-color: var(--accent);">Save Permissions</button>
+                </div>
+            </form>
+        </div>
     </div>
 
     <!-- Pagination -->
@@ -231,6 +297,7 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+        // ... Existing Region/Club filter logic ...
         const regionFilter = document.getElementById('region-filter');
         const clubFilter = document.getElementById('club-filter');
 
@@ -284,5 +351,89 @@
             }
         });
     });
+
+    function openPermissionsModal(userId, userName, isAdmin, accessTypeId) {
+        document.getElementById('permissionsModal').style.display = 'flex';
+        document.getElementById('permUserName').textContent = userName;
+        
+        const form = document.getElementById('permissionsForm');
+        form.action = "{{ url('/users') }}/" + userId + "/permissions";
+        
+        const isAdminCheckbox = document.getElementById('isAdminCheckbox');
+        isAdminCheckbox.checked = isAdmin;
+        
+        const accessTypeSelect = document.getElementById('accessTypeSelect');
+        accessTypeSelect.value = accessTypeId || '';
+    }
+
+    function closePermissionsModal() {
+        document.getElementById('permissionsModal').style.display = 'none';
+    }
+
+    function openPaymentProofModal(paymentId, imageUrl, userName, positionName, accessTypeId) {
+        document.getElementById('paymentProofModal').style.display = 'flex';
+        document.getElementById('paymentUserName').textContent = userName;
+        document.getElementById('paymentImage').src = imageUrl;
+        
+        document.getElementById('paymentUserPosition').textContent = positionName;
+        document.getElementById('paymentAccessTypeSelect').value = accessTypeId || '';
+        
+        document.getElementById('paymentActionForm').action = "{{ url('/subscription-payment') }}/" + paymentId + "/update";
+    }
+
+    function closePaymentProofModal() {
+        document.getElementById('paymentProofModal').style.display = 'none';
+    }
 </script>
+
+<!-- Payment Proof Modal -->
+<div id="paymentProofModal" style="display: none; position: fixed; inset: 0; background-color: rgba(0, 0, 0, 0.5); z-index: 50; align-items: center; justify-content: center; padding: 1rem;">
+    <div class="card" style="width: 100%; max-width: 600px; background-color: var(--card-bg);">
+        <div class="card-header" style="display: flex; justify-content: space-between; align-items: center;">
+            <h2 class="card-title" style="margin: 0;">Payment Proof: <span id="paymentUserName" style="color: var(--accent);"></span></h2>
+            <button type="button" onclick="closePaymentProofModal()" style="background: none; border: none; color: var(--text-muted); cursor: pointer;">
+                <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+        </div>
+        <div class="card-body">
+            <div style="text-align: center; margin-bottom: 1.5rem; background-color: var(--bg-color); padding: 1rem; border-radius: var(--radius-md);">
+                <img id="paymentImage" src="" alt="Payment Proof" style="max-width: 100%; max-height: 400px; object-fit: contain; border-radius: var(--radius-sm);">
+            </div>
+            
+            <form id="paymentActionForm" method="POST">
+                @csrf
+                <div style="display: flex; gap: 1.5rem; margin-bottom: 1.5rem; text-align: left; padding: 1.25rem; background-color: var(--bg-color); border-radius: var(--radius-sm); border: 1px solid var(--border-color);">
+                    <div style="flex: 1;">
+                        <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600;">Position:</span>
+                        <div id="paymentUserPosition" style="font-size: 1rem; color: var(--text-main); font-weight: 500; margin-top: 0.25rem;"></div>
+                    </div>
+                    
+                    <div style="flex: 1;">
+                        <label for="paymentAccessTypeSelect" style="display: block; font-size: 0.85rem; color: var(--text-muted); font-weight: 600; margin-bottom: 0.25rem;">Access Type:</label>
+                        <select name="access_type_id" id="paymentAccessTypeSelect" class="form-control" style="width: 100%;">
+                            <option value="">-- Select Access Type --</option>
+                            @foreach($accessTypes as $type)
+                                <option value="{{ $type->id }}">{{ $type->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                
+                <div style="display: flex; gap: 1rem;">
+                    <button type="submit" name="status" value="approved" class="btn btn-primary" style="flex: 1; background-color: var(--success); border-color: var(--success);">
+                        Approve Payment
+                    </button>
+                    <button type="submit" name="status" value="rejected" class="btn btn-outline" style="flex: 1; border-color: var(--danger); color: var(--danger);">
+                        Reject Payment
+                    </button>
+                </div>
+            </form>
+            <p style="font-size: 0.8rem; color: var(--text-muted); text-align: center; margin-top: 1rem;">
+                * Note: Approving the payment will also update the user's Access Type to the selection above.
+            </p>
+        </div>
+    </div>
+</div>
 @endsection
