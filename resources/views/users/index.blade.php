@@ -84,7 +84,7 @@
     <!-- Users Grid -->
     <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 2rem;">
         @forelse($users as $user)
-        {{ asset('storage/profile-photos/' . basename($user->profile_photo)) }}
+
             <div class="card" style="border: 1px solid var(--border-color); border-radius: var(--radius-lg); overflow: hidden; transition: all 0.3s ease; display: flex; flex-direction: column;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='var(--shadow-lg)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='var(--shadow-sm)'">
                 <div style="padding: 1.5rem; display: flex; align-items: center; gap: 1.25rem; border-bottom: 1px solid var(--border-color); position: relative;">
                     <div style="position: absolute; top: 1.5rem; right: 1.5rem;">
