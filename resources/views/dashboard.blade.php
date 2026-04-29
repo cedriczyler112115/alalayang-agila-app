@@ -297,36 +297,6 @@
         </div>
     </div>
 
-    <!-- Profile Overview Card -->
-    <div class="card" style="margin-bottom: 2.5rem;">
-        <div class="card-header">
-            <h3 class="card-title">Profile Overview</h3>
-        </div>
-        <div class="card-body">
-            <div style="display: flex; flex-wrap: wrap; gap: 2rem;">
-                <div style="flex: 1; min-width: 250px;">
-                    <span style="font-size: 0.75rem; color: var(--secondary); text-transform: uppercase; font-weight: 700; letter-spacing: 0.05em;">Region</span>
-                    <div style="font-weight: 500; font-size: 1.1rem; margin-top: 0.25rem;">{{ auth()->user()->region->name ?? 'Not Set' }}</div>
-                </div>
-                <div style="flex: 1; min-width: 250px;">
-                    <span style="font-size: 0.75rem; color: var(--secondary); text-transform: uppercase; font-weight: 700; letter-spacing: 0.05em;">Eagle Club Name</span>
-                    <div style="font-weight: 500; font-size: 1.1rem; margin-top: 0.25rem;">{{ auth()->user()->club->name ?? 'Not Set' }}</div>
-                </div>
-                <div style="flex: 1; min-width: 250px;">
-                    <span style="font-size: 0.75rem; color: var(--secondary); text-transform: uppercase; font-weight: 700; letter-spacing: 0.05em;">Contact</span>
-                    <div style="font-weight: 500; font-size: 1.1rem; margin-top: 0.25rem;">{{ auth()->user()->contact_number }}</div>
-                </div>
-                <div style="flex: 2; min-width: 250px;">
-                    <span style="font-size: 0.75rem; color: var(--secondary); text-transform: uppercase; font-weight: 700; letter-spacing: 0.05em;">Address</span>
-                    <div style="font-weight: 500; font-size: 1.1rem; margin-top: 0.25rem;">{{ auth()->user()->address }}</div>
-                </div>                    
-            </div>
-            <div class="mt-6" style="display: flex; gap: 0.75rem; max-width: 400px;">
-                <a href="{{ route('profile.complete') }}" class="btn btn-outline" style="flex: 1;">Edit Profile</a>
-                <a href="{{ route('profile.location') }}" class="btn btn-outline" style="flex: 1;">Member Mapping</a>
-            </div>
-        </div>
-    </div>
 </div>
 
 <script>
