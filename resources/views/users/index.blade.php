@@ -84,6 +84,7 @@
     <!-- Users Grid -->
     <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 2rem;">
         @forelse($users as $user)
+        {{ asset('storage/profile-photos/' . basename($user->profile_photo)) }}
             <div class="card" style="border: 1px solid var(--border-color); border-radius: var(--radius-lg); overflow: hidden; transition: all 0.3s ease; display: flex; flex-direction: column;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='var(--shadow-lg)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='var(--shadow-sm)'">
                 <div style="padding: 1.5rem; display: flex; align-items: center; gap: 1.25rem; border-bottom: 1px solid var(--border-color); position: relative;">
                     <div style="position: absolute; top: 1.5rem; right: 1.5rem;">
@@ -91,7 +92,7 @@
                             {{ $user->status == 1 ? 'Active' : 'Pending' }}
                         </span>
                     </div>  
-                        {{ $user->profile_photo }}
+                        
                     @if($user->profile_photo)
                         <img loading="lazy" src="{{ asset('storage/profile-photos/' . basename($user->profile_photo)) }}" alt="Profile Photo" style="width: 70px; height: 70px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent); flex-shrink: 0;" onerror="this.onerror=null; this.outerHTML='<div style=\'width: 70px; height: 70px; border-radius: 50%; background-color: var(--bg-color); border: 2px dashed #94a3b8; display: flex; flex-direction: column; align-items: center; justify-content: center; flex-shrink: 0;\'><svg width=\'24\' height=\'24\' fill=\'none\' stroke=\'#94a3b8\' stroke-width=\'2\' viewBox=\'0 0 24 24\'><path stroke-linecap=\'round\' stroke-linejoin=\'round\' d=\'M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z\'></path></svg><span style=\'font-size: 0.55rem; color: var(--text-muted); margin-top: 2px; font-weight: 600; text-transform: uppercase;\'>No Photo</span></div>'">
                     @else
