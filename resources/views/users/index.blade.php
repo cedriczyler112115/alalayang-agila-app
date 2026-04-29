@@ -90,8 +90,8 @@
                         <span style="padding: 0.35rem 0.75rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; background-color: {{ $user->status == 1 ? '#dcfce7' : '#fef9c3' }}; color: {{ $user->status == 1 ? '#166534' : '#854d0e' }}; border: 1px solid {{ $user->status == 1 ? '#bbf7d0' : '#fef08a' }};">
                             {{ $user->status == 1 ? 'Active' : 'Pending' }}
                         </span>
-                    </div>
-
+                    </div>  
+                        {{ $user->profile_photo }}
                     @if($user->profile_photo)
                         <img loading="lazy" src="{{ asset('storage/profile-photos/' . basename($user->profile_photo)) }}" alt="Profile Photo" style="width: 70px; height: 70px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent); flex-shrink: 0;" onerror="this.onerror=null; this.outerHTML='<div style=\'width: 70px; height: 70px; border-radius: 50%; background-color: var(--bg-color); border: 2px dashed #94a3b8; display: flex; flex-direction: column; align-items: center; justify-content: center; flex-shrink: 0;\'><svg width=\'24\' height=\'24\' fill=\'none\' stroke=\'#94a3b8\' stroke-width=\'2\' viewBox=\'0 0 24 24\'><path stroke-linecap=\'round\' stroke-linejoin=\'round\' d=\'M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z\'></path></svg><span style=\'font-size: 0.55rem; color: var(--text-muted); margin-top: 2px; font-weight: 600; text-transform: uppercase;\'>No Photo</span></div>'">
                     @else
