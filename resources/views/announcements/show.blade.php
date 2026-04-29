@@ -44,7 +44,7 @@
         <form action="{{ route('comments.store', $announcement) }}" method="POST" style="margin-bottom: 2rem;">
             @csrf
             <div style="display: flex; gap: 1rem; align-items: flex-start;">
-                <img src="{{ auth()->user()->profile_photo ? asset('storage/' . auth()->user()->profile_photo) : asset('images/default-avatar.png') }}" style="width: 48px; height: 48px; border-radius: 50%; object-fit: cover;" onerror="this.src='{{ asset('images/default-avatar.png') }}'">
+                <img src="{{ auth()->user()->profile_photo ? asset('storage/' . auth()->user()->profile_photo) : asset('images/default-avatar.svg') }}" style="width: 48px; height: 48px; border-radius: 50%; object-fit: cover;" onerror="this.src='{{ asset('images/default-avatar.svg') }}'">
                 <div style="flex: 1;">
                     <textarea name="content" class="form-control" rows="3" placeholder="Join the discussion..." required style="resize: vertical;"></textarea>
                     <div style="margin-top: 0.5rem; text-align: right;">

@@ -84,6 +84,12 @@
             z-index: 1000;
         }
 
+        /* Fix leaflet controls overlapping navbar */
+        .leaflet-top, 
+        .leaflet-bottom {
+            z-index: 999 !important;
+        }
+
         .navbar-brand {
             font-size: 1.25rem;
             font-weight: 700;

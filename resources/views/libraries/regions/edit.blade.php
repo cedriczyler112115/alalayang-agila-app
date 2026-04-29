@@ -94,7 +94,7 @@
                             
                             @if($assignedOfficer)
                                 <option value="{{ $assignedOfficer->id }}" 
-                                        data-avatar="{{ $assignedOfficer->profile_photo ? asset('storage/' . $assignedOfficer->profile_photo) : asset('images/default-avatar.png') }}"
+                                        data-avatar="{{ $assignedOfficer->profile_photo ? asset('storage/' . $assignedOfficer->profile_photo) : asset('images/default-avatar.svg') }}"
                                         data-club="{{ $assignedOfficer->club ? $assignedOfficer->club->name : 'N/A' }}" selected>
                                     {{ $assignedOfficer->last_name }}, {{ $assignedOfficer->first_name }} {{ $assignedOfficer->middle_name }}
                                 </option>
@@ -102,7 +102,7 @@
 
                             @foreach($available_users as $user)
                                 <option value="{{ $user->id }}"
-                                        data-avatar="{{ $user->profile_photo ? asset('storage/' . $user->profile_photo) : asset('images/default-avatar.png') }}"
+                                        data-avatar="{{ $user->profile_photo ? asset('storage/' . $user->profile_photo) : asset('images/default-avatar.svg') }}"
                                         data-club="{{ $user->club ? $user->club->name : 'N/A' }}">
                                     {{ $user->last_name }}, {{ $user->first_name }} {{ $user->middle_name }}
                                 </option>
@@ -135,7 +135,7 @@ $(document).ready(function() {
         
         let $html = $(
             '<div style="display: flex; align-items: center; gap: 12px; padding: 4px 0;">' +
-                '<img src="' + avatar + '" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover;" onerror="this.src=\'{{ asset("images/default-avatar.png") }}\'" />' +
+                '<img src="' + avatar + '" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover;" onerror="this.src=\'{{ asset("images/default-avatar.svg") }}\'" />' +
                 '<div style="display: flex; flex-direction: column;">' +
                     '<span style="font-weight: 600; font-size: 0.95rem; line-height: 1.2;">' + safeText + '</span>' +
                     '<span style="font-size: 0.75rem; color: var(--text-muted);">' + safeClub + '</span>' +

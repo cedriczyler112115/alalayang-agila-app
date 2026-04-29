@@ -129,7 +129,7 @@
                                 @else
                                     @foreach($lead_officers as $lead_regional_officer)
                                         <div style="background: white; border: 2px solid var(--border-color); padding: 1.25rem; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); width: 100%; max-width: 450px; text-align: center; display: flex; flex-direction: column; align-items: center;">
-                                            <img src="{{ $lead_regional_officer->profile_photo ? asset('storage/' . $lead_regional_officer->profile_photo) : asset('images/default-avatar.png') }}" style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover; margin-bottom: 0.75rem; border: 3px solid var(--border-color);">
+                                            <img src="{{ $lead_regional_officer->profile_photo ? asset('storage/' . $lead_regional_officer->profile_photo) : asset('images/default-avatar.svg') }}" style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover; margin-bottom: 0.75rem; border: 3px solid var(--border-color);">
                                             <span style="font-weight: 700; font-size: 1.15rem; color: var(--primary); line-height: 1.2;">{{ $lead_regional_officer->fullname }}</span>
                                             <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.5rem; text-align: center; line-height: 1.4;">
                                                 @if($lead_regional_officer->club)
@@ -163,7 +163,7 @@
                                 @else
                                     @foreach($officers_list as $officer)
                                         <div style="background: white; border: 1px solid var(--border-color); padding: 1rem; border-radius: var(--radius-md); text-align: center; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-                                            <img src="{{ $officer->profile_photo ? asset('storage/' . $officer->profile_photo) : asset('images/default-avatar.png') }}" style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover; margin-bottom: 0.5rem; border: 2px solid var(--border-color);">
+                                            <img src="{{ $officer->profile_photo ? asset('storage/' . $officer->profile_photo) : asset('images/default-avatar.svg') }}" style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover; margin-bottom: 0.5rem; border: 2px solid var(--border-color);">
                                             <span style="font-weight: 700; font-size: 0.95rem; color: var(--primary); line-height: 1.2;">{{ $officer->fullname }}</span>
                                             <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.5rem; text-align: center; line-height: 1.4;">
                                                 @if($officer->club)
@@ -279,7 +279,7 @@
                                     @else
                                         @foreach($lead_club_officers as $lead_club_officer)
                                             <div style="background: white; border: 2px solid var(--border-color); padding: 1.25rem; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); width: 100%; text-align: center; display: flex; flex-direction: column; align-items: center; max-width: 450px;">
-                                                <img src="{{ $lead_club_officer->profile_photo ? asset('storage/' . $lead_club_officer->profile_photo) : asset('images/default-avatar.png') }}" style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover; margin-bottom: 0.75rem; border: 3px solid var(--border-color);">
+                                                <img src="{{ $lead_club_officer->profile_photo ? asset('storage/' . $lead_club_officer->profile_photo) : asset('images/default-avatar.svg') }}" style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover; margin-bottom: 0.75rem; border: 3px solid var(--border-color);">
                                                 <span style="font-weight: 700; font-size: 1.15rem; color: var(--primary); line-height: 1.2;">{{ $lead_club_officer->fullname }}</span>
                                                 <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.5rem; text-align: center; line-height: 1.4;">
                                                     @if($lead_club_officer->club)
@@ -313,7 +313,7 @@
                                     @else
                                         @foreach($officers_list as $officer)
                                             <div style="background: white; border: 1px solid var(--border-color); padding: 1rem; border-radius: var(--radius-md); text-align: center; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-                                                <img src="{{ $officer->profile_photo ? asset('storage/' . $officer->profile_photo) : asset('images/default-avatar.png') }}" style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover; margin-bottom: 0.5rem; border: 2px solid var(--border-color);">
+                                                <img src="{{ $officer->profile_photo ? asset('storage/' . $officer->profile_photo) : asset('images/default-avatar.svg') }}" style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover; margin-bottom: 0.5rem; border: 2px solid var(--border-color);">
                                                 <span style="font-weight: 700; font-size: 0.95rem; color: var(--primary); line-height: 1.2;">{{ $officer->fullname }}</span>
                                                 <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.5rem; text-align: center; line-height: 1.4;">
                                                     @if($officer->club)

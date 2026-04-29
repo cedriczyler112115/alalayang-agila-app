@@ -141,9 +141,9 @@
                         <input type="file" id="profile_photo" name="profile_photo" class="form-control" accept="image/*" {{ !$user->profile_photo ? 'required' : '' }}>
                         <div style="margin-top: 1rem;">
                             @php
-                                $photoUrl = $user->profile_photo ? asset('storage/profile-photos/' . basename($user->profile_photo)) : asset('images/default-avatar.png');
+                                $photoUrl = $user->profile_photo ? asset('storage/profile-photos/' . basename($user->profile_photo)) : asset('images/default-avatar.svg');
                             @endphp
-                            <img id="profile_photo_preview" loading="lazy" src="{{ $photoUrl }}" alt="Profile Photo" style="width: 120px; height: 120px; object-fit: cover; border-radius: 50%; border: 3px solid var(--accent); display: block;" onerror="this.src='{{ asset('images/default-avatar.png') }}'">
+                            <img id="profile_photo_preview" loading="lazy" src="{{ $photoUrl }}" alt="Profile Photo" style="width: 120px; height: 120px; object-fit: cover; border-radius: 50%; border: 3px solid var(--accent); display: block;" onerror="this.src='{{ asset('images/default-avatar.svg') }}'">
                         </div>
                     </div>
 

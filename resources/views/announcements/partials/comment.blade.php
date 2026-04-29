@@ -1,6 +1,6 @@
 <div class="comment" style="margin-top: 1rem; padding: 1rem; border: 1px solid var(--border-color); border-radius: var(--radius-md); background-color: var(--card-bg);">
     <div style="display: flex; gap: 1rem; align-items: flex-start;">
-        <img src="{{ $comment->user->profile_photo ? asset('storage/' . $comment->user->profile_photo) : asset('images/default-avatar.png') }}" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;" onerror="this.src='{{ asset('images/default-avatar.png') }}'">
+        <img src="{{ $comment->user->profile_photo ? asset('storage/' . $comment->user->profile_photo) : asset('images/default-avatar.svg') }}" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;" onerror="this.src='{{ asset('images/default-avatar.svg') }}'">
         <div style="flex: 1;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
                 <span style="font-weight: 700; color: var(--text-main);">Kuya {{ $comment->user->fullname }}</span>
