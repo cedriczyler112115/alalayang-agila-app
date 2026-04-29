@@ -3,6 +3,11 @@
 @section('title', 'Libraries - Caragados EC')
 
 @section('content')
+@php
+    $canAddLibraries = auth()->user()->hasPermission('libraries', 'add');
+    $canEditLibraries = auth()->user()->hasPermission('libraries', 'edit');
+    $canDeleteLibraries = auth()->user()->hasPermission('libraries', 'delete');
+@endphp
 <div style="margin-top: 2rem;">
     <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem;">
         <h1 style="font-size: 1.5rem; font-weight: 700; letter-spacing: -0.025em;">Dynamic <span style="color: var(--accent);">Libraries</span></h1>
@@ -29,7 +34,9 @@
         <div class="card">
             <div class="card-header" style="display: flex; justify-content: space-between; align-items: center;">
                 <h3 class="card-title">Regions Management</h3>
-                <button onclick="document.getElementById('addRegionModal').style.display='flex'" class="btn btn-primary btn-sm">Add New Region</button>
+                @if($canAddLibraries)
+                    <button onclick="document.getElementById('addRegionModal').style.display='flex'" class="btn btn-primary btn-sm">Add New Region</button>
+                @endif
             </div>
             <div class="card-body">
                 <table style="width: 100%; border-collapse: collapse;">
@@ -46,11 +53,15 @@
                             <td style="padding: 1rem;">{{ $region->id }}</td>
                             <td style="padding: 1rem;">{{ $region->name }}</td>
                             <td style="padding: 1rem; text-align: right; display: flex; gap: 0.5rem; justify-content: flex-end;">
-                                <a href="{{ route('libraries.region.edit', $region->id) }}" class="btn btn-outline btn-sm">Edit</a>
-                                <form action="{{ route('libraries.region.destroy', $region) }}" method="POST" onsubmit="return confirm('Are you sure?')">
-                                    @csrf @method('DELETE')
-                                    <button type="submit" class="btn btn-outline btn-sm" style="color: var(--danger);">Delete</button>
-                                </form>
+                                @if($canEditLibraries)
+                                    <a href="{{ route('libraries.region.edit', $region->id) }}" class="btn btn-outline btn-sm">Edit</a>
+                                @endif
+                                @if($canDeleteLibraries)
+                                    <form action="{{ route('libraries.region.destroy', $region) }}" method="POST" onsubmit="return confirm('Are you sure?')">
+                                        @csrf @method('DELETE')
+                                        <button type="submit" class="btn btn-outline btn-sm" style="color: var(--danger);">Delete</button>
+                                    </form>
+                                @endif
                             </td>
                         </tr>
                         @endforeach
@@ -60,24 +71,26 @@
         </div>
 
         <!-- Add Region Modal -->
-        <div id="addRegionModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); align-items: center; justify-content: center; z-index: 1000;">
-            <div class="card" style="width: 100%; max-width: 400px; margin: 1rem;">
-                <div class="card-header"><h3 class="card-title">Add Region</h3></div>
-                <div class="card-body">
-                    <form action="{{ route('libraries.region.store') }}" method="POST">
-                        @csrf
-                        <div class="form-group">
-                            <label class="form-label">Region Name</label>
-                            <input type="text" name="name" class="form-control" required>
-                        </div>
-                        <div style="display: flex; gap: 0.5rem; margin-top: 1.5rem;">
-                            <button type="submit" class="btn btn-primary" style="flex: 1;">Save</button>
-                            <button type="button" onclick="document.getElementById('addRegionModal').style.display='none'" class="btn btn-outline" style="flex: 1;">Cancel</button>
-                        </div>
-                    </form>
+        @if($canAddLibraries)
+            <div id="addRegionModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); align-items: center; justify-content: center; z-index: 1000;">
+                <div class="card" style="width: 100%; max-width: 400px; margin: 1rem;">
+                    <div class="card-header"><h3 class="card-title">Add Region</h3></div>
+                    <div class="card-body">
+                        <form action="{{ route('libraries.region.store') }}" method="POST">
+                            @csrf
+                            <div class="form-group">
+                                <label class="form-label">Region Name</label>
+                                <input type="text" name="name" class="form-control" required>
+                            </div>
+                            <div style="display: flex; gap: 0.5rem; margin-top: 1.5rem;">
+                                <button type="submit" class="btn btn-primary" style="flex: 1;">Save</button>
+                                <button type="button" onclick="document.getElementById('addRegionModal').style.display='none'" class="btn btn-outline" style="flex: 1;">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
-        </div>
+        @endif
 
         <!-- Edit Region moved to dedicated page -->
     @elseif($tab === 'clubs')
@@ -85,7 +98,9 @@
         <div class="card">
             <div class="card-header" style="display: flex; justify-content: space-between; align-items: center;">
                 <h3 class="card-title">Eagle Clubs Management</h3>
-                <button onclick="document.getElementById('addClubModal').style.display='flex'" class="btn btn-primary btn-sm">Add New Club</button>
+                @if($canAddLibraries)
+                    <button onclick="document.getElementById('addClubModal').style.display='flex'" class="btn btn-primary btn-sm">Add New Club</button>
+                @endif
             </div>
             <div class="card-body">
                 <table style="width: 100%; border-collapse: collapse;">
@@ -104,11 +119,15 @@
                             <td style="padding: 1rem;">{{ $club->region->name ?? 'N/A' }}</td>
                             <td style="padding: 1rem;">{{ $club->name }}</td>
                             <td style="padding: 1rem; text-align: right; display: flex; gap: 0.5rem; justify-content: flex-end;">
-                                <a href="{{ route('libraries.club.edit', $club->id) }}" class="btn btn-outline btn-sm">Edit</a>
-                                <form action="{{ route('libraries.club.destroy', $club) }}" method="POST" onsubmit="return confirm('Are you sure?')">
-                                    @csrf @method('DELETE')
-                                    <button type="submit" class="btn btn-outline btn-sm" style="color: var(--danger);">Delete</button>
-                                </form>
+                                @if($canEditLibraries)
+                                    <a href="{{ route('libraries.club.edit', $club->id) }}" class="btn btn-outline btn-sm">Edit</a>
+                                @endif
+                                @if($canDeleteLibraries)
+                                    <form action="{{ route('libraries.club.destroy', $club) }}" method="POST" onsubmit="return confirm('Are you sure?')">
+                                        @csrf @method('DELETE')
+                                        <button type="submit" class="btn btn-outline btn-sm" style="color: var(--danger);">Delete</button>
+                                    </form>
+                                @endif
                             </td>
                         </tr>
                         @endforeach
@@ -118,6 +137,7 @@
         </div>
 
         <!-- Add Club Modal -->
+        @if($canAddLibraries)
         <div id="addClubModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); align-items: center; justify-content: center; z-index: 1000;">
             <div class="card" style="width: 100%; max-width: 400px; margin: 1rem;">
                 <div class="card-header"><h3 class="card-title">Add Club</h3></div>
@@ -145,13 +165,16 @@
                 </div>
             </div>
         </div>
+        @endif
 
     @elseif($tab === 'help')
         <!-- Help Types CRUD -->
         <div class="card">
             <div class="card-header" style="display: flex; justify-content: space-between; align-items: center;">
                 <h3 class="card-title">Help Types Management</h3>
-                <button onclick="document.getElementById('addHelpModal').style.display='flex'" class="btn btn-primary btn-sm">Add New Help Type</button>
+                @if($canAddLibraries)
+                    <button onclick="document.getElementById('addHelpModal').style.display='flex'" class="btn btn-primary btn-sm">Add New Help Type</button>
+                @endif
             </div>
             <div class="card-body">
                 <table style="width: 100%; border-collapse: collapse;">
@@ -168,15 +191,19 @@
                             <td style="padding: 1rem;">{{ $help->id }}</td>
                             <td style="padding: 1rem;">{{ $help->name }}</td>
                             <td style="padding: 1rem; text-align: right; display: flex; gap: 0.5rem; justify-content: flex-end;">
-                                <button 
-                                    onclick="editHelp(this)" 
-                                    data-id="{{ $help->id }}" 
-                                    data-name="{{ $help->name }}"
-                                    class="btn btn-outline btn-sm">Edit</button>
-                                <form action="{{ route('libraries.help.destroy', $help) }}" method="POST" onsubmit="return confirm('Are you sure?')">
-                                    @csrf @method('DELETE')
-                                    <button type="submit" class="btn btn-outline btn-sm" style="color: var(--danger);">Delete</button>
-                                </form>
+                                @if($canEditLibraries)
+                                    <button 
+                                        onclick="editHelp(this)" 
+                                        data-id="{{ $help->id }}" 
+                                        data-name="{{ $help->name }}"
+                                        class="btn btn-outline btn-sm">Edit</button>
+                                @endif
+                                @if($canDeleteLibraries)
+                                    <form action="{{ route('libraries.help.destroy', $help) }}" method="POST" onsubmit="return confirm('Are you sure?')">
+                                        @csrf @method('DELETE')
+                                        <button type="submit" class="btn btn-outline btn-sm" style="color: var(--danger);">Delete</button>
+                                    </form>
+                                @endif
                             </td>
                         </tr>
                         @endforeach
@@ -186,6 +213,7 @@
         </div>
 
         <!-- Add Help Modal -->
+        @if($canAddLibraries)
         <div id="addHelpModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); align-items: center; justify-content: center; z-index: 1000;">
             <div class="card" style="width: 100%; max-width: 400px; margin: 1rem;">
                 <div class="card-header"><h3 class="card-title">Add Help Type</h3></div>
@@ -204,8 +232,10 @@
                 </div>
             </div>
         </div>
+        @endif
 
         <!-- Edit Help Modal -->
+        @if($canEditLibraries)
         <div id="editHelpModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); align-items: center; justify-content: center; z-index: 1000;">
             <div class="card" style="width: 100%; max-width: 400px; margin: 1rem;">
                 <div class="card-header"><h3 class="card-title">Edit Help Type</h3></div>
@@ -224,12 +254,15 @@
                 </div>
             </div>
         </div>
+        @endif
     @elseif($tab === 'positions')
         <!-- Positions CRUD -->
         <div class="card">
             <div class="card-header" style="display: flex; justify-content: space-between; align-items: center;">
                 <h3 class="card-title">Club Positions Management</h3>
-                <button onclick="document.getElementById('addPositionModal').style.display='flex'" class="btn btn-primary btn-sm">Add New Club Position</button>
+                @if($canAddLibraries)
+                    <button onclick="document.getElementById('addPositionModal').style.display='flex'" class="btn btn-primary btn-sm">Add New Club Position</button>
+                @endif
             </div>
             <div class="card-body">
                 <table style="width: 100%; border-collapse: collapse;">
@@ -246,15 +279,19 @@
                             <td style="padding: 1rem;">{{ $position->id }}</td>
                             <td style="padding: 1rem;">{{ $position->name }}</td>
                             <td style="padding: 1rem; text-align: right; display: flex; gap: 0.5rem; justify-content: flex-end;">
-                                <button 
-                                    onclick="editPosition(this)" 
-                                    data-id="{{ $position->id }}" 
-                                    data-name="{{ $position->name }}"
-                                    class="btn btn-outline btn-sm">Edit</button>
-                                <form action="{{ route('libraries.position.destroy', $position) }}" method="POST" onsubmit="return confirm('Are you sure?')">
-                                    @csrf @method('DELETE')
-                                    <button type="submit" class="btn btn-outline btn-sm" style="color: var(--danger);">Delete</button>
-                                </form>
+                                @if($canEditLibraries)
+                                    <button 
+                                        onclick="editPosition(this)" 
+                                        data-id="{{ $position->id }}" 
+                                        data-name="{{ $position->name }}"
+                                        class="btn btn-outline btn-sm">Edit</button>
+                                @endif
+                                @if($canDeleteLibraries)
+                                    <form action="{{ route('libraries.position.destroy', $position) }}" method="POST" onsubmit="return confirm('Are you sure?')">
+                                        @csrf @method('DELETE')
+                                        <button type="submit" class="btn btn-outline btn-sm" style="color: var(--danger);">Delete</button>
+                                    </form>
+                                @endif
                             </td>
                         </tr>
                         @endforeach
@@ -264,6 +301,7 @@
         </div>
 
         <!-- Add Position Modal -->
+        @if($canAddLibraries)
         <div id="addPositionModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); align-items: center; justify-content: center; z-index: 1000;">
             <div class="card" style="width: 100%; max-width: 400px; margin: 1rem;">
                 <div class="card-header"><h3 class="card-title">Add Position</h3></div>
@@ -282,8 +320,10 @@
                 </div>
             </div>
         </div>
+        @endif
 
         <!-- Edit Position Modal -->
+        @if($canEditLibraries)
         <div id="editPositionModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); align-items: center; justify-content: center; z-index: 1000;">
             <div class="card" style="width: 100%; max-width: 400px; margin: 1rem;">
                 <div class="card-header"><h3 class="card-title">Edit Position</h3></div>
@@ -302,12 +342,15 @@
                 </div>
             </div>
         </div>
+        @endif
     @elseif($tab === 'regional-positions')
         <!-- Regional Positions CRUD -->
         <div class="card">
             <div class="card-header" style="display: flex; justify-content: space-between; align-items: center;">
                 <h3 class="card-title">Regional Positions Management</h3>
-                <button onclick="document.getElementById('addRegionalPositionModal').style.display='flex'" class="btn btn-primary btn-sm">Add Regional Position</button>
+                @if($canAddLibraries)
+                    <button onclick="document.getElementById('addRegionalPositionModal').style.display='flex'" class="btn btn-primary btn-sm">Add Regional Position</button>
+                @endif
             </div>
             <div class="card-body">
                 <table style="width: 100%; border-collapse: collapse;">
@@ -324,15 +367,19 @@
                             <td style="padding: 1rem;">{{ $position->id }}</td>
                             <td style="padding: 1rem;">{{ $position->name }}</td>
                             <td style="padding: 1rem; text-align: right; display: flex; gap: 0.5rem; justify-content: flex-end;">
-                                <button 
-                                    onclick="editRegionalPosition(this)" 
-                                    data-id="{{ $position->id }}" 
-                                    data-name="{{ $position->name }}"
-                                    class="btn btn-outline btn-sm">Edit</button>
-                                <form action="{{ route('libraries.regional_position.destroy', $position) }}" method="POST" onsubmit="return confirm('Are you sure?')">
-                                    @csrf @method('DELETE')
-                                    <button type="submit" class="btn btn-outline btn-sm" style="color: var(--danger);">Delete</button>
-                                </form>
+                                @if($canEditLibraries)
+                                    <button 
+                                        onclick="editRegionalPosition(this)" 
+                                        data-id="{{ $position->id }}" 
+                                        data-name="{{ $position->name }}"
+                                        class="btn btn-outline btn-sm">Edit</button>
+                                @endif
+                                @if($canDeleteLibraries)
+                                    <form action="{{ route('libraries.regional_position.destroy', $position) }}" method="POST" onsubmit="return confirm('Are you sure?')">
+                                        @csrf @method('DELETE')
+                                        <button type="submit" class="btn btn-outline btn-sm" style="color: var(--danger);">Delete</button>
+                                    </form>
+                                @endif
                             </td>
                         </tr>
                         @endforeach
@@ -342,6 +389,7 @@
         </div>
 
         <!-- Add Regional Position Modal -->
+        @if($canAddLibraries)
         <div id="addRegionalPositionModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); align-items: center; justify-content: center; z-index: 1000;">
             <div class="card" style="width: 100%; max-width: 400px; margin: 1rem;">
                 <div class="card-header"><h3 class="card-title">Add Regional Position</h3></div>
@@ -360,8 +408,10 @@
                 </div>
             </div>
         </div>
+        @endif
 
         <!-- Edit Regional Position Modal -->
+        @if($canEditLibraries)
         <div id="editRegionalPositionModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); align-items: center; justify-content: center; z-index: 1000;">
             <div class="card" style="width: 100%; max-width: 400px; margin: 1rem;">
                 <div class="card-header"><h3 class="card-title">Edit Regional Position</h3></div>
@@ -380,12 +430,15 @@
                 </div>
             </div>
         </div>
+        @endif
     @elseif($tab === 'national-officers')
         <!-- National Officers CRUD -->
         <div class="card">
             <div class="card-header" style="display: flex; justify-content: space-between; align-items: center;">
                 <h3 class="card-title">National Officers Management</h3>
-                <button onclick="document.getElementById('addNationalOfficerModal').style.display='flex'" class="btn btn-primary btn-sm">Add New National Officer</button>
+                @if($canAddLibraries)
+                    <button onclick="document.getElementById('addNationalOfficerModal').style.display='flex'" class="btn btn-primary btn-sm">Add New National Officer</button>
+                @endif
             </div>
             <div class="card-body">
                 <table style="width: 100%; border-collapse: collapse;">
@@ -414,16 +467,20 @@
                             <td style="padding: 1rem;">{{ $officer->position }}</td>
                             <td style="padding: 1rem; font-weight: 600;">{{ $officer->fullname }}</td>
                             <td style="padding: 1rem; text-align: right; display: flex; gap: 0.5rem; justify-content: flex-end;">
-                                <button 
-                                    onclick="editNationalOfficer(this)" 
-                                    data-id="{{ $officer->id }}" 
-                                    data-position="{{ $officer->position }}"
-                                    data-fullname="{{ $officer->fullname }}"
-                                    class="btn btn-outline btn-sm">Edit</button>
-                                <form action="{{ route('libraries.national_officer.destroy', $officer) }}" method="POST" onsubmit="return confirm('Are you sure?')">
-                                    @csrf @method('DELETE')
-                                    <button type="submit" class="btn btn-outline btn-sm" style="color: var(--danger);">Delete</button>
-                                </form>
+                                @if($canEditLibraries)
+                                    <button 
+                                        onclick="editNationalOfficer(this)" 
+                                        data-id="{{ $officer->id }}" 
+                                        data-position="{{ $officer->position }}"
+                                        data-fullname="{{ $officer->fullname }}"
+                                        class="btn btn-outline btn-sm">Edit</button>
+                                @endif
+                                @if($canDeleteLibraries)
+                                    <form action="{{ route('libraries.national_officer.destroy', $officer) }}" method="POST" onsubmit="return confirm('Are you sure?')">
+                                        @csrf @method('DELETE')
+                                        <button type="submit" class="btn btn-outline btn-sm" style="color: var(--danger);">Delete</button>
+                                    </form>
+                                @endif
                             </td>
                         </tr>
                         @endforeach
@@ -433,6 +490,7 @@
         </div>
 
         <!-- Add National Officer Modal -->
+        @if($canAddLibraries)
         <div id="addNationalOfficerModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); align-items: center; justify-content: center; z-index: 1000;">
             <div class="card" style="width: 100%; max-width: 400px; margin: 1rem;">
                 <div class="card-header"><h3 class="card-title">Add National Officer</h3></div>
@@ -459,8 +517,10 @@
                 </div>
             </div>
         </div>
+        @endif
 
         <!-- Edit National Officer Modal -->
+        @if($canEditLibraries)
         <div id="editNationalOfficerModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); align-items: center; justify-content: center; z-index: 1000;">
             <div class="card" style="width: 100%; max-width: 400px; margin: 1rem;">
                 <div class="card-header"><h3 class="card-title">Edit National Officer</h3></div>
@@ -487,6 +547,7 @@
                 </div>
             </div>
         </div>
+        @endif
     @endif
 </div>
 

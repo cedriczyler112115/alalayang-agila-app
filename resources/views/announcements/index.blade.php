@@ -3,18 +3,25 @@
 @section('title', 'Announcements - Caragados EC')
 
 @section('content')
+@php
+    $canAddAnnouncements = auth()->user()->hasPermission('announcements', 'add');
+    $canEditAnnouncements = auth()->user()->hasPermission('announcements', 'edit');
+    $canDeleteAnnouncements = auth()->user()->hasPermission('announcements', 'delete');
+@endphp
 <div style="margin-top: 2rem;">
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
         <div>
             <h1 style="font-size: 1.6rem; font-weight: 700; margin-bottom: 0.5rem; letter-spacing: -0.025em;">Manage <span style="color: var(--accent);">Announcements</span></h1>
             <p style="color: var(--text-muted); font-size: 1.05rem;">Create and manage announcements for the club members.</p>
         </div>
-        <a href="{{ route('announcements.create') }}" class="btn btn-primary">
-            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="margin-right: 8px;">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"></path>
-            </svg>
-            Create
-        </a>
+        @if($canAddAnnouncements)
+            <a href="{{ route('announcements.create') }}" class="btn btn-primary">
+                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="margin-right: 8px;">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"></path>
+                </svg>
+                Create
+            </a>
+        @endif
     </div>
 
     @if(session('status'))
@@ -75,22 +82,30 @@
                             {{ $announcement->user->fullname ?? 'Unknown' }}
                         </td>
                         <td style="padding: 1rem 1.5rem; text-align: right;">
-                            <div style="display: flex; gap: 0.5rem; justify-content: flex-end;">
-                                <a href="{{ route('announcements.edit', $announcement) }}" class="btn btn-outline" style="padding: 0.4rem; border-radius: var(--radius-md);" title="Edit Announcement">
-                                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
-                                    </svg>
-                                </a>
-                                <form action="{{ route('announcements.destroy', $announcement) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this announcement? This action cannot be undone.')" style="display: inline;">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-outline" style="padding: 0.4rem; border-radius: var(--radius-md); color: var(--danger); border-color: rgba(239, 68, 68, 0.2);" title="Delete Announcement">
-                                        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-4v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                                        </svg>
-                                    </button>
-                                </form>
-                            </div>
+                            @if($canEditAnnouncements || $canDeleteAnnouncements)
+                                <div style="display: flex; gap: 0.5rem; justify-content: flex-end;">
+                                    @if($canEditAnnouncements)
+                                        <a href="{{ route('announcements.edit', $announcement) }}" class="btn btn-outline" style="padding: 0.4rem; border-radius: var(--radius-md);" title="Edit Announcement">
+                                            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                                            </svg>
+                                        </a>
+                                    @endif
+                                    @if($canDeleteAnnouncements)
+                                        <form action="{{ route('announcements.destroy', $announcement) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this announcement? This action cannot be undone.')" style="display: inline;">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-outline" style="padding: 0.4rem; border-radius: var(--radius-md); color: var(--danger); border-color: rgba(239, 68, 68, 0.2);" title="Delete Announcement">
+                                                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-4v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                                </svg>
+                                            </button>
+                                        </form>
+                                    @endif
+                                </div>
+                            @else
+                                <span style="color: var(--text-muted); font-size: 0.85rem;">No actions</span>
+                            @endif
                         </td>
                     </tr>
                 @empty
@@ -103,7 +118,7 @@
                             @if(request('search'))
                                 <p style="font-size: 0.9rem;">Try adjusting your search query.</p>
                             @else
-                                <p style="font-size: 0.9rem;">Click "Create New Announcement" to get started.</p>
+                                <p style="font-size: 0.9rem;">{{ $canAddAnnouncements ? 'Click "Create" to get started.' : 'No announcements are available right now.' }}</p>
                             @endif
                         </td>
                     </tr>

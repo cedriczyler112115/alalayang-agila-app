@@ -3,6 +3,9 @@
 @section('title', 'Users Management - Caragados EC')
 
 @section('content')
+@php
+    $canEditUsers = auth()->user()->hasPermission('users', 'edit');
+@endphp
 <div style="margin-top: 2rem; margin-bottom: 4rem;">
     <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 2.5rem;">
         <div>
@@ -151,6 +154,7 @@
                     </div>
 
                     @if($user->status == 0)
+                        @if($canEditUsers)
                         <form action="{{ route('users.updateStatus', $user) }}" method="POST">
                             @csrf
                             <button type="submit" class="btn btn-primary" style="width: 100%; gap: 10px; background-color: var(--success); border-color: var(--success);">
@@ -160,18 +164,21 @@
                                 Approve & Activate
                             </button>
                         </form>
+                        @endif
                     @else
                         <div style="display: flex; gap: 0.5rem; width: 100%;">
-                            <form action="{{ route('users.updateStatus', $user) }}" method="POST" style="flex: 1;">
-                                @csrf
-                                <button type="submit" class="btn btn-outline" style="width: 100%; gap: 10px; border-color: var(--danger); color: var(--danger);" onmouseover="this.style.backgroundColor='var(--danger)'; this.style.color='white'" onmouseout="this.style.backgroundColor='transparent'; this.style.color='var(--danger)'">
-                                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
-                                    </svg>
-                                    Cancel
-                                </button>
-                            </form>
-                            @if(auth()->user()->is_admin)
+                            @if($canEditUsers)
+                                <form action="{{ route('users.updateStatus', $user) }}" method="POST" style="flex: 1;">
+                                    @csrf
+                                    <button type="submit" class="btn btn-outline" style="width: 100%; gap: 10px; border-color: var(--danger); color: var(--danger);" onmouseover="this.style.backgroundColor='var(--danger)'; this.style.color='white'" onmouseout="this.style.backgroundColor='transparent'; this.style.color='var(--danger)'">
+                                        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+                                        </svg>
+                                        Cancel
+                                    </button>
+                                </form>
+                            @endif
+                            @if(auth()->user()->is_admin && $canEditUsers)
                             <button type="button" class="btn btn-primary" style="flex: 1; gap: 10px; background-color: var(--accent); border-color: var(--accent);" onclick="openPermissionsModal({{ $user->id }}, '{{ addslashes($user->fullname) }}', {{ $user->is_admin ? 'true' : 'false' }}, '{{ $user->access_type_id }}')">
                                 <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
@@ -181,7 +188,7 @@
                             @endif
                         </div>
                         
-                        @if($pendingPayment && auth()->user()->is_admin)
+                        @if($pendingPayment && auth()->user()->is_admin && $canEditUsers)
                         <button type="button" class="btn btn-outline" style="width: 100%; margin-top: 0.5rem; border-color: #f59e0b; color: #d97706;" onclick="openPaymentProofModal({{ $pendingPayment->id }}, '{{ asset('storage/' . $pendingPayment->receipt_path) }}', '{{ addslashes($user->fullname) }}', '{{ addslashes($user->position->name ?? 'No Position Assigned') }}', '{{ $user->access_type_id }}')">
                             <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="margin-right: 8px;">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
@@ -421,14 +428,16 @@
                     </div>
                 </div>
                 
-                <div style="display: flex; gap: 1rem;">
-                    <button type="submit" name="status" value="approved" class="btn btn-primary" style="flex: 1; background-color: var(--success); border-color: var(--success);">
-                        Approve Payment
-                    </button>
-                    <button type="submit" name="status" value="rejected" class="btn btn-outline" style="flex: 1; border-color: var(--danger); color: var(--danger);">
-                        Reject Payment
-                    </button>
-                </div>
+                @if($canEditUsers && auth()->user()->is_admin)
+                    <div style="display: flex; gap: 1rem;">
+                        <button type="submit" name="status" value="approved" class="btn btn-primary" style="flex: 1; background-color: var(--success); border-color: var(--success);">
+                            Approve Payment
+                        </button>
+                        <button type="submit" name="status" value="rejected" class="btn btn-outline" style="flex: 1; border-color: var(--danger); color: var(--danger);">
+                            Reject Payment
+                        </button>
+                    </div>
+                @endif
             </form>
             <p style="font-size: 0.8rem; color: var(--text-muted); text-align: center; margin-top: 1rem;">
                 * Note: Approving the payment will also update the user's Access Type to the selection above.

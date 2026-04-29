@@ -3,6 +3,9 @@
 @section('title', 'Alalayang Agila Help - Caragados EC')
 
 @section('content')
+@php
+    $canAddQuickResponse = auth()->user()->hasPermission('alalayang_agila', 'add');
+@endphp
 <!-- Leaflet CSS for Interactive Map -->
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
 <!-- Leaflet JS -->
@@ -56,11 +59,17 @@
                     <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.5rem;">We will include your current coordinates to help other Kuyas find you faster.</p>
                 </div>
 
-                <div class="mt-6">
-                    <button type="submit" id="submit-btn" class="btn btn-primary" style="width: 100%; font-weight: 600;" disabled>
-                        Submit Request
-                    </button>
-                </div>
+                @if($canAddQuickResponse)
+                    <div class="mt-6">
+                        <button type="submit" id="submit-btn" class="btn btn-primary" style="width: 100%; font-weight: 600;" disabled>
+                            Submit Request
+                        </button>
+                    </div>
+                @else
+                    <div style="margin-top: 1.5rem; padding: 1rem 1.25rem; border-radius: var(--radius-md); background-color: rgba(245, 158, 11, 0.08); border: 1px solid rgba(245, 158, 11, 0.2); color: #b45309; font-size: 0.9rem;">
+                        You do not have permission to submit a help request.
+                    </div>
+                @endif
             </form>
         </div>
     </div>
@@ -98,7 +107,9 @@
                  locationStatus.textContent = `Location captured: ${locationStr}`;
                  locationStatus.style.color = 'var(--text-main)';
                  locationIndicator.style.backgroundColor = 'var(--success)';
-                 submitBtn.disabled = false;
+                 if (submitBtn) {
+                     submitBtn.disabled = false;
+                 }
 
                  // Initialize and show the map
                  mapContainer.style.display = 'block';
@@ -142,7 +153,7 @@
                 locationIndicator.style.backgroundColor = 'var(--danger)';
                 // We still allow submission if it's just a timeout or unavailable, 
                 // but for permission denied we might want to keep it disabled
-                if (error.code !== error.PERMISSION_DENIED) {
+                if (error.code !== error.PERMISSION_DENIED && submitBtn) {
                     submitBtn.disabled = false;
                     locationInput.value = "Unknown";
                 }
@@ -154,7 +165,9 @@
         } else {
             locationStatus.textContent = "Geolocation is not supported by your browser.";
             locationStatus.style.color = 'var(--danger)';
-            submitBtn.disabled = false;
+            if (submitBtn) {
+                submitBtn.disabled = false;
+            }
             locationInput.value = "Not Supported";
         }
     });
