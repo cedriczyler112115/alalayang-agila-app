@@ -745,9 +745,26 @@
         <div class="navbar-menu" id="navMenu">
             <a href="{{ route('dashboard') }}" class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">Dashboard</a>
             <a href="{{ route('announcements.index') }}" class="nav-link {{ request()->routeIs('announcements.*') ? 'active' : '' }}">Announcements</a>
-            <a href="{{ route('profile.location') }}" class="nav-link {{ request()->routeIs('profile.location') ? 'active' : '' }}">Member Mapping</a>
-            <a href="{{ route('quick.response') }}" class="nav-link {{ request()->routeIs('quick.response') ? 'active' : '' }}">Alalayang Agila Help</a>
-            <a href="{{ route('search.kuya') }}" class="nav-link {{ request()->routeIs('search.kuya') ? 'active' : '' }}">Search A Kuya</a>
+            <div class="dropdown">
+                <div class="nav-link {{ request()->routeIs('profile.location') || request()->routeIs('quick.response') || request()->routeIs('search.kuya') ? 'active' : '' }}" style="cursor: pointer; display: flex; align-items: center; gap: 4px;">
+                    Services
+                    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </div>
+                <div class="dropdown-content">
+                    <a href="{{ route('profile.location') }}" class="dropdown-item">
+                        Member Mapping
+                    </a>
+                    <a href="{{ route('quick.response') }}" class="dropdown-item">
+                        Alalayang Agila Help
+                    </a>
+                    <a href="{{ route('search.kuya') }}" class="dropdown-item">
+                        Search A Kuya
+                    </a>
+                </div>
+            </div>
+            <a href="{{ route('org.structure') }}" class="nav-link {{ request()->routeIs('org.structure') ? 'active' : '' }}">Organizational Structure</a>
             <a href="{{ route('libraries.index') }}" class="nav-link {{ request()->routeIs('libraries.index') ? 'active' : '' }}">Libraries</a>
             <a href="{{ route('users.index') }}" class="nav-link {{ request()->routeIs('users.*') ? 'active' : '' }}">Users</a>
 
