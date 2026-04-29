@@ -139,7 +139,10 @@ Route::middleware('auth')->group(function () {
             // Chat module routes
             Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');
             Route::post('/chat/conversations', [ChatController::class, 'createConversation'])->name('chat.conversation.create');
-            Route::post('/chat/messages', [ChatController::class, 'sendMessage'])->name('chat.message.send');
+            Route::post('/chat/custom-conversations', [ChatController::class, 'createCustomConversation'])->name('chat.custom.create');
+            Route::patch('/chat/custom-conversations/{conversation}', [ChatController::class, 'updateCustomConversation'])->name('chat.custom.update');
+            Route::delete('/chat/custom-conversations/{conversation}', [ChatController::class, 'destroyCustomConversation'])->name('chat.custom.destroy');
+            Route::post('/chat/conversations/{conversation}/messages', [ChatController::class, 'sendMessage'])->name('chat.message.send');
             Route::get('/chat/conversations/{conversation}/messages', [ChatController::class, 'getMessages'])->name('chat.conversation.messages');
             
             // Subscription Payment routes

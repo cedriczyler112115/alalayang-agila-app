@@ -1,0 +1,1 @@
+﻿<?php require "vendor/autoload.php"; $app = require_once "bootstrap/app.php"; $kernel = $app->make(Illuminate\Contracts\Console\Kernel::class); $kernel->bootstrap(); $u1 = App\Models\User::find(1); $conv = Musonza\Chat\Facades\ChatFacade::conversations()->between(App\Models\User::find(1), App\Models\User::find(11)); dump($conv->getParticipants()->toArray());

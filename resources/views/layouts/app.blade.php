@@ -770,7 +770,10 @@
                         Alalayang Agila Help
                     </a>
                     <a href="{{ route('search.kuya') }}" class="dropdown-item">
-                        Search A Kuya
+                        Find A Kuya
+                    </a>
+                    <a href="{{ route('chat.index') }}" class="dropdown-item">
+                        Chat with Kuya
                     </a>
                 </div>
             </div>
@@ -863,9 +866,9 @@
                 <ul class="footer-links">
                     <li><a href="{{ route('dashboard') }}" class="footer-link">Dashboard</a></li>
                     <li><a href="{{ route('announcements.index') }}" class="footer-link">Announcements</a></li>
-                    <li><a href="{{ route('profile.location') }}" class="footer-link">Member Mapping</a></li>
+                    <li><a href="{{ route('profile.location') }}" class="footer-link">Kuya Mapping</a></li>
                     <li><a href="{{ route('quick.response') }}" class="footer-link">Alalayang Agila Help</a></li>
-                    <li><a href="{{ route('search.kuya') }}" class="footer-link">Search A Kuya</a></li>
+                    <li><a href="{{ route('search.kuya') }}" class="footer-link">Find A Kuya</a></li>
                 </ul>
             </div>
 
