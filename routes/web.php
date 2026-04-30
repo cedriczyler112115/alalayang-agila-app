@@ -100,7 +100,7 @@ Route::middleware('auth')->group(function () {
             Route::get('/search-kuya', [MemberController::class , 'index'])->name('search.kuya');
 
             Route::get('/organizational-structure', function() {
-                $regions = \App\Models\LibRegion::all();
+                $regions = \App\Models\LibRegion::orderBy('name', 'asc')->get();
                 
                 $regional_officers_all = \App\Models\User::whereNotNull('lib_region_id')
                     ->whereNotNull('lib_regional_position_id')
