@@ -49,6 +49,18 @@
             grid-template-columns: 1fr;
         }
     }
+
+    .structure-focus-target {
+        scroll-margin-top: 1.5rem;
+        transition: box-shadow 0.25s ease, border-color 0.25s ease, background-color 0.25s ease;
+        outline: none;
+    }
+
+    .structure-focus-highlight {
+        border-color: #f59e0b !important;
+        background-color: rgba(245, 158, 11, 0.12) !important;
+        box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.18), var(--shadow-md) !important;
+    }
 </style>
 <div style="padding: 2rem 0;">
     <div style="display: flex; align-items: center; margin-bottom: 2.5rem;">
@@ -93,13 +105,13 @@
         <!-- ======================= -->
         <!-- LEVEL 1: REGIONS VIEW   -->
         <!-- ======================= -->
-        <div id="level-1-regions" class="regions-grid">
+        <div id="level-1-regions" class="regions-grid structure-focus-target" tabindex="-1">
             @foreach($regions as $region)
                 @php
                     $regional_officers = $regional_officers_all->get($region->id, collect())->groupBy('lib_regional_position_id');
                 @endphp
                 
-                <div class="region-card" style="border: 2px solid var(--accent); background-color: rgba(59, 130, 246, 0.05); padding: 2.5rem 1.5rem 1.5rem; border-radius: var(--radius-lg); margin-bottom: 2rem; position: relative; z-index: 2; box-shadow: var(--shadow-md);">
+                <div id="region-card-{{ $region->id }}" class="region-card structure-focus-target" tabindex="-1" style="border: 2px solid var(--accent); background-color: rgba(59, 130, 246, 0.05); padding: 2.5rem 1.5rem 1.5rem; border-radius: var(--radius-lg); margin-bottom: 2rem; position: relative; z-index: 2; box-shadow: var(--shadow-md);">
                     
                     <div style="position: absolute; top: -20px; left: 50%; transform: translateX(-50%); background-color: var(--accent); color: white; padding: 6px 20px; border-radius: 99px; font-size: 0.9rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; display: flex; align-items: center; gap: 0.5rem; white-space: nowrap;">
                         @if($region->logo)
@@ -192,9 +204,9 @@
         <!-- ======================= -->
         <!-- LEVEL 2: CLUBS VIEW     -->
         <!-- ======================= -->
-        <div id="level-2-clubs" style="display: none;">
+        <div id="level-2-clubs" class="structure-focus-target" tabindex="-1" style="display: none;">
             <div style="margin-bottom: 2rem;">
-                <button onclick="showRegions()" class="btn btn-outline" style="display: inline-flex; align-items: center; gap: 0.5rem;">
+                <button id="back-to-regions-btn" onclick="showRegionsFromClubs()" class="btn btn-outline" style="display: inline-flex; align-items: center; gap: 0.5rem;" data-region-id="">
                     <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"></path></svg>
                     Back to Regional Directorates
                 </button>
@@ -204,7 +216,7 @@
                 @php
                     $clubs = $clubs_all->get($region->id, collect());
                 @endphp
-                <div class="region-clubs-container" id="clubs-for-region-{{ $region->id }}" style="display: none;">
+                <div class="region-clubs-container structure-focus-target" id="clubs-for-region-{{ $region->id }}" tabindex="-1" style="display: none;">
                     
                     <div style="border: 2px solid var(--success); background-color: rgba(34, 197, 94, 0.05); padding: 2.5rem 1.5rem 1.5rem; border-radius: var(--radius-lg); margin-bottom: 2rem; position: relative; z-index: 2;">
                         <div style="position: absolute; top: -20px; left: 50%; transform: translateX(-50%); background-color: var(--success); color: white; padding: 6px 20px; border-radius: 99px; font-size: 0.9rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; display: flex; align-items: center; gap: 0.5rem; white-space: nowrap;">
@@ -239,7 +251,7 @@
         <!-- ======================= -->
         <!-- LEVEL 3: OFFICERS VIEW  -->
         <!-- ======================= -->
-        <div id="level-3-officers" style="display: none;">
+        <div id="level-3-officers" class="structure-focus-target" tabindex="-1" style="display: none;">
             <div style="margin-bottom: 2rem;">
                 <button id="back-to-clubs-btn" onclick="showClubsFromOfficers()" class="btn btn-outline" style="display: inline-flex; align-items: center; gap: 0.5rem;" data-region-id="">
                     <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"></path></svg>
@@ -251,7 +263,7 @@
                 @php
                     $club_officers = $all_club_officers->get($club->id, collect())->groupBy('lib_position_id');
                 @endphp
-                <div class="club-officers-container" id="officers-for-club-{{ $club->id }}" style="display: none;">
+                <div class="club-officers-container structure-focus-target" id="officers-for-club-{{ $club->id }}" tabindex="-1" style="display: none;">
                     
                     <div style="border: 2px solid var(--success); background-color: rgba(34, 197, 94, 0.05); padding: 2.5rem 1rem 1.5rem; border-radius: var(--radius-lg); position: relative; z-index: 2; box-shadow: var(--shadow-md); width: 100%;">
                         <div style="position: absolute; top: -14px; left: 50%; transform: translateX(-50%); background-color: var(--success); color: white; padding: 6px 20px; border-radius: 99px; font-size: 0.9rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;">
@@ -340,14 +352,67 @@
 </div>
 
 <script>
-    function showRegions() {
+    let activeRegionId = null;
+    let activeClubId = null;
+
+    function focusStructureTarget(targetId, fallbackId = null) {
+        const target = document.getElementById(targetId) || (fallbackId ? document.getElementById(fallbackId) : null);
+
+        if (!target) {
+            console.warn('Structure focus target not found.', { targetId, fallbackId });
+            return false;
+        }
+
+        window.requestAnimationFrame(() => {
+            window.requestAnimationFrame(() => {
+                const scrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
+                const rect = target.getBoundingClientRect();
+                const destination = Math.max(scrollY + rect.top - 24, 0);
+
+                try {
+                    target.focus({ preventScroll: true });
+                } catch (error) {
+                    target.focus();
+                }
+
+                if ('scrollBehavior' in document.documentElement.style) {
+                    window.scrollTo({ top: destination, behavior: 'smooth' });
+                } else {
+                    window.scrollTo(0, destination);
+                }
+
+                target.classList.remove('structure-focus-highlight');
+                void target.offsetWidth;
+                target.classList.add('structure-focus-highlight');
+
+                window.setTimeout(() => {
+                    target.classList.remove('structure-focus-highlight');
+                }, 1800);
+            });
+        });
+
+        return true;
+    }
+
+    function showRegions(regionId = null) {
         document.getElementById('level-1-regions').style.display = 'grid';
         document.getElementById('level-2-clubs').style.display = 'none';
         document.getElementById('level-3-officers').style.display = 'none';
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+
+        if (regionId) {
+            activeRegionId = String(regionId);
+        }
+
+        focusStructureTarget(
+            activeRegionId ? 'region-card-' + activeRegionId : 'level-1-regions',
+            'level-1-regions'
+        );
     }
 
     function showClubs(regionId) {
+        activeRegionId = String(regionId);
+        activeClubId = null;
+
         document.getElementById('level-1-regions').style.display = 'none';
         document.getElementById('level-3-officers').style.display = 'none';
         document.getElementById('level-2-clubs').style.display = 'block';
@@ -359,10 +424,18 @@
         let target = document.getElementById('clubs-for-region-' + regionId);
         if(target) target.style.display = 'block';
 
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        let backToRegionsBtn = document.getElementById('back-to-regions-btn');
+        if (backToRegionsBtn) {
+            backToRegionsBtn.setAttribute('data-region-id', regionId);
+        }
+
+        focusStructureTarget('clubs-for-region-' + regionId, 'level-2-clubs');
     }
 
     function showOfficers(clubId, regionId) {
+        activeRegionId = String(regionId);
+        activeClubId = String(clubId);
+
         document.getElementById('level-1-regions').style.display = 'none';
         document.getElementById('level-2-clubs').style.display = 'none';
         document.getElementById('level-3-officers').style.display = 'block';
@@ -380,12 +453,18 @@
             backBtn.setAttribute('data-region-id', regionId);
         }
 
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        focusStructureTarget('officers-for-club-' + clubId, 'level-3-officers');
+    }
+
+    function showRegionsFromClubs() {
+        let btn = document.getElementById('back-to-regions-btn');
+        let regionId = btn ? btn.getAttribute('data-region-id') : activeRegionId;
+        showRegions(regionId);
     }
 
     function showClubsFromOfficers() {
         let btn = document.getElementById('back-to-clubs-btn');
-        let regionId = btn ? btn.getAttribute('data-region-id') : null;
+        let regionId = btn ? btn.getAttribute('data-region-id') : activeRegionId;
         if(regionId) {
             showClubs(regionId);
         } else {
