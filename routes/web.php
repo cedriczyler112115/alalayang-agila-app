@@ -100,7 +100,6 @@ Route::middleware('auth')->group(function () {
             Route::get('/search-kuya', [MemberController::class , 'index'])->name('search.kuya');
 
             Route::get('/organizational-structure', function() {
-                abort_if(!auth()->user()->hasPermission('org_structure', 'view'), 403);
                 $regions = \App\Models\LibRegion::all();
                 
                 $regional_officers_all = \App\Models\User::whereNotNull('lib_region_id')

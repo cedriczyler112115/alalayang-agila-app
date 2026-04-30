@@ -16,10 +16,13 @@
         <div class="card-body text-center">
             <p style="color: var(--text-muted); margin-bottom: 2rem; font-size: 0.95rem; line-height: 1.6;">
                 Your account is currently under review by our administrators. This is to ensure the exclusivity and security of the Caragados Eagles Club. 
-                <br><br>
+                <br>
+                <br>
                 Please check back later or contact support if you have any questions.
             </p>
-
+            <p style="color: var(--text-muted); margin-bottom: 2rem; font-size: 0.95rem; line-height: 1.6;">For the moment, you can continue to update your profile via link below.</p>
+            <a type="button" href="{{ route('profile.complete') }}" class="btn btn-primary" style="width: 100%;">Update Profile</a><br><br>
+            <p style="color: var(--text-muted); margin-bottom: 1rem;">or continue to Sign Out</p>
             <form action="{{ route('logout') }}" method="POST">
                 @csrf
                 <button type="submit" class="btn btn-outline" style="width: 100%;">Sign out</button>

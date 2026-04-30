@@ -446,6 +446,100 @@
             color: var(--accent);
         }
 
+        .dropdown-item.is-locked {
+            opacity: 0.85;
+            cursor: pointer;
+        }
+
+        .dropdown-item.is-locked:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+            color: var(--header-text);
+        }
+
+        .dropdown-item.is-locked svg {
+            color: var(--danger);
+        }
+
+        .dropdown-item-note {
+            margin-left: auto;
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: #fbbf24;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        .feature-lock-modal {
+            position: fixed;
+            inset: 0;
+            background-color: rgba(15, 23, 42, 0.65);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            z-index: 2000;
+        }
+
+        .feature-lock-modal.is-open {
+            display: flex;
+        }
+
+        .feature-lock-dialog {
+            width: 100%;
+            max-width: 620px;
+            max-height: calc(100vh - 2rem);
+            overflow-y: auto;
+            background-color: var(--card-bg);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .feature-lock-header {
+            background-color: rgba(59, 130, 246, 0.05);
+            padding: 2rem 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            text-align: center;
+        }
+
+        .feature-lock-body {
+            padding: 1.75rem 1.5rem;
+        }
+
+        .feature-lock-alert {
+            background-color: rgba(245, 158, 11, 0.1);
+            border-left: 4px solid #f59e0b;
+            padding: 1.25rem;
+            border-radius: var(--radius-md);
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-lock-note {
+            color: #d97706;
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .feature-lock-upload {
+            background-color: var(--card-bg);
+            border: 1px dashed var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 1.25rem;
+            text-align: center;
+            margin-bottom: 1.25rem;
+        }
+
+        .feature-lock-actions {
+            display: flex;
+            gap: 0.75rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
         .dropdown-divider {
             height: 1px;
             background-color: var(--header-border);
@@ -717,6 +811,11 @@
     </style>
 </head>
 <body>
+    @auth
+        @php
+            $featureLockPendingPayment = auth()->user()->subscriptionPayments()->where('status', 'pending')->latest()->first();
+        @endphp
+    @endauth
     
     <!-- Global Full-Screen Loader -->
     <div id="global-loader" class="global-loader">
@@ -749,14 +848,10 @@
         </div>
 
         <div class="navbar-menu" id="navMenu">
-            @if(auth()->user()->hasPermission('dashboard', 'view'))
             <a href="{{ route('dashboard') }}" class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">Dashboard</a>
-            @endif
             
-            <a href="{{ route('announcements.index') }}" class="nav-link {{ request()->routeIs('announcements.*') ? 'active' : '' }}">Announcements</a>
-
             <div class="dropdown">
-                <div class="nav-link {{ request()->routeIs('profile.location') || request()->routeIs('quick.response') || request()->routeIs('search.kuya') ? 'active' : '' }}" style="cursor: pointer; display: flex; align-items: center; gap: 4px;">
+                <div class="nav-link {{ request()->routeIs('profile.location') || request()->routeIs('quick.response') || request()->routeIs('search.kuya') || request()->routeIs('chat.*') || request()->routeIs('announcements.*') ? 'active' : '' }}" style="cursor: pointer; display: flex; align-items: center; gap: 4px;">
                     Services
                     <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path>
@@ -774,6 +869,9 @@
                     </a>
                     <a href="{{ route('chat.index') }}" class="dropdown-item">
                         Chat with Kuya
+                    </a>
+                    <a href="{{ route('announcements.index') }}" class="dropdown-item">
+                        Publish Announcement
                     </a>
                 </div>
             </div>
@@ -837,6 +935,76 @@
     <main class="container">
         @yield('content')
     </main>
+
+    @auth
+    <div id="featureLockModal" class="feature-lock-modal" aria-hidden="true">
+        <div class="feature-lock-dialog">
+            <div class="feature-lock-header">
+                <div style="width: 80px; height: 80px; border-radius: 50%; background-color: rgba(59, 130, 246, 0.1); color: var(--accent); display: flex; align-items: center; justify-content: center; margin: 0 auto 1.25rem;">
+                    <svg width="40" height="40" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                    </svg>
+                </div>
+                <h2 style="font-size: 1.65rem; font-weight: 800; color: var(--text-main); margin-bottom: 0.5rem;">This Feature is Locked</h2>
+                <p id="featureLockDescription" style="color: var(--text-muted); font-size: 1rem; margin: 0;">You do not currently have access to this module.</p>
+            </div>
+            <div class="feature-lock-body">
+                <div class="feature-lock-alert">
+                    <div class="feature-lock-note">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        Yearly Subscription Required
+                    </div>
+                    <p style="color: var(--text-main); font-size: 0.95rem; line-height: 1.6; margin: 0;">
+                        Access to this advanced feature requires an active yearly subscription.
+                        <br><br>
+                        <strong>Important Note:</strong> This subscription fee goes strictly toward the <em>system maintenance costs, server hosting, and technical upkeep</em> of the Caragados Eagles Club web application.
+                        <span style="color: #d97706; font-weight: 600;">It is entirely separate and NOT related to any forms of club dues, organizational collections, or internal financial obligations.</span>
+                    </p>
+                </div>
+
+                @if(session('status'))
+                    <div style="background-color: rgba(16, 185, 129, 0.1); border-left: 4px solid var(--success); padding: 1rem; border-radius: var(--radius-md); text-align: left; margin-bottom: 1.5rem; color: var(--success);">
+                        {{ session('status') }}
+                    </div>
+                @endif
+
+                @if($featureLockPendingPayment)
+                    <div style="background-color: rgba(59, 130, 246, 0.1); border-left: 4px solid var(--accent); padding: 1.5rem; border-radius: var(--radius-md); text-align: center; margin-bottom: 1.5rem;">
+                        <svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="color: var(--accent); margin-bottom: 0.5rem;"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <h3 style="color: var(--accent); font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem;">Proof Under Review</h3>
+                        <p style="color: var(--text-main); font-size: 0.95rem; margin: 0;">
+                            You have successfully submitted your proof of payment. It is currently being reviewed by an administrator. Please check back later.
+                        </p>
+                    </div>
+                @else
+                    <div class="feature-lock-upload">
+                        <p style="font-size: 0.95rem; color: var(--text-main); margin-bottom: 1rem;">
+                            If you want to avail this feature, simply use the GCash QR code below to make your payment, then upload your transaction receipt here.
+                        </p>
+                        <img src="{{ asset('storage/gcash.png') }}" alt="GCash QR Code" style="max-width: 250px; width: 100%; height: auto; border-radius: var(--radius-sm); margin-bottom: 1rem; box-shadow: var(--shadow-sm);">
+                    </div>
+
+                    <form action="{{ route('subscription.store') }}" method="POST" enctype="multipart/form-data" style="text-align: left; margin-bottom: 1.5rem;">
+                        @csrf
+                        <label for="featureLockReceipt" style="display: block; font-size: 0.9rem; font-weight: 600; color: var(--text-main); margin-bottom: 0.5rem;">Upload Proof of Payment (Image only)</label>
+                        <input type="file" name="receipt" id="featureLockReceipt" accept="image/*" required class="form-control" style="margin-bottom: 1rem;">
+                        @error('receipt')
+                            <span style="color: var(--danger); font-size: 0.8rem;">{{ $message }}</span>
+                        @enderror
+                        <button type="submit" class="btn btn-primary" style="width: 100%; background-color: var(--success); border-color: var(--success);">
+                            Submit Payment Proof
+                        </button>
+                    </form>
+                @endif
+
+                <div class="feature-lock-actions">
+                    <button type="button" id="featureLockCloseButton" class="btn btn-outline">Close</button>
+                    <a href="{{ route('dashboard') }}" class="btn btn-outline" style="text-decoration: none;">Return to Dashboard</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    @endauth
 
     <footer class="footer">
         <div class="footer-container">
@@ -1006,6 +1174,33 @@
         document.addEventListener('DOMContentLoaded', function() {
             const navToggle = document.getElementById('navToggle');
             const navMenu = document.getElementById('navMenu');
+            const featureLockModal = document.getElementById('featureLockModal');
+            const featureLockDescription = document.getElementById('featureLockDescription');
+            const featureLockCloseButton = document.getElementById('featureLockCloseButton');
+
+            function openFeatureLockModal(featureName = 'This feature') {
+                if (!featureLockModal) {
+                    return;
+                }
+
+                if (featureLockDescription) {
+                    featureLockDescription.textContent = `${featureName} requires an active subscription before you can use it.`;
+                }
+
+                featureLockModal.classList.add('is-open');
+                featureLockModal.setAttribute('aria-hidden', 'false');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeFeatureLockModal() {
+                if (!featureLockModal) {
+                    return;
+                }
+
+                featureLockModal.classList.remove('is-open');
+                featureLockModal.setAttribute('aria-hidden', 'true');
+                document.body.style.overflow = '';
+            }
 
             if (navToggle && navMenu) {
                 navToggle.addEventListener('click', function() {
@@ -1013,6 +1208,31 @@
                     navMenu.classList.toggle('show');
                 });
             }
+
+            document.querySelectorAll('.open-feature-lock').forEach(link => {
+                link.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    openFeatureLockModal(this.getAttribute('data-feature-name') || 'This feature');
+                });
+            });
+
+            featureLockCloseButton?.addEventListener('click', closeFeatureLockModal);
+
+            featureLockModal?.addEventListener('click', function(event) {
+                if (event.target === featureLockModal) {
+                    closeFeatureLockModal();
+                }
+            });
+
+            document.addEventListener('keydown', function(event) {
+                if (event.key === 'Escape') {
+                    closeFeatureLockModal();
+                }
+            });
+
+            @if($errors->has('receipt'))
+                openFeatureLockModal('This feature');
+            @endif
         });
     </script>
 </body>

@@ -413,6 +413,145 @@
         cursor: not-allowed;
         pointer-events: none;
     }
+
+    .chat-mobile-back,
+    .chat-mobile-actions {
+        display: none;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        border: 1px solid var(--border-color);
+        background-color: var(--card-bg);
+        color: var(--text-muted);
+        cursor: pointer;
+        flex-shrink: 0;
+    }
+
+    @media (max-width: 900px) {
+        .chat-layout {
+            height: calc(100vh - 150px);
+        }
+
+        .chat-sidebar {
+            width: 290px;
+        }
+
+        .chat-messages {
+            padding: 1.25rem;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .chat-layout {
+            position: relative;
+            height: calc(100vh - 125px);
+            min-height: 560px;
+        }
+
+        .chat-sidebar,
+        .chat-main {
+            width: 100%;
+            min-width: 0;
+        }
+
+        .chat-layout:not(.mobile-chat-active) .chat-main {
+            display: none;
+        }
+
+        .chat-layout.mobile-chat-active .chat-sidebar {
+            display: none;
+        }
+
+        .chat-header,
+        .chat-main-header,
+        .chat-input-area {
+            padding: 1rem;
+        }
+
+        .chat-main-header {
+            gap: 0.75rem;
+        }
+
+        .chat-groups {
+            padding: 0.75rem;
+        }
+
+        .chat-group-item {
+            padding: 0.9rem;
+        }
+
+        .chat-messages {
+            padding: 1rem 0.85rem;
+            gap: 1rem;
+        }
+
+        .message-bubble {
+            max-width: 88%;
+            gap: 0.7rem;
+        }
+
+        .message-content {
+            padding: 0.85rem 1rem;
+        }
+
+        .chat-picker {
+            left: 0;
+            right: 0;
+            width: auto;
+            bottom: calc(100% + 0.5rem);
+            max-height: min(55vh, 420px);
+            overflow-y: auto;
+        }
+
+        .chat-emoji-grid {
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+        }
+
+        .chat-sticker-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .chat-mobile-back,
+        .chat-mobile-actions {
+            display: inline-flex;
+        }
+    }
+
+    @media (max-width: 520px) {
+        .chat-layout {
+            margin-top: 1rem;
+            height: calc(100vh - 110px);
+            min-height: 500px;
+            border-radius: var(--radius-md);
+        }
+
+        .chat-header h2,
+        #chatActiveName {
+            font-size: 1rem !important;
+        }
+
+        .chat-header p,
+        #chatActiveType {
+            font-size: 0.75rem !important;
+        }
+
+        .chat-tool-button,
+        .chat-mobile-back,
+        .chat-mobile-actions {
+            width: 38px;
+            height: 38px;
+        }
+
+        .chat-input-area form {
+            gap: 0.5rem !important;
+        }
+
+        #messageInput {
+            padding-left: 1rem !important;
+        }
+    }
 </style>
 
 <div class="chat-layout">
@@ -526,13 +665,19 @@
     <div class="chat-main" id="chatMainBox">
         @if($regionConversation || $clubConversation || $customConversations->isNotEmpty())
             <div class="chat-main-header">
+                <button type="button" id="chatMobileBack" class="chat-mobile-back" title="Back to chats">
+                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 18l-6-6 6-6"></path></svg>
+                </button>
                 <div id="chatActiveIcon" class="chat-active-icon" style="width: 40px; height: 40px; border-radius: 50%; background-color: rgba(59, 130, 246, 0.1); display: flex; align-items: center; justify-content: center; color: var(--accent);">
                     <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
                 </div>
-                <div>
+                <div style="flex: 1; min-width: 0;">
                     <h3 id="chatActiveName" style="font-size: 1.1rem; font-weight: 700; margin: 0; color: var(--text-main);">Loading...</h3>
                     <span id="chatActiveType" style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500;">Loading...</span>
                 </div>
+                <button type="button" id="chatMobileActions" class="chat-mobile-actions" title="Conversation actions">
+                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.5"></circle><circle cx="12" cy="12" r="1.5"></circle><circle cx="12" cy="19" r="1.5"></circle></svg>
+                </button>
             </div>
             
             <div class="chat-messages" id="chatDisplay">
@@ -713,6 +858,23 @@
         toggleChatPicker('sticker');
     });
 
+    document.getElementById('chatMobileBack')?.addEventListener('click', function () {
+        closeChatPicker();
+        hideContextMenu();
+        document.querySelector('.chat-layout')?.classList.remove('mobile-chat-active');
+    });
+
+    document.getElementById('chatMobileActions')?.addEventListener('click', function (event) {
+        event.stopPropagation();
+        let activeItem = document.querySelector('.chat-group-item.active');
+        if (!activeItem) {
+            return;
+        }
+
+        let rect = this.getBoundingClientRect();
+        openContextMenuAtPosition(rect.right - 4, rect.bottom + 8, activeItem);
+    });
+
     document.getElementById('chatContextMenu')?.addEventListener('click', function (event) {
         let actionButton = event.target.closest('.chat-context-item');
         if (!actionButton || actionButton.classList.contains('disabled') || !contextConversationItem) {
@@ -744,7 +906,10 @@
     });
 
     document.querySelector('.chat-groups')?.addEventListener('scroll', hideContextMenu);
-    window.addEventListener('resize', hideContextMenu);
+    window.addEventListener('resize', function () {
+        hideContextMenu();
+        syncMobileChatLayout(!!activeConversationId);
+    });
 
     // Auto load first active
     let activeItem = document.querySelector('.chat-group-item.active');
@@ -884,7 +1049,25 @@
         input.focus();
     }
 
-    function openContextMenu(event, item) {
+    function isMobileChatViewport() {
+        return window.innerWidth <= 768;
+    }
+
+    function syncMobileChatLayout(showConversation) {
+        let layout = document.querySelector('.chat-layout');
+        if (!layout) {
+            return;
+        }
+
+        if (!isMobileChatViewport()) {
+            layout.classList.remove('mobile-chat-active');
+            return;
+        }
+
+        layout.classList.toggle('mobile-chat-active', !!showConversation);
+    }
+
+    function openContextMenuAtPosition(clientX, clientY, item) {
         let menu = document.getElementById('chatContextMenu');
         if (!menu) {
             return;
@@ -897,12 +1080,16 @@
         requestAnimationFrame(() => {
             let maxLeft = window.innerWidth - menu.offsetWidth - 8;
             let maxTop = window.innerHeight - menu.offsetHeight - 8;
-            let left = Math.min(event.clientX, Math.max(maxLeft, 8));
-            let top = Math.min(event.clientY, Math.max(maxTop, 8));
+            let left = Math.min(clientX, Math.max(maxLeft, 8));
+            let top = Math.min(clientY, Math.max(maxTop, 8));
 
             menu.style.left = `${Math.max(8, left)}px`;
             menu.style.top = `${Math.max(8, top)}px`;
         });
+    }
+
+    function openContextMenu(event, item) {
+        openContextMenuAtPosition(event.clientX, event.clientY, item);
     }
 
     function hideContextMenu() {
@@ -1089,6 +1276,7 @@
         activeConversationIsGroup = item.getAttribute('data-is-group') === '1';
         activeConversationMembers = getConversationMembers(item);
         updateChatActiveIcon();
+        syncMobileChatLayout(true);
 
         fetchMessages(convoId);
 

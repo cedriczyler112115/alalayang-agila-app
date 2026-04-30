@@ -12,12 +12,7 @@ class DashboardController extends Controller implements HasMiddleware
 {
     public static function middleware(): array
     {
-        return [
-            function ($request, $next) {
-                abort_if(!auth()->user()->hasPermission('dashboard', 'view'), 403, 'Unauthorized action.');
-                return $next($request);
-            }
-        ];
+        return [];
     }
 
     public function index()

@@ -3,6 +3,14 @@
 @section('title', 'Dashboard - Caragados EC')
 
 @section('content')
+@php
+    $canViewAlalayangAgila = auth()->user()->hasPermission('alalayang_agila', 'view');
+    $canViewSearchKuya = auth()->user()->hasPermission('search_kuya', 'view');
+    $canViewMemberMapping = auth()->user()->hasPermission('member_mapping', 'view');
+    $canViewAnnouncements = auth()->user()->hasPermission('announcements', 'view');
+    $canViewLibraries = auth()->user()->hasPermission('libraries', 'view');
+    $canUseChat = auth()->user()->canUseChatFeature();
+@endphp
 <style>
     .quick-link-card:hover {
         transform: translateY(-5px);
@@ -217,6 +225,7 @@
         <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem;">
             
             <!-- Alalayang Agila Help Card -->
+            @if($canViewAlalayangAgila)
             <a href="{{ route('quick.response') }}" class="card quick-link-card" style="text-decoration: none; transition: all 0.2s ease; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 1.5rem; text-align: center; border-radius: var(--radius-lg); border: 1px solid var(--border-color); background-color: var(--card-bg);">
                 <div style="width: 48px; height: 48px; border-radius: 50%; background-color: rgba(245, 158, 11, 0.1); display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; color: #f59e0b;">
                     <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -225,16 +234,20 @@
                 </div>
                 <h3 style="font-size: 1rem; font-weight: 600; color: var(--text-main);">Alalayang Agila Help</h3>
             </a>
+            @endif
 
             <!-- Group Chat Card -->
+            @if($canUseChat)
             <a href="{{ route('chat.index') }}" class="card quick-link-card" style="text-decoration: none; transition: all 0.2s ease; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 1.5rem; text-align: center; border-radius: var(--radius-lg); border: 1px solid var(--border-color); background-color: var(--card-bg);">
                 <div style="width: 48px; height: 48px; border-radius: 50%; background-color: rgba(139, 92, 246, 0.1); display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; color: #8b5cf6;">
                     <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
                 </div>
                 <h3 style="font-size: 1rem; font-weight: 600; color: var(--text-main);">Group Chat</h3>
             </a>
+            @endif
 
             <!-- Search A Kuya Card -->
+            @if($canViewSearchKuya)
             <a href="{{ route('search.kuya') }}" class="card quick-link-card" style="text-decoration: none; transition: all 0.2s ease; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 1.5rem; text-align: center; border-radius: var(--radius-lg); border: 1px solid var(--border-color); background-color: var(--card-bg);">
                 <div style="width: 48px; height: 48px; border-radius: 50%; background-color: rgba(59, 130, 246, 0.1); display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; color: var(--accent);">
                     <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -243,6 +256,7 @@
                 </div>
                 <h3 style="font-size: 1rem; font-weight: 600; color: var(--text-main);">Search A Kuya</h3>
             </a>
+            @endif
 
             <!-- My Profile Card -->
             <a href="{{ route('profile.complete') }}" class="card quick-link-card" style="text-decoration: none; transition: all 0.2s ease; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 1.5rem; text-align: center; border-radius: var(--radius-lg); border: 1px solid var(--border-color); background-color: var(--card-bg);">
@@ -255,6 +269,7 @@
             </a>
 
             <!-- Member Mapping Card -->
+            @if($canViewMemberMapping)
             <a href="{{ route('profile.location') }}" class="card quick-link-card" style="text-decoration: none; transition: all 0.2s ease; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 1.5rem; text-align: center; border-radius: var(--radius-lg); border: 1px solid var(--border-color); background-color: var(--card-bg);">
                 <div style="width: 48px; height: 48px; border-radius: 50%; background-color: rgba(236, 72, 153, 0.1); display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; color: #ec4899;">
                     <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -264,6 +279,7 @@
                 </div>
                 <h3 style="font-size: 1rem; font-weight: 600; color: var(--text-main);">Member Mapping</h3>
             </a>
+            @endif
 
             <!-- Organizational Structure Card -->
             <a href="{{ route('org.structure') }}" class="card quick-link-card" style="text-decoration: none; transition: all 0.2s ease; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 1.5rem; text-align: center; border-radius: var(--radius-lg); border: 1px solid var(--border-color); background-color: var(--card-bg);">
@@ -276,6 +292,7 @@
             </a>
 
             <!-- Announcements Card -->
+            @if($canViewAnnouncements)
             <a href="{{ route('announcements.index') }}" class="card quick-link-card" style="text-decoration: none; transition: all 0.2s ease; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 1.5rem; text-align: center; border-radius: var(--radius-lg); border: 1px solid var(--border-color); background-color: var(--card-bg);">
                 <div style="width: 48px; height: 48px; border-radius: 50%; background-color: rgba(59, 130, 246, 0.1); display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; color: var(--accent);">
                     <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -284,8 +301,10 @@
                 </div>
                 <h3 style="font-size: 1rem; font-weight: 600; color: var(--text-main);">Announcements</h3>
             </a>
+            @endif
 
             <!-- Libraries Card -->
+            @if($canViewLibraries)
             <a href="{{ route('libraries.index') }}" class="card quick-link-card" style="text-decoration: none; transition: all 0.2s ease; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 1.5rem; text-align: center; border-radius: var(--radius-lg); border: 1px solid var(--border-color); background-color: var(--card-bg);">
                 <div style="width: 48px; height: 48px; border-radius: 50%; background-color: rgba(139, 92, 246, 0.1); display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; color: #8b5cf6;">
                     <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -294,6 +313,7 @@
                 </div>
                 <h3 style="font-size: 1rem; font-weight: 600; color: var(--text-main);">Libraries</h3>
             </a>
+            @endif
         </div>
     </div>
 

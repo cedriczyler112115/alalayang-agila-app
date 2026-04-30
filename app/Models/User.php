@@ -96,4 +96,22 @@ class User extends Authenticatable
                 return false;
         }
     }
+
+    public function hasAvailedAccess()
+    {
+        if ($this->is_admin) {
+            return true;
+        }
+
+        if (!$this->accessType) {
+            return false;
+        }
+
+        return stripos($this->accessType->name, 'not availed') === false;
+    }
+
+    public function canUseChatFeature()
+    {
+        return $this->hasAvailedAccess();
+    }
 }

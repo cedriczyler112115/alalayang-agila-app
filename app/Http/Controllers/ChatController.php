@@ -13,6 +13,8 @@ class ChatController extends Controller
     {
         $user = Auth::user();
 
+        abort_unless($user->canUseChatFeature(), 403, 'Chat with Kuya is only available for availed members.');
+
         $regionConversation = null;
         $clubConversation = null;
 
