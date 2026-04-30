@@ -3,6 +3,9 @@
 @section('title', $announcement->title . ' - Caragados EC')
 
 @section('content')
+@php
+    $rootComments = $announcement->comments;
+@endphp
 <div style="margin-top: 2rem;">
     <div style="display: flex; align-items: center; margin-bottom: 2rem;">
         <a href="{{ route('dashboard') }}" class="btn btn-outline" style="margin-right: 1rem; padding: 0.5rem; border-radius: 50%;">
@@ -34,11 +37,26 @@
         <div class="ck-content">
             {!! $announcement->content !!}
         </div>
+
     </div>
 
     <!-- Comments Section -->
-    <div class="card" style="padding: 2rem; margin-bottom: 3rem;">
+    <div class="card" id="announcement-comments" style="padding: 2rem; margin-bottom: 1rem;">
         <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 1.5rem;">Comments</h3>
+
+        @if(session('status'))
+            <div style="background-color: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.2); color: var(--success); padding: 1rem 1.25rem; border-radius: var(--radius-md); margin-bottom: 1.5rem;">
+                {{ session('status') }}
+            </div>
+        @endif
+
+        @if($errors->any())
+            <div style="background-color: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.2); color: var(--danger); padding: 1rem 1.25rem; border-radius: var(--radius-md); margin-bottom: 1.5rem;">
+                @foreach($errors->all() as $error)
+                    <div>{{ $error }}</div>
+                @endforeach
+            </div>
+        @endif
         
         <!-- Root Comment Form -->
         <form action="{{ route('comments.store', $announcement) }}" method="POST" style="margin-bottom: 2rem;">
@@ -46,7 +64,7 @@
             <div style="display: flex; gap: 1rem; align-items: flex-start;">
                 <img src="{{ auth()->user()->profile_photo ? asset('storage/' . auth()->user()->profile_photo) : asset('images/default-avatar.svg') }}" style="width: 48px; height: 48px; border-radius: 50%; object-fit: cover;" onerror="this.src='{{ asset('images/default-avatar.svg') }}'">
                 <div style="flex: 1;">
-                    <textarea name="content" class="form-control" rows="3" placeholder="Join the discussion..." required style="resize: vertical;"></textarea>
+                    <textarea name="content" class="form-control" rows="3" placeholder="Join the discussion..." required style="resize: vertical;">{{ old('parent_id') ? '' : old('content') }}</textarea>
                     <div style="margin-top: 0.5rem; text-align: right;">
                         <button type="submit" class="btn btn-primary" style="padding: 0.5rem 1.5rem;">Post Comment</button>
                     </div>
@@ -56,7 +74,7 @@
 
         <!-- Comments List -->
         <div class="comments-list">
-            @forelse($announcement->comments()->whereNull('parent_id')->latest()->get() as $comment)
+            @forelse($rootComments as $comment)
                 @include('announcements.partials.comment', ['comment' => $comment, 'announcement' => $announcement])
             @empty
                 <p style="text-align: center; color: var(--text-muted); font-style: italic; margin-top: 2rem;">No comments yet. Be the first to start the conversation!</p>
@@ -75,7 +93,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             if(form.style.display === 'none') {
                 form.style.display = 'block';
-                form.querySelector('input[name="content"]').focus();
+                form.querySelector('textarea[name="content"]').focus();
             } else {
                 form.style.display = 'none';
             }

@@ -10,17 +10,29 @@ class CommentController extends Controller
 {
     public function store(Request $request, Announcement $announcement)
     {
-        $request->validate([
+        $validated = $request->validate([
             'content' => 'required|string|max:2000',
-            'parent_id' => 'nullable|exists:comments,id'
+            'parent_id' => 'nullable|integer'
         ]);
 
-        $announcement->comments()->create([
+        $parentComment = null;
+        if (!empty($validated['parent_id'])) {
+            $parentComment = $announcement->comments()
+                ->whereKey($validated['parent_id'])
+                ->first();
+
+            abort_if(!$parentComment, 422, 'The selected reply target is invalid.');
+        }
+
+        $comment = $announcement->comments()->create([
             'user_id' => auth()->id(),
-            'parent_id' => $request->parent_id,
-            'content' => $request->content
+            'parent_id' => $parentComment?->id,
+            'content' => trim($validated['content']),
         ]);
 
-        return back()->with('status', 'Comment posted successfully!');
+        return redirect()
+            ->route('announcements.show', $announcement)
+            ->with('status', $parentComment ? 'Reply posted successfully!' : 'Comment posted successfully!')
+            ->withFragment('comment-' . $comment->id);
     }
 }

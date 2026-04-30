@@ -4,12 +4,14 @@
 
 @section('content')
 @php
+    $premiumFeatureLockEnabled = \App\Models\AppSetting::isPremiumFeatureLockEnabled();
     $canViewAlalayangAgila = auth()->user()->hasPermission('alalayang_agila', 'view');
     $canViewSearchKuya = auth()->user()->hasPermission('search_kuya', 'view');
     $canViewMemberMapping = auth()->user()->hasPermission('member_mapping', 'view');
     $canViewAnnouncements = auth()->user()->hasPermission('announcements', 'view');
     $canViewLibraries = auth()->user()->hasPermission('libraries', 'view');
     $canUseChat = auth()->user()->canUseChatFeature();
+    $canAccessAnnouncementsModule = !$premiumFeatureLockEnabled || (auth()->user()->canUseSubscriptionFeature('announcements') && $canViewAnnouncements);
 @endphp
 <style>
     .quick-link-card:hover {
@@ -165,7 +167,9 @@
     <div style="margin-bottom: 2.5rem;">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
             <h2 style="font-size: 0.9rem; font-weight: 700; color: var(--secondary); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0;">Latest Announcements</h2>
-            <a href="{{ route('announcements.index') }}" style="font-size: 0.8rem; color: var(--accent); text-decoration: none; font-weight: 600;">View All Announcements</a>
+            @if($canAccessAnnouncementsModule)
+                <a href="{{ route('announcements.index') }}" style="font-size: 0.8rem; color: var(--accent); text-decoration: none; font-weight: 600;">View All Announcements</a>
+            @endif
         </div>
         
         <div class="announcement-tabs" id="announcementTabs">
@@ -179,7 +183,7 @@
             <div id="tab-global" class="announcement-tab-pane active">
                 <div class="announcement-stack">
                     @forelse($global_announcements->take(3) as $announcement)
-                        @include('announcements.partials.dashboard-card', ['announcement' => $announcement, 'badge' => 'Global'])
+                        @include('announcements.partials.dashboard-card', ['announcement' => $announcement, 'badge' => 'Global', 'canOpenAnnouncements' => $canAccessAnnouncementsModule])
                     @empty
                         <div class="announcement-card" style="text-align: center; padding: 4rem 2rem;">
                             <svg width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" style="margin-bottom: 1rem; opacity: 0.3;"><path d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10l4 4v10a2 2 0 01-2 2zM14 3v5h5M7 12h10M7 16h10"></path></svg>
@@ -193,7 +197,7 @@
             <div id="tab-regional" class="announcement-tab-pane">
                 <div class="announcement-stack">
                     @forelse($regional_announcements->take(3) as $announcement)
-                        @include('announcements.partials.dashboard-card', ['announcement' => $announcement, 'badge' => 'Regional'])
+                        @include('announcements.partials.dashboard-card', ['announcement' => $announcement, 'badge' => 'Regional', 'canOpenAnnouncements' => $canAccessAnnouncementsModule])
                     @empty
                         <div class="announcement-card" style="text-align: center; padding: 4rem 2rem;">
                             <svg width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" style="margin-bottom: 1rem; opacity: 0.3;"><path d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10l4 4v10a2 2 0 01-2 2zM14 3v5h5M7 12h10M7 16h10"></path></svg>
@@ -207,7 +211,7 @@
             <div id="tab-club" class="announcement-tab-pane">
                 <div class="announcement-stack">
                     @forelse($club_announcements->take(3) as $announcement)
-                        @include('announcements.partials.dashboard-card', ['announcement' => $announcement, 'badge' => 'Club'])
+                        @include('announcements.partials.dashboard-card', ['announcement' => $announcement, 'badge' => 'Club', 'canOpenAnnouncements' => $canAccessAnnouncementsModule])
                     @empty
                         <div class="announcement-card" style="text-align: center; padding: 4rem 2rem;">
                             <svg width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" style="margin-bottom: 1rem; opacity: 0.3;"><path d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10l4 4v10a2 2 0 01-2 2zM14 3v5h5M7 12h10M7 16h10"></path></svg>
@@ -225,7 +229,7 @@
         <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem;">
             
             <!-- Alalayang Agila Help Card -->
-            @if($canViewAlalayangAgila)
+            @if(!$premiumFeatureLockEnabled || $canViewAlalayangAgila)
             <a href="{{ route('quick.response') }}" class="card quick-link-card" style="text-decoration: none; transition: all 0.2s ease; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 1.5rem; text-align: center; border-radius: var(--radius-lg); border: 1px solid var(--border-color); background-color: var(--card-bg);">
                 <div style="width: 48px; height: 48px; border-radius: 50%; background-color: rgba(245, 158, 11, 0.1); display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; color: #f59e0b;">
                     <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -237,7 +241,7 @@
             @endif
 
             <!-- Group Chat Card -->
-            @if($canUseChat)
+            @if(!$premiumFeatureLockEnabled || $canUseChat)
             <a href="{{ route('chat.index') }}" class="card quick-link-card" style="text-decoration: none; transition: all 0.2s ease; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 1.5rem; text-align: center; border-radius: var(--radius-lg); border: 1px solid var(--border-color); background-color: var(--card-bg);">
                 <div style="width: 48px; height: 48px; border-radius: 50%; background-color: rgba(139, 92, 246, 0.1); display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; color: #8b5cf6;">
                     <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
@@ -247,7 +251,7 @@
             @endif
 
             <!-- Search A Kuya Card -->
-            @if($canViewSearchKuya)
+            @if(!$premiumFeatureLockEnabled || $canViewSearchKuya)
             <a href="{{ route('search.kuya') }}" class="card quick-link-card" style="text-decoration: none; transition: all 0.2s ease; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 1.5rem; text-align: center; border-radius: var(--radius-lg); border: 1px solid var(--border-color); background-color: var(--card-bg);">
                 <div style="width: 48px; height: 48px; border-radius: 50%; background-color: rgba(59, 130, 246, 0.1); display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; color: var(--accent);">
                     <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -269,7 +273,7 @@
             </a>
 
             <!-- Member Mapping Card -->
-            @if($canViewMemberMapping)
+            @if(!$premiumFeatureLockEnabled || $canViewMemberMapping)
             <a href="{{ route('profile.location') }}" class="card quick-link-card" style="text-decoration: none; transition: all 0.2s ease; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 1.5rem; text-align: center; border-radius: var(--radius-lg); border: 1px solid var(--border-color); background-color: var(--card-bg);">
                 <div style="width: 48px; height: 48px; border-radius: 50%; background-color: rgba(236, 72, 153, 0.1); display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; color: #ec4899;">
                     <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -292,14 +296,14 @@
             </a>
 
             <!-- Announcements Card -->
-            @if($canViewAnnouncements)
+            @if($canAccessAnnouncementsModule)
             <a href="{{ route('announcements.index') }}" class="card quick-link-card" style="text-decoration: none; transition: all 0.2s ease; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 1.5rem; text-align: center; border-radius: var(--radius-lg); border: 1px solid var(--border-color); background-color: var(--card-bg);">
                 <div style="width: 48px; height: 48px; border-radius: 50%; background-color: rgba(59, 130, 246, 0.1); display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; color: var(--accent);">
                     <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"></path>
                     </svg>
                 </div>
-                <h3 style="font-size: 1rem; font-weight: 600; color: var(--text-main);">Announcements</h3>
+                <h3 style="font-size: 1rem; font-weight: 600; color: var(--text-main);">Publish Announcement</h3>
             </a>
             @endif
 

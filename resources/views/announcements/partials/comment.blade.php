@@ -1,4 +1,4 @@
-<div class="comment" style="margin-top: 1rem; padding: 1rem; border: 1px solid var(--border-color); border-radius: var(--radius-md); background-color: var(--card-bg);">
+<div class="comment" id="comment-{{ $comment->id }}" style="margin-top: 1rem; padding: 1rem; border: 1px solid var(--border-color); border-radius: var(--radius-md); background-color: var(--card-bg);">
     <div style="display: flex; gap: 1rem; align-items: flex-start;">
         <img src="{{ $comment->user->profile_photo ? asset('storage/' . $comment->user->profile_photo) : asset('images/default-avatar.svg') }}" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;" onerror="this.src='{{ asset('images/default-avatar.svg') }}'">
         <div style="flex: 1;">
@@ -15,13 +15,13 @@
             </button>
 
             <!-- Reply Form Hidden -->
-            <div class="reply-form" id="reply-form-{{ $comment->id }}" style="display: none; margin-top: 1rem;">
+            <div class="reply-form" id="reply-form-{{ $comment->id }}" style="display: {{ old('parent_id') == $comment->id ? 'block' : 'none' }}; margin-top: 1rem;">
                 <form action="{{ route('comments.store', $announcement) }}" method="POST">
                     @csrf
                     <input type="hidden" name="parent_id" value="{{ $comment->id }}">
-                    <div style="display: flex; gap: 0.5rem;">
-                        <input type="text" name="content" class="form-control" placeholder="Write a reply..." required style="flex: 1; min-height: 38px;">
-                        <button type="submit" class="btn btn-primary" style="padding: 0 1rem; border-radius: var(--radius-md);">Submit</button>
+                    <div style="display: flex; gap: 0.5rem; align-items: flex-start;">
+                        <textarea name="content" class="form-control" placeholder="Write a reply..." required rows="2" style="flex: 1; resize: vertical;">{{ old('parent_id') == $comment->id ? old('content') : '' }}</textarea>
+                        <button type="submit" class="btn btn-primary" style="padding: 0.65rem 1rem; border-radius: var(--radius-md);">Submit</button>
                     </div>
                 </form>
             </div>

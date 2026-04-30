@@ -23,7 +23,9 @@ class Comment extends Model
 
     public function replies()
     {
-        return $this->hasMany(Comment::class, 'parent_id');
+        return $this->hasMany(Comment::class, 'parent_id')
+            ->with(['user', 'replies'])
+            ->oldest();
     }
 
     public function parent()

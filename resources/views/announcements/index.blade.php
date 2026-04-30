@@ -4,9 +4,10 @@
 
 @section('content')
 @php
-    $canAddAnnouncements = auth()->user()->hasPermission('announcements', 'add');
-    $canEditAnnouncements = auth()->user()->hasPermission('announcements', 'edit');
-    $canDeleteAnnouncements = auth()->user()->hasPermission('announcements', 'delete');
+    $premiumFeatureLockEnabled = \App\Models\AppSetting::isPremiumFeatureLockEnabled();
+    $canAddAnnouncements = !$premiumFeatureLockEnabled || auth()->user()->hasPermission('announcements', 'add');
+    $canEditAnnouncements = !$premiumFeatureLockEnabled || auth()->user()->hasPermission('announcements', 'edit');
+    $canDeleteAnnouncements = !$premiumFeatureLockEnabled || auth()->user()->hasPermission('announcements', 'delete');
 @endphp
 <div style="margin-top: 2rem;">
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">

@@ -882,7 +882,7 @@
             <a href="{{ route('libraries.index') }}" class="nav-link {{ request()->routeIs('libraries.index') ? 'active' : '' }}">Libraries</a>
             
             <div class="dropdown">
-                <div class="nav-link {{ request()->routeIs('users.*') || request()->routeIs('access_types.*') ? 'active' : '' }}" style="cursor: pointer; display: flex; align-items: center; gap: 4px;">
+                <div class="nav-link {{ request()->routeIs('users.*') || request()->routeIs('access_types.*') || request()->routeIs('settings.*') ? 'active' : '' }}" style="cursor: pointer; display: flex; align-items: center; gap: 4px;">
                     Administration
                     <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path>
@@ -894,6 +894,9 @@
                     </a>
                     <a href="{{ route('access_types.index') }}" class="dropdown-item">
                         Access Types
+                    </a>
+                    <a href="{{ route('settings.index') }}" class="dropdown-item">
+                        Settings
                     </a>
                 </div>
             </div>

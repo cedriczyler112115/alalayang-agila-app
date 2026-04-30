@@ -110,8 +110,21 @@ class User extends Authenticatable
         return stripos($this->accessType->name, 'not availed') === false;
     }
 
+    public function canUseSubscriptionFeature(string $feature): bool
+    {
+        if ($this->is_admin) {
+            return true;
+        }
+
+        if (!AppSetting::isPremiumFeatureLockEnabled()) {
+            return true;
+        }
+
+        return !in_array($feature, ['chat', 'announcements'], true) || $this->hasAvailedAccess();
+    }
+
     public function canUseChatFeature()
     {
-        return $this->hasAvailedAccess();
+        return $this->canUseSubscriptionFeature('chat');
     }
 }

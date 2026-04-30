@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AppSetting;
 use Illuminate\Http\Request;
 use Musonza\Chat\Facades\ChatFacade as Chat;
 use Musonza\Chat\Models\Conversation;
@@ -9,11 +10,17 @@ use Illuminate\Support\Facades\Auth;
 
 class ChatController extends Controller
 {
-    public function index()
+    private function ensureChatAccess(): void
     {
         $user = Auth::user();
 
         abort_unless($user->canUseChatFeature(), 403, 'Chat with Kuya is only available for availed members.');
+    }
+
+    public function index()
+    {
+        $this->ensureChatAccess();
+        $user = Auth::user();
 
         $regionConversation = null;
         $clubConversation = null;
@@ -71,6 +78,8 @@ class ChatController extends Controller
 
     public function getMessages(Conversation $conversation)
     {
+        $this->ensureChatAccess();
+
         // Get all messages for the conversation, bypassing the participant filter
         // so that users who joined the club later can still see history.
         $messages = \Musonza\Chat\Models\Message::where('conversation_id', $conversation->id)
@@ -99,6 +108,8 @@ class ChatController extends Controller
 
     public function sendMessage(Request $request, Conversation $conversation)
     {
+        $this->ensureChatAccess();
+
         $validated = $request->validate([
             'message' => 'required|string',
             'message_type' => 'nullable|in:text,sticker',
@@ -146,6 +157,8 @@ class ChatController extends Controller
 
     public function updateCustomConversation(Request $request, Conversation $conversation)
     {
+        $this->ensureChatAccess();
+
         $user = Auth::user();
         $data = is_string($conversation->data) ? json_decode($conversation->data, true) : ($conversation->data ?? []);
         $type = $data['type'] ?? '';
@@ -176,6 +189,8 @@ class ChatController extends Controller
 
     public function destroyCustomConversation(Conversation $conversation)
     {
+        $this->ensureChatAccess();
+
         $user = Auth::user();
         $data = is_string($conversation->data) ? json_decode($conversation->data, true) : ($conversation->data ?? []);
         $type = $data['type'] ?? '';
@@ -195,6 +210,8 @@ class ChatController extends Controller
 
     public function createCustomConversation(Request $request)
     {
+        $this->ensureChatAccess();
+
         $request->validate([
             'type' => 'required|in:p2p,custom_group',
             'user_ids' => 'required|array',

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AppSetting;
 use App\Models\LibRegion;
 use App\Models\LibClubName;
 use App\Models\LibPosition;
@@ -16,6 +17,10 @@ class ProfileController extends Controller implements HasMiddleware
     {
         return [
             function ($request, $next) {
+                if (!AppSetting::isPremiumFeatureLockEnabled()) {
+                    return $next($request);
+                }
+
                 if ($request->route()->getActionMethod() === 'location') {
                     abort_if(!auth()->user()->hasPermission('member_mapping', 'view'), 403, 'Unauthorized action.');
                 }

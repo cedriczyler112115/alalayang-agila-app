@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AppSetting;
 use App\Models\LibHelp;
 use App\Models\QuickResponse;
 use App\Models\User;
@@ -19,6 +20,10 @@ class QuickResponseController extends Controller implements HasMiddleware
     {
         return [
             function ($request, $next) {
+                if (!AppSetting::isPremiumFeatureLockEnabled()) {
+                    return $next($request);
+                }
+
                 $user = auth()->user();
                 
                 $method = $request->route()->getActionMethod();

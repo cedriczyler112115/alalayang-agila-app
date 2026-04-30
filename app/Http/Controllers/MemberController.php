@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AppSetting;
 use App\Models\User;
 use App\Models\LibRegion;
 use App\Models\LibClubName;
@@ -16,7 +17,12 @@ class MemberController extends Controller implements HasMiddleware
     {
         return [
             function ($request, $next) {
-                abort_if(!auth()->user()->hasPermission('search_kuya', 'view'), 403, 'Unauthorized action.');
+                if (!AppSetting::isPremiumFeatureLockEnabled()) {
+                    return $next($request);
+                }
+
+                $user = auth()->user();
+                abort_if(!$user->hasPermission('search_kuya', 'view'), 403, 'Unauthorized action.');
                 return $next($request);
             }
         ];

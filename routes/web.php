@@ -10,6 +10,7 @@ use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ChatController;
+use App\Http\Controllers\SettingsController;
 
 Route::get('/', function () {
     if (auth()->check()) {
@@ -130,6 +131,8 @@ Route::middleware('auth')->group(function () {
             // Access Types Management
             Route::get('/access-types', [\App\Http\Controllers\AccessTypeController::class, 'index'])->name('access_types.index');
             Route::post('/access-types/{accessType}/permissions', [\App\Http\Controllers\AccessTypeController::class, 'update'])->name('access_types.update');
+            Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
+            Route::post('/settings', [SettingsController::class, 'update'])->name('settings.update');
 
             // Announcements CRUD
             Route::resource('announcements', AnnouncementController::class);

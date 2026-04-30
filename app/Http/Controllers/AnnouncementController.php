@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AppSetting;
 use App\Models\Announcement;
 use App\Models\User;
 use App\Mail\AnnouncementNotification;
@@ -19,6 +20,14 @@ class AnnouncementController extends Controller implements HasMiddleware
     {
         return [
             function ($request, $next) {
+                if (!AppSetting::isPremiumFeatureLockEnabled()) {
+                    return $next($request);
+                }
+
+                if ($request->route()->getActionMethod() === 'show') {
+                    return $next($request);
+                }
+
                 $user = auth()->user();
                 
                 $method = $request->route()->getActionMethod();
@@ -28,6 +37,7 @@ class AnnouncementController extends Controller implements HasMiddleware
                 if (in_array($method, ['edit', 'update'])) $action = 'edit';
                 if ($method === 'destroy') $action = 'delete';
                 
+                abort_if(!$user->canUseSubscriptionFeature('announcements'), 403, 'Publish Announcement requires an active subscription.');
                 abort_if(!$user->hasPermission('announcements', $action), 403, 'Unauthorized action.');
                 
                 return $next($request);
@@ -57,6 +67,15 @@ class AnnouncementController extends Controller implements HasMiddleware
         if ($announcement->status !== 'published' && $announcement->user_id !== Auth::id()) {
             abort(404);
         }
+
+        $announcement->load([
+            'user',
+            'comments' => function ($query) {
+                $query->whereNull('parent_id')
+                    ->with(['user', 'replies'])
+                    ->latest();
+            },
+        ]);
 
         return view('announcements.show', compact('announcement'));
     }
