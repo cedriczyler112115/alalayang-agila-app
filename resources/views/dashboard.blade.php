@@ -154,7 +154,7 @@
 </style>
 <div style="margin-top: 2rem;">
     <h1 style="font-size: 1.2rem; font-weight: 500; margin-bottom: 0.5rem; letter-spacing: -0.025em;">Welcome back, <span style="font-family: 'Brush Script MT', cursive; font-size: 1.5rem;">Kuya</span> <span style="color: var(--accent);">{{ auth()->user()->fullname }}</span>!</h1>
-    <p style="color: var(--text-muted); margin-bottom: 2.5rem; font-size: 1.05rem;">Here is an overview of your Caragados Eagles Club dashboard.</p>
+    <p style="color: var(--text-muted); margin-bottom: 2.5rem; font-size: 1.05rem;">Here is an overview of your CaragaDos Eagles Club dashboard.</p>
 
     @if(session('status'))
         <div style="background-color: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.2); color: var(--success); padding: 1rem 1.5rem; border-radius: var(--radius-md); margin-bottom: 2rem; display: flex; align-items: center; gap: 10px;">
