@@ -96,7 +96,7 @@ class ProfileController extends Controller implements HasMiddleware
         $members = \App\Models\User::whereNotNull('location')
             ->where('make_private', false)
             ->with(['region', 'club'])
-            ->get(['first_name', 'last_name', 'middle_name', 'extension_name', 'location', 'lib_region_id', 'lib_club_name_id', 'profile_photo', 'eagle_id_card']);
+            ->get(['id', 'first_name', 'last_name', 'middle_name', 'extension_name', 'location', 'lib_region_id', 'lib_club_name_id', 'profile_photo', 'eagle_id_card']);
 
         return view('profile.location', [
             'user' => request()->user(),

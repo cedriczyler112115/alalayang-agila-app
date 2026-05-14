@@ -208,20 +208,25 @@
             });
         }
 
+        const markersMap = new Map();
+
         function renderMembersOnMap(shouldFocusSearch = false) {
             const filteredMembers = getFilteredMembers();
             markerLayer.clearLayers();
+            markersMap.clear();
 
             filteredMembers.forEach(member => {
                 const marker = L.marker([member.lat, member.lng]).bindPopup(buildPopupContent(member));
                 markerLayer.addLayer(marker);
+                markersMap.set(String(member.id), marker);
 
                 if (shouldFocusSearch && searchSelect.val() && String(member.id) === String(searchSelect.val())) {
+                    map.setView([member.lat, member.lng], 15);
                     marker.openPopup();
                 }
             });
 
-            if (filteredMembers.length > 0) {
+            if (filteredMembers.length > 0 && !shouldFocusSearch) {
                 const bounds = L.latLngBounds(filteredMembers.map(member => [member.lat, member.lng]));
                 map.fitBounds(bounds.pad(0.1));
             }
