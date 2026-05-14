@@ -13,7 +13,7 @@
 
     <!-- Filter Form -->
     <div class="card" style="margin-bottom: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--border-color); background-color: var(--card-bg); padding: 1.5rem;">
-        <form action="{{ route('search.kuya') }}" method="GET">
+        <form action="{{ route('search.kuya') }}" method="GET" id="filterForm">
             <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; align-items: flex-end;">
                 <div class="form-group" style="margin-bottom: 0;">
                     <label class="form-label" for="search">Search Name</label>
@@ -35,6 +35,15 @@
                         @foreach($clubs as $club)
                             <option value="{{ $club->id }}" data-region-id="{{ $club->lib_region_id }}" {{ request('club_id') == $club->id ? 'selected' : '' }}>{{ $club->name }}</option>
                         @endforeach
+                    </select>
+                </div>
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label class="form-label" for="per_page">Records Per Page</label>
+                    <select name="per_page" id="per_page" class="form-control" onchange="this.form.submit()">
+                        <option value="10" {{ request('per_page') == '10' ? 'selected' : '' }}>10</option>
+                        <option value="20" {{ request('per_page') == '20' ? 'selected' : '' }}>20</option>
+                        <option value="50" {{ request('per_page') == '50' ? 'selected' : '' }}>50</option>
+                        <option value="all" {{ request('per_page') == 'all' ? 'selected' : '' }}>ALL</option>
                     </select>
                 </div>
                 <div style="display: flex; gap: 0.5rem;">
@@ -98,8 +107,10 @@
     </div>
 
     <!-- Pagination -->
-    <div style="margin-top: 2rem; display: flex; justify-content: center;">
-        {{ $members->links() }}
+    <div style="margin-top: 3rem; display: flex; flex-direction: column; align-items: center; gap: 1rem;">
+        <div class="pagination-wrapper">
+            {{ $members->links() }}
+        </div>
     </div>
 </div>
 
@@ -138,12 +149,13 @@
 </script>
 
 <style>
-    /* Pagination Styling Fixes for Tailwind-like pagination in non-tailwind app */
+    /* Pagination Styling Fixes */
     .pagination {
         display: flex;
         gap: 0.25rem;
         list-style: none;
         padding: 0;
+        margin: 0;
     }
     .page-item .page-link {
         padding: 0.5rem 1rem;
@@ -154,6 +166,7 @@
         border-radius: var(--radius-md);
         font-weight: 500;
         transition: all 0.2s;
+        display: block;
     }
     .page-item.active .page-link {
         background-color: var(--accent);
@@ -167,6 +180,24 @@
     .page-item:not(.active):not(.disabled) .page-link:hover {
         border-color: var(--accent);
         color: var(--accent);
+        background-color: rgba(var(--accent-rgb), 0.05);
+    }
+    
+    /* Hide the default Laravel pagination info since we added our own */
+    .pagination-wrapper nav > div:first-child {
+        display: none !important;
+    }
+    
+    .pagination-wrapper nav {
+        display: flex;
+        justify-content: center;
+    }
+
+    /* Card hover effect */
+    .card:hover {
+        transform: translateY(-4px);
+        box-shadow: var(--shadow-md);
+        border-color: var(--accent) !important;
     }
 </style>
 @endsection

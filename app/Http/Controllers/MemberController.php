@@ -30,9 +30,13 @@ class MemberController extends Controller implements HasMiddleware
 
     public function index(Request $request)
     {
-        $query = User::query()->with(['region', 'club']);
+        // Base query with mandatory filters: status = 1
+        $query = User::query()
+            ->with(['region', 'club'])
+            ->where('status', 1)
+            ->orderBy('last_name', 'asc');
 
-        // Search by name, job, or office
+        // Optional Search by name, job, or office
         if ($request->filled('search')) {
             $search = $request->search;
             $query->where(function($q) use ($search) {
@@ -45,23 +49,25 @@ class MemberController extends Controller implements HasMiddleware
             });
         }
 
-        // Exclude private profiles
-        $query->where('make_private', false);
-
-        // Filter by Region
+        // Optional Filter by Region
         if ($request->filled('region_id')) {
             $query->where('lib_region_id', $request->region_id);
         }
 
-        // Filter by Club
+        // Optional Filter by Club
         if ($request->filled('club_id')) {
             $query->where('lib_club_name_id', $request->club_id);
         }
 
-        // Only approved users (status = 1) - optional, but usually better
-        // $query->where('status', 1);
+        // Handle per-page selection
+        $perPage = $request->get('per_page', 10);
+        if ($perPage === 'all') {
+            $count = $query->count();
+            $members = $query->paginate($count > 0 ? $count : 10)->withQueryString();
+        } else {
+            $members = $query->paginate((int)$perPage)->withQueryString();
+        }
 
-        $members = $query->paginate(12)->withQueryString();
         $regions = LibRegion::all();
         $clubs = LibClubName::all();
 
