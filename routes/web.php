@@ -68,6 +68,7 @@ Route::middleware('auth')->group(function () {
             Route::get('/location', [ProfileController::class , 'location'])->name('profile.location');
             // Libraries
             Route::get('/libraries', [LibraryController::class , 'index'])->name('libraries.index');
+            Route::post('/libraries/global-keyword', [LibraryController::class , 'updateGlobalKeyword'])->name('libraries.global_keyword.update');
             Route::post('/libraries/regions', [LibraryController::class , 'storeRegion'])->name('libraries.region.store');
             Route::get('/libraries/regions/{region}/edit', [LibraryController::class , 'editRegion'])->name('libraries.region.edit');
             Route::put('/libraries/regions/{region}', [LibraryController::class , 'updateRegion'])->name('libraries.region.update');

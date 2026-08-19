@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\LibRegion;
 use App\Models\LibClubName;
+use App\Models\GlobalKeyword;
 use App\Models\LibHelp;
 use App\Models\LibPosition;
 use App\Models\LibRegionalPosition;
@@ -41,12 +42,32 @@ class LibraryController extends Controller implements HasMiddleware
         $tab = $request->get('tab', 'regions');
         $regions = LibRegion::all();
         $clubs = LibClubName::with('region')->get();
+        $global_keywords = GlobalKeyword::with('creator')->orderBy('desc')->get();
         $help_types = LibHelp::all();
         $positions = LibPosition::all();
         $regional_positions = LibRegionalPosition::all();
         $national_officers = LibNationalOfficer::orderBy('id')->get();
         
-        return view('libraries.index', compact('regions', 'clubs', 'help_types', 'positions', 'regional_positions', 'national_officers', 'tab'));
+        return view('libraries.index', compact('regions', 'clubs', 'global_keywords', 'help_types', 'positions', 'regional_positions', 'national_officers', 'tab'));
+    }
+
+    public function updateGlobalKeyword(Request $request)
+    {
+        abort_unless(auth()->user()?->is_admin, 403, 'Unauthorized action.');
+
+        $request->validate([
+            'keywords' => 'nullable|array',
+            'keywords.*' => 'nullable|string|max:255',
+        ]);
+
+        foreach ((array) $request->input('keywords', []) as $desc => $value) {
+            $data = ['desc' => $desc, 'created_by' => auth()->id()];
+            $data['keyword'] = $value ?: ($desc === 'agila_help' ? 'ALALAYANG-AGILA-TFOE-PE-2026' : null);
+
+            GlobalKeyword::updateOrCreate(['desc' => $desc], $data);
+        }
+
+        return redirect()->route('libraries.index', ['tab' => 'global'])->with('status', 'Global keywords updated successfully!');
     }
 
     // Region CRUD
@@ -69,12 +90,20 @@ class LibraryController extends Controller implements HasMiddleware
 
     public function updateRegion(Request $request, LibRegion $region)
     {
+        $user = auth()->user();
+        abort_if(!$user, 403, 'Unauthorized action.');
+        abort_if(!$user->is_admin && $request->has('notification_keyword'), 403, 'Unauthorized action.');
+
         $request->validate([
             'name' => 'required|string|max:255',
+            'notification_keyword' => 'nullable|string|max:100',
             'logo' => 'nullable|image|mimes:jpeg,png,jpg,webp'
         ]);
 
         $data = $request->only('name');
+        if ($user->is_admin) {
+            $data['notification_keyword'] = $request->input('notification_keyword');
+        }
 
         if ($request->hasFile('logo')) {
             if ($region->logo) {
@@ -130,13 +159,21 @@ class LibraryController extends Controller implements HasMiddleware
 
     public function updateClub(Request $request, LibClubName $club)
     {
+        $user = auth()->user();
+        abort_if(!$user, 403, 'Unauthorized action.');
+        abort_if(!$user->is_admin && $request->has('notification_keyword'), 403, 'Unauthorized action.');
+
         $request->validate([
             'name' => 'required|string|max:255',
             'lib_region_id' => 'required|exists:lib_region,id',
+            'notification_keyword' => 'nullable|string|max:255',
             'logo' => 'nullable|image|mimes:jpeg,png,jpg,webp'
         ]);
         
         $data = $request->only('name', 'lib_region_id');
+        if ($user->is_admin) {
+            $data['notification_keyword'] = $request->input('notification_keyword');
+        }
 
         if ($request->hasFile('logo')) {
             if ($club->logo) {

@@ -21,7 +21,8 @@
     @endif
 
     <div style="display: flex; gap: 1rem; margin-bottom: 2rem; border-bottom: 1px solid var(--border-color); padding-bottom: 1rem; flex-wrap: wrap;">
-        <a href="{{ route('libraries.index', ['tab' => 'regions']) }}" class="nav-link {{ $tab === 'regions' ? 'active' : '' }}" style="border-radius: 9999px; padding: 0.5rem 1.5rem;">Regions / Chapters</a>
+        <a href="{{ route('libraries.index', ['tab' => 'global']) }}" class="nav-link {{ $tab === 'global' ? 'active' : '' }}" style="border-radius: 9999px; padding: 0.5rem 1.5rem;">Global</a>
+        <a href="{{ route('libraries.index', ['tab' => 'regions']) }}" class="nav-link {{ $tab === 'regions' ? 'active' : '' }}" style="border-radius: 9999px; padding: 0.5rem 1.5rem;">Regions</a>
         <a href="{{ route('libraries.index', ['tab' => 'regional-positions']) }}" class="nav-link {{ $tab === 'regional-positions' ? 'active' : '' }}" style="border-radius: 9999px; padding: 0.5rem 1.5rem;">Regional Positions</a>
         <a href="{{ route('libraries.index', ['tab' => 'clubs']) }}" class="nav-link {{ $tab === 'clubs' ? 'active' : '' }}" style="border-radius: 9999px; padding: 0.5rem 1.5rem;">Eagle Club Names</a>
         <a href="{{ route('libraries.index', ['tab' => 'help']) }}" class="nav-link {{ $tab === 'help' ? 'active' : '' }}" style="border-radius: 9999px; padding: 0.5rem 1.5rem;">Help Types</a>
@@ -29,7 +30,50 @@
         <a href="{{ route('libraries.index', ['tab' => 'national-officers']) }}" class="nav-link {{ $tab === 'national-officers' ? 'active' : '' }}" style="border-radius: 9999px; padding: 0.5rem 1.5rem;">National Officers</a>
     </div>
 
-    @if($tab === 'regions')
+    @if($tab === 'global')
+        <div class="card">
+            <div class="card-header" style="display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap;">
+                <h3 class="card-title" style="margin-bottom: 0;">Global Keywords</h3>
+                @if(auth()->user()->is_admin)
+                    <span style="font-size: 0.85rem; color: var(--text-muted);">Administrator only</span>
+                @endif
+            </div>
+            <div class="card-body">
+                <form action="{{ route('libraries.global_keyword.update') }}" method="POST">
+                    @csrf
+                    <table style="width: 100%; border-collapse: collapse;">
+                        <thead>
+                            <tr style="text-align: left; border-bottom: 1px solid var(--border-color);">
+                                <th style="padding: 1rem;">DESC</th>
+                                <th style="padding: 1rem;">Keyword Value</th>
+                                <th style="padding: 1rem;">Created By</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($global_keywords as $globalKeyword)
+                                <tr style="border-bottom: 1px solid var(--border-color);">
+                                    <td style="padding: 1rem; font-weight: 600;">{{ $globalKeyword->desc }}</td>
+                                    <td style="padding: 1rem;">
+                                        @if(auth()->user()->is_admin)
+                                            <input type="text" name="keywords[{{ $globalKeyword->desc }}]" class="form-control" value="{{ old('keywords.' . $globalKeyword->desc, $globalKeyword->keyword) }}" maxlength="255">
+                                        @else
+                                            <input type="text" class="form-control" value="{{ $globalKeyword->keyword }}" disabled>
+                                        @endif
+                                    </td>
+                                    <td style="padding: 1rem;">{{ $globalKeyword->creator?->fullname ?? 'N/A' }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                    @if(auth()->user()->is_admin)
+                        <div style="display: flex; justify-content: flex-end; margin-top: 1.25rem;">
+                            <button type="submit" class="btn btn-primary" style="padding: 0.8rem 1.2rem;">Save Global Keywords</button>
+                        </div>
+                    @endif
+                </form>
+            </div>
+        </div>
+    @elseif($tab === 'regions')
         <!-- Regions CRUD -->
         <div class="card">
             <div class="card-header" style="display: flex; justify-content: space-between; align-items: center;">
@@ -44,6 +88,7 @@
                         <tr style="text-align: left; border-bottom: 1px solid var(--border-color);">
                             <th style="padding: 1rem;">ID</th>
                             <th style="padding: 1rem;">Name</th>
+                            <th style="padding: 1rem;">Notification keyword (Ntfy PUSH notification)</th>
                             <th style="padding: 1rem; text-align: right;">Actions</th>
                         </tr>
                     </thead>
@@ -52,6 +97,7 @@
                         <tr style="border-bottom: 1px solid var(--border-color);">
                             <td style="padding: 1rem;">{{ $region->id }}</td>
                             <td style="padding: 1rem;">{{ $region->name }}</td>
+                            <td style="padding: 1rem;">{{ $region->notification_keyword ?? 'N/A' }}</td>
                             <td style="padding: 1rem; text-align: right; display: flex; gap: 0.5rem; justify-content: flex-end;">
                                 @if($canEditLibraries)
                                     <a href="{{ route('libraries.region.edit', $region->id) }}" class="btn btn-outline btn-sm">Edit</a>
@@ -109,6 +155,7 @@
                             <th style="padding: 1rem;">ID</th>
                             <th style="padding: 1rem;">Region</th>
                             <th style="padding: 1rem;">Club Name</th>
+                            <th style="padding: 1rem;">Notification keyword (Ntfy PUSH notification)</th>
                             <th style="padding: 1rem; text-align: right;">Actions</th>
                         </tr>
                     </thead>
@@ -118,6 +165,7 @@
                             <td style="padding: 1rem;">{{ $club->id }}</td>
                             <td style="padding: 1rem;">{{ $club->region->name ?? 'N/A' }}</td>
                             <td style="padding: 1rem;">{{ $club->name }}</td>
+                            <td style="padding: 1rem;">{{ $club->notification_keyword ?? 'N/A' }}</td>
                             <td style="padding: 1rem; text-align: right; display: flex; gap: 0.5rem; justify-content: flex-end;">
                                 @if($canEditLibraries)
                                     <a href="{{ route('libraries.club.edit', $club->id) }}" class="btn btn-outline btn-sm">Edit</a>

@@ -46,6 +46,14 @@
                     @enderror
                 </div>
 
+                @if($canAddQuickResponse)
+                    <div class="mt-6" style="margin-top: 1rem;">
+                        <button type="submit" id="submit-btn" class="btn btn-primary" style="width: 100%; font-weight: 600;" disabled>
+                            Submit Request
+                        </button>
+                    </div>
+                @endif
+
                 <div class="form-group">
                     <label class="form-label">Current Location</label>
                     <div id="location-container" style="background-color: var(--bg-color); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 0.75rem; display: flex; align-items: center; gap: 0.75rem;">
@@ -59,13 +67,7 @@
                     <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.5rem;">We will include your current coordinates to help other Kuyas find you faster.</p>
                 </div>
 
-                @if($canAddQuickResponse)
-                    <div class="mt-6">
-                        <button type="submit" id="submit-btn" class="btn btn-primary" style="width: 100%; font-weight: 600;" disabled>
-                            Submit Request
-                        </button>
-                    </div>
-                @else
+                @if(!$canAddQuickResponse)
                     <div style="margin-top: 1.5rem; padding: 1rem 1.25rem; border-radius: var(--radius-md); background-color: rgba(245, 158, 11, 0.08); border: 1px solid rgba(245, 158, 11, 0.2); color: #b45309; font-size: 0.9rem;">
                         You do not have permission to submit a help request.
                     </div>

@@ -78,6 +78,17 @@
             </div>
 
             <div class="form-group" style="margin-bottom: 2rem;">
+                <label class="form-label" for="notification_keyword">Notification keyword</label>
+                @if(auth()->user()->is_admin)
+                    <input type="text" id="notification_keyword" name="notification_keyword" class="form-control" value="{{ old('notification_keyword', $club->notification_keyword) }}" maxlength="255" placeholder="Enter notification keyword">
+                    <small style="display: block; margin-top: 0.5rem; color: var(--text-muted);">Admin only. Maximum 255 characters.</small>
+                @else
+                    <input type="text" id="notification_keyword" class="form-control" value="{{ $club->notification_keyword }}" disabled>
+                    <small style="display: block; margin-top: 0.5rem; color: var(--text-muted);">Only administrators can update this field.</small>
+                @endif
+            </div>
+
+            <div class="form-group" style="margin-bottom: 2rem;">
                 <label class="form-label" for="logo">Club Logo</label>
                 <input type="file" id="logo" name="logo" class="form-control" accept="image/*">
                 @if($club->logo)

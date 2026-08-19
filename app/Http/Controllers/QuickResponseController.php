@@ -3,14 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\AppSetting;
+use App\Models\GlobalKeyword;
 use App\Models\LibHelp;
 use App\Models\QuickResponse;
-use App\Models\User;
-use App\Mail\QuickResponseNotification;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Http;
-
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 
@@ -25,18 +23,19 @@ class QuickResponseController extends Controller implements HasMiddleware
                 }
 
                 $user = auth()->user();
-                
+
                 $method = $request->route()->getActionMethod();
-                $action = 'view'; // default
-                
+                $action = 'view';
+
                 if ($method === 'store') $action = 'add';
-                
+
                 abort_if(!$user->hasPermission('alalayang_agila', $action), 403, 'Unauthorized action.');
-                
+
                 return $next($request);
             }
         ];
     }
+
     public function index()
     {
         $help_list = LibHelp::all();
@@ -58,21 +57,88 @@ class QuickResponseController extends Controller implements HasMiddleware
             'location' => $validated['location'],
         ]);
 
-        // Get all user emails
-        $emails = User::pluck('email')->toArray();
-
-        // Send email to all members
-        if (!empty($emails)) {
-            Mail::to($emails)->send(new QuickResponseNotification($quickResponse));
-        }
-
-        // Send Telegram Notification
-        $this->sendTelegramNotification($quickResponse);
+        $this->sendTelegramNotificationAfterResponse($quickResponse);
+        $this->sendNtfyNotification($quickResponse);
 
         return redirect()->route('dashboard')->with('status', 'Your Alalayang Agila help request has been submitted successfully!');
     }
 
-    private function sendTelegramNotification($quickResponse)
+    private function sendTelegramNotificationAfterResponse(QuickResponse $quickResponse): void
+    {
+        app()->terminating(function () use ($quickResponse) {
+            $this->sendTelegramNotification($quickResponse);
+        });
+    }
+
+    private function sendNtfyNotification(QuickResponse $quickResponse): void
+    {
+        $topic = GlobalKeyword::where('desc', 'agila_help')->value('keyword');
+
+        if (!$topic) {
+            \Log::warning('ntfy quick response notification skipped because agila_help keyword was not found.', [
+                'quick_response_id' => $quickResponse->id,
+            ]);
+            return;
+        }
+
+        $user = auth()->user();
+        $helpType = $quickResponse->libHelp->name;
+        $details = $quickResponse->details;
+        $location = $quickResponse->location;
+        $region = $user->region->name ?? 'N/A';
+        $club = $user->club->name ?? 'N/A';
+        $iconUrl = $this->publicProfilePhotoUrl($user->profile_photo);
+
+        $message = "Alalayang Agila Help Request\n";
+        $message .= "Type: {$helpType}\n";
+        $message .= "From: Kuya " . ($user->fullname ?? 'N/A') . "\n";
+        $message .= "Region: {$region}\n";
+        $message .= "Club: {$club}\n";
+        $message .= "Details:\n{$details}\n";
+
+        if ($location) {
+            $mapUrl = 'https://www.google.com/maps/search/?api=1&query=' . rawurlencode($location);
+            $message .= "\nLocation: [View on Map]({$mapUrl})";
+        }
+
+        try {
+            $headers = [
+                'Title' => 'Alalayang Agila Help',
+                'Tags' => 'rotating_light',
+                'Priority' => '4',
+                'Markdown' => 'yes',
+            ];
+
+            if ($iconUrl) {
+                $headers['Icon'] = $iconUrl;
+            }
+
+            Http::withHeaders($headers)->withBody($message, 'text/markdown')->post("https://ntfy.sh/" . rawurlencode($topic));
+        } catch (\Exception $e) {
+            \Log::error("ntfy quick response notification failed: " . $e->getMessage(), [
+                'quick_response_id' => $quickResponse->id,
+                'topic' => $topic,
+            ]);
+        }
+    }
+
+    private function publicProfilePhotoUrl(?string $path): ?string
+    {
+        if (!$path) {
+            return null;
+        }
+
+        $relativePath = Storage::url($path);
+        $baseUrl = rtrim(config('app.url') ?: '', '/');
+
+        if ($baseUrl === '') {
+            return asset(ltrim($relativePath, '/'));
+        }
+
+        return $baseUrl . '/' . ltrim($relativePath, '/');
+    }
+
+    private function sendTelegramNotification(QuickResponse $quickResponse): void
     {
         $telegramToken = '8555688646:AAFRitSezZXmTSeXtSxpLOK1BLHQ1qyE-KE';
         $chatId = '-1003711130933';
@@ -84,7 +150,6 @@ class QuickResponseController extends Controller implements HasMiddleware
         $region = $user->region->name ?? 'N/A';
         $club = $user->club->name ?? 'N/A';
 
-        // Escape Markdown special characters for robustness
         $helpType = str_replace(['_', '*', '[', ']', '(', ')', '~', '`', '>', '#', '+', '-', '=', '|', '{', '}', '.', '!'], ['\\_', '\\*', '\\[', '\\]', '\\(', '\\)', '\\~', '\\`', '\\>', '\\#', '\\+', '\\-', '\\=', '\\|', '\\{', '\\}', '\\.', '\\!'], $helpType);
         $fullName = str_replace(['_', '*', '[', ']', '(', ')', '~', '`', '>', '#', '+', '-', '=', '|', '{', '}', '.', '!'], ['\\_', '\\*', '\\[', '\\]', '\\(', '\\)', '\\~', '\\`', '\\>', '\\#', '\\+', '\\-', '\\=', '\\|', '\\{', '\\}', '\\.', '\\!'], $user->fullname);
         $region = str_replace(['_', '*', '[', ']', '(', ')', '~', '`', '>', '#', '+', '-', '=', '|', '{', '}', '.', '!'], ['\\_', '\\*', '\\[', '\\]', '\\(', '\\)', '\\~', '\\`', '\\>', '\\#', '\\+', '\\-', '\\=', '\\|', '\\{', '\\}', '\\.', '\\!'], $region);
@@ -104,7 +169,6 @@ class QuickResponseController extends Controller implements HasMiddleware
 
         try {
             if ($user->profile_photo && file_exists(storage_path('app/public/' . $user->profile_photo))) {
-                // Send with photo as a file upload (more reliable than URL)
                 Http::attach('photo', file_get_contents(storage_path('app/public/' . $user->profile_photo)), 'photo.jpg')
                     ->post("https://api.telegram.org/bot{$telegramToken}/sendPhoto", [
                         'chat_id' => $chatId,
@@ -112,7 +176,6 @@ class QuickResponseController extends Controller implements HasMiddleware
                         'parse_mode' => 'MarkdownV2',
                     ]);
             } else {
-                // Send text only
                 Http::post("https://api.telegram.org/bot{$telegramToken}/sendMessage", [
                     'chat_id' => $chatId,
                     'text' => $message,

@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\AppSetting;
 use App\Models\Announcement;
+use App\Models\GlobalKeyword;
+use App\Models\LibClubName;
+use App\Models\LibRegion;
 use App\Models\User;
 use App\Mail\AnnouncementNotification;
 use Illuminate\Http\Request;
@@ -99,10 +102,9 @@ class AnnouncementController extends Controller implements HasMiddleware
 
         $validated['user_id'] = Auth::id();
         
-        $isRegionalOfficer = Auth::user()->lib_regional_position_id !== null;
-        if ($isRegionalOfficer && $request->has('post_as_global')) {
+        if ($request->has('post_as_global')) {
             $validated['scope'] = 'global';
-        } elseif ($isRegionalOfficer && $request->has('post_as_regional')) {
+        } elseif ($request->has('post_as_regional')) {
             $validated['scope'] = 'regional';
         } else {
             $validated['scope'] = 'club';
@@ -119,7 +121,7 @@ class AnnouncementController extends Controller implements HasMiddleware
         $announcement = Announcement::create($validated);
 
         if ($validated['status'] === 'published') {
-            $this->sendNotifications($announcement);
+            $this->sendNtfyNotification($announcement);
         }
 
         return redirect()->route('announcements.index')->with('status', 'Announcement created successfully!');
@@ -142,10 +144,9 @@ class AnnouncementController extends Controller implements HasMiddleware
             'post_as_global' => 'nullable',
         ]);
 
-        $isRegionalOfficer = Auth::user()->lib_regional_position_id !== null;
-        if ($isRegionalOfficer && $request->has('post_as_global')) {
+        if ($request->has('post_as_global')) {
             $validated['scope'] = 'global';
-        } elseif ($isRegionalOfficer && $request->has('post_as_regional')) {
+        } elseif ($request->has('post_as_regional')) {
             $validated['scope'] = 'regional';
         } else {
             $validated['scope'] = 'club';
@@ -163,6 +164,7 @@ class AnnouncementController extends Controller implements HasMiddleware
 
         if ($was_draft && $validated['status'] === 'published') {
             $this->sendNotifications($announcement);
+            $this->sendNtfyNotification($announcement);
         }
 
         return redirect()->route('announcements.index')->with('status', 'Announcement updated successfully!');
@@ -210,6 +212,93 @@ class AnnouncementController extends Controller implements HasMiddleware
         } catch (\Exception $e) {
             \Log::error("Telegram announcement notification failed: " . $e->getMessage());
         }
+    }
+
+    private function sendNtfyNotification(Announcement $announcement): void
+    {
+        $topic = $this->resolveNtfyTopic($announcement);
+
+        if (!$topic) {
+            \Log::warning('ntfy announcement notification skipped because no topic was found.', [
+                'announcement_id' => $announcement->id,
+                'scope' => $announcement->scope,
+                'user_id' => Auth::id(),
+            ]);
+            return;
+        }
+
+        $user = Auth::user();
+        $scopeLabel = match ($announcement->scope) {
+            'global' => 'Global Announcement',
+            'regional' => 'Regional Announcement',
+            default => 'Club Announcement',
+        };
+
+        $regionName = $user?->region?->name ?? 'N/A';
+        $clubName = $user?->club?->name ?? 'N/A';
+        $publishedAt = $announcement->published_at?->format('F j, Y g:i A') ?? 'N/A';
+        $message = "Title: {$announcement->title}\n";
+        $message .= "Author: Kuya, " . ($user?->fullname ?? 'N/A') . "\n";
+        $message .= "Region: {$regionName}\n";
+        $message .= "Club: {$clubName}\n";
+        $message .= "Published: {$publishedAt}\n\n";
+        $content = html_entity_decode($announcement->content ?? '', ENT_QUOTES | ENT_HTML5, 'UTF-8');
+        $content = preg_replace('/<\\s*\\/p\\s*>/i', "\n", $content);
+        $content = preg_replace('/<\\s*br\\s*\\/?>/i', "\n", $content);
+        $content = preg_replace('/<\\s*\\/div\\s*>/i', "\n", $content);
+        $content = preg_replace('/<\\s*\\/li\\s*>/i', "\n", $content);
+        $content = preg_replace('/<\\s*p[^>]*>/i', '', $content);
+        $content = preg_replace('/<\\s*div[^>]*>/i', '', $content);
+        $content = preg_replace('/<\\s*li[^>]*>/i', '- ', $content);
+        $content = strip_tags($content);
+        $content = preg_replace("/\\r\\n|\\r/", "\n", $content);
+        $content = preg_replace("/\n{3,}/", "\n", $content);
+        $content = trim($content) ?: 'N/A';
+        $content .= "\n\nRegards,\nKuya " . ($user?->fullname ?? 'N/A');
+        $message .= $content;
+
+        $title = match ($announcement->scope) {
+            'global' => $announcement->title . ' [GLOBAL]',
+            'regional' => $announcement->title . ' [REGION]',
+            default => $announcement->title . ' [CLUB]',
+        };
+
+        try {
+            Http::withHeaders([
+                'Title' => $title,
+                'Tags' => 'loudspeaker',
+                'Priority' => '3',
+                'Markdown' => 'yes',
+            ])->withBody($message, 'text/markdown')->post("https://ntfy.sh/" . rawurlencode($topic));
+        } catch (\Exception $e) {
+            \Log::error('ntfy announcement notification failed: ' . $e->getMessage(), [
+                'announcement_id' => $announcement->id,
+                'topic' => $topic,
+            ]);
+        }
+    }
+
+    private function resolveNtfyTopic(Announcement $announcement): ?string
+    {
+        $user = Auth::user();
+
+        if ($announcement->scope === 'global') {
+            return GlobalKeyword::query()->value('keyword');
+        }
+
+        if ($announcement->scope === 'regional' && $user?->lib_region_id) {
+            return LibRegion::query()
+                ->whereKey($user->lib_region_id)
+                ->value('notification_keyword');
+        }
+
+        if ($announcement->scope === 'club' && $user?->lib_club_name_id) {
+            return LibClubName::query()
+                ->whereKey($user->lib_club_name_id)
+                ->value('notification_keyword');
+        }
+
+        return null;
     }
 
     public function destroy(Announcement $announcement)

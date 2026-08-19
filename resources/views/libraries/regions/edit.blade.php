@@ -67,6 +67,17 @@
                 <label class="form-label" for="name">Region Name <span style="color: var(--danger);">*</span></label>
                 <input type="text" id="name" name="name" class="form-control" value="{{ old('name', $region->name) }}" required>
             </div>
+
+            <div class="form-group" style="margin-bottom: 2rem;">
+                <label class="form-label" for="notification_keyword">Notification keyword</label>
+                @if(auth()->user()->is_admin)
+                    <input type="text" id="notification_keyword" name="notification_keyword" class="form-control" value="{{ old('notification_keyword', $region->notification_keyword) }}" maxlength="100" placeholder="Enter notification keyword">
+                    <small style="display: block; margin-top: 0.5rem; color: var(--text-muted);">Admin only. Maximum 100 characters.</small>
+                @else
+                    <input type="text" id="notification_keyword" class="form-control" value="{{ $region->notification_keyword }}" disabled>
+                    <small style="display: block; margin-top: 0.5rem; color: var(--text-muted);">Only administrators can update this field.</small>
+                @endif
+            </div>
             
             <div class="form-group" style="margin-bottom: 2rem;">
                 <label class="form-label" for="logo">Regional Logo</label>
