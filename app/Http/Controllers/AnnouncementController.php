@@ -46,7 +46,7 @@ class AnnouncementController extends Controller implements HasMiddleware
     }
     public function index(Request $request)
     {
-        $query = Announcement::query()->where('status', 'published')->with('user');
+        $query = Announcement::query()->where('status', 'published')->with(['user.club', 'club']);
 
         if ($request->filled('search')) {
             $search = $request->search;
@@ -151,7 +151,6 @@ class AnnouncementController extends Controller implements HasMiddleware
         }
 
         $validated['lib_region_id'] = Auth::user()->lib_region_id;
-        $validated['lib_club_name_id'] = Auth::user()->lib_club_name_id;
 
         if ($validated['status'] === 'published' && empty($validated['published_at'])) {
             $validated['published_at'] = now();

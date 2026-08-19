@@ -54,6 +54,7 @@
             <thead>
                 <tr style="background-color: rgba(0,0,0,0.02); border-bottom: 1px solid var(--border-color);">
                     <th style="padding: 1rem 1.5rem; font-weight: 600; font-size: 0.85rem; color: var(--secondary); text-transform: uppercase; letter-spacing: 0.05em;">Title</th>
+                    <th style="padding: 1rem 1.5rem; font-weight: 600; font-size: 0.85rem; color: var(--secondary); text-transform: uppercase; letter-spacing: 0.05em;">Club Name</th>
                     <th style="padding: 1rem 1.5rem; font-weight: 600; font-size: 0.85rem; color: var(--secondary); text-transform: uppercase; letter-spacing: 0.05em;">Published Date</th>
                     <th style="padding: 1rem 1.5rem; font-weight: 600; font-size: 0.85rem; color: var(--secondary); text-transform: uppercase; letter-spacing: 0.05em;">Status</th>
                     <th style="padding: 1rem 1.5rem; font-weight: 600; font-size: 0.85rem; color: var(--secondary); text-transform: uppercase; letter-spacing: 0.05em;">Author</th>
@@ -68,6 +69,9 @@
                                 <div style="font-weight: 600; color: var(--text-main); margin-bottom: 0.25rem;">{{ $announcement->title }}</div>
                                 <div style="font-size: 0.8rem; color: var(--text-muted); max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ strip_tags($announcement->content) }}</div>
                             </a>
+                        </td>
+                        <td style="padding: 1rem 1.5rem; color: var(--text-muted); font-size: 0.9rem;">
+                            {{ $announcement->club->name ?? $announcement->user->club->name ?? 'N/A' }}
                         </td>
                         <td style="padding: 1rem 1.5rem; color: var(--text-muted); font-size: 0.9rem;">
                             {{ $announcement->published_at ? $announcement->published_at->format('M d, Y h:i A') : 'N/A' }}
@@ -111,7 +115,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="5" style="padding: 4rem 1.5rem; text-align: center; color: var(--text-muted);">
+                        <td colspan="6" style="padding: 4rem 1.5rem; text-align: center; color: var(--text-muted);">
                             <svg width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="margin-bottom: 1rem; opacity: 0.3;">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10l4 4v10a2 2 0 01-2 2zM14 3v5h5M7 12h10M7 16h10"></path>
                             </svg>
