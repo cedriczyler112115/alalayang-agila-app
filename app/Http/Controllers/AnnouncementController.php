@@ -7,11 +7,8 @@ use App\Models\Announcement;
 use App\Models\GlobalKeyword;
 use App\Models\LibClubName;
 use App\Models\LibRegion;
-use App\Models\User;
-use App\Mail\AnnouncementNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Http;
 
 use Illuminate\Routing\Controllers\HasMiddleware;
@@ -173,12 +170,6 @@ class AnnouncementController extends Controller implements HasMiddleware
 
     private function sendNotifications($announcement)
     {
-        // Send email to all members
-        $emails = User::pluck('email')->toArray();
-        if (!empty($emails)) {
-            Mail::to($emails)->send(new AnnouncementNotification($announcement));
-        }
-
         // Send Telegram Notification
         if ($announcement->scope === 'global') {
             $this->sendTelegramNotification($announcement);

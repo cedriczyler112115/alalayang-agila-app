@@ -6,7 +6,6 @@ use App\Http\Controllers\AnnouncementController;
 use App\Models\Announcement;
 use App\Models\User;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
 
 class AnnouncementTelegramUnitTest extends TestCase
@@ -14,7 +13,6 @@ class AnnouncementTelegramUnitTest extends TestCase
     public function test_telegram_notification_sent_only_for_global_scope(): void
     {
         Http::fake();
-        Mail::fake();
 
         $controller = new AnnouncementController();
         $reflection = new \ReflectionClass($controller);
