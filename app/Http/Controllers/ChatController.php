@@ -14,6 +14,7 @@ class ChatController extends Controller
     {
         $user = Auth::user();
 
+        abort_unless(AppSetting::isChatWithKuyaEnabled(), 403, 'Chat with Kuya is currently unavailable.');
         abort_unless($user->canUseChatFeature(), 403, 'Chat with Kuya is only available for availed members.');
     }
 

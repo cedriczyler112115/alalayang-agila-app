@@ -31,10 +31,12 @@ class SettingsController extends Controller implements HasMiddleware
     {
         $validated = $request->validate([
             'premium_feature_lock_enabled' => 'nullable|boolean',
+            'chat_with_kuya_enabled' => 'nullable|boolean',
         ]);
 
         AppSetting::putMany([
             'premium_feature_lock_enabled' => (bool) ($validated['premium_feature_lock_enabled'] ?? false),
+            'chat_with_kuya_enabled' => (bool) ($validated['chat_with_kuya_enabled'] ?? false),
         ]);
 
         return redirect()->route('settings.index')->with('success', 'Settings updated successfully.');

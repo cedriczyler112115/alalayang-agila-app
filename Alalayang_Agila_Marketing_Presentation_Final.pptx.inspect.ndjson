@@ -1,0 +1,183 @@
+{"kind":"deck","id":"pr/hkz3q3","name":"Deck"}
+{"kind":"layout","layoutId":"b57cc980-3418-49fa-a43e-9a07d9e96b58","name":"Master","type":"master"}
+{"kind":"layout","layoutId":"4e877f20-cc72-48a9-8ca5-0726d5cfe986","name":"Title Slide","type":"title"}
+{"kind":"slide","id":"sl/47jl7z","slide":1,"title":"ALALAYANG AGILA","textShapes":4}
+{"kind":"shape","id":"sh/z6d0nyls","slide":1,"bbox":[0,0,655,720]}
+{"kind":"textbox","id":"sh/9wfit83u","slide":1,"text":"ALALAYANG AGILA","textPreview":"ALALAYANG AGILA","textChars":15,"textLines":1,"bbox":[54,148,500,34]}
+{"kind":"textbox","id":"sh/ov6103m9","slide":1,"text":"Service moves\nwhen connection\ncomes first.","textPreview":"Service moves | when connection | comes first.","textChars":42,"textLines":3,"bbox":[54,198,540,292]}
+{"kind":"textbox","id":"sh/nad0rylo","slide":1,"text":"A member engagement and rapid-response platform for the CaragaDos Eagles Club","textPreview":"A member engagement and rapid-response platform for the CaragaDos Eagles Club","textChars":77,"textLines":1,"bbox":[54,530,520,84]}
+{"kind":"textbox","id":"sh/m94jyt43","slide":1,"text":"MARKETING PRESENTATION","textPreview":"MARKETING PRESENTATION","textChars":22,"textLines":1,"bbox":[54,654,320,24]}
+{"kind":"image","id":"im/9wbmtcry","slide":1,"name":"","alt":"Philippine eagle above the Caraga landscape at sunrise","bbox":[0,0,1280,720]}
+{"kind":"image","id":"im/nu94r29s","slide":1,"name":"","alt":"CaragaDos Eagles Club logo","bbox":[54,42,82,82]}
+{"kind":"notes","id":"nt/47jl7z","slide":1,"text":"Open with the core promise: this is not simply a portal. It is the digital layer that helps the brotherhood communicate, find one another, and respond when service is needed.\n\n[Sources]\n- Project brand: public/images/logo.png\n- Generated hero artwork: tmp/marketing-deck/hero.png"}
+{"kind":"slide","id":"sl/1r2xxf","slide":2,"title":"THE MARKETING CHALLENGE","textShapes":13}
+{"kind":"textbox","id":"sh/ru5cnm9w","slide":2,"text":"THE MARKETING CHALLENGE","textPreview":"THE MARKETING CHALLENGE","textChars":23,"textLines":1,"bbox":[42,34,420,30]}
+{"kind":"textbox","id":"sh/cvydg7ah","slide":2,"text":"Strong communities can still feel disconnected","textPreview":"Strong communities can still feel disconnected","textChars":46,"textLines":1,"bbox":[42,74,1138,72]}
+{"kind":"shape","id":"sh/dw7upcr2","slide":2,"bbox":[42,155,1196,0]}
+{"kind":"textbox","id":"sh/yxgvihsn","slide":2,"text":"02","textPreview":"02","textChars":2,"textLines":1,"bbox":[1188,665,50,22]}
+{"kind":"textbox","id":"sh/zypcrm98","slide":2,"text":"The opportunity is to remove friction from the moments that shape member trust.","textPreview":"The opportunity is to remove friction from the moments that shape member trust.","textChars":79,"textLines":1,"bbox":[42,183,870,46]}
+{"kind":"textbox","id":"sh/0jydkrat","slide":2,"text":"INFORMATION","textPreview":"INFORMATION","textChars":11,"textLines":1,"bbox":[42,278,330,24]}
+{"kind":"textbox","id":"sh/lk7utwre","slide":2,"text":"Updates compete\nfor attention","textPreview":"Updates compete | for attention","textChars":29,"textLines":2,"bbox":[42,322,330,106]}
+{"kind":"shape","id":"sh/mlgvm1sj","slide":2,"bbox":[42,442,330,0]}
+{"kind":"textbox","id":"sh/nm9cv694","slide":2,"text":"Members need one dependable place for announcements and club activity.","textPreview":"Members need one dependable place for announcements and club activity.","textChars":70,"textLines":1,"bbox":[42,466,330,120]}
+{"kind":"textbox","id":"sh/j69snyts","slide":2,"text":"CONNECTION","textPreview":"CONNECTION","textChars":10,"textLines":1,"bbox":[453,278,330,24]}
+{"kind":"textbox","id":"sh/i50buts7","slide":2,"text":"The right Kuya\nis hard to find","textPreview":"The right Kuya | is hard to find","textChars":30,"textLines":2,"bbox":[453,322,330,106]}
+{"kind":"shape","id":"sh/58bap8by","slide":2,"bbox":[453,442,330,0]}
+{"kind":"textbox","id":"sh/k7itw3ad","slide":2,"text":"Names, clubs, regions, and locations should lead quickly to a real connection.","textPreview":"Names, clubs, regions, and locations should lead quickly to a real connection.","textChars":78,"textLines":1,"bbox":[453,466,330,120]}
+{"kind":"textbox","id":"sh/v29sjetg","slide":2,"text":"RESPONSE","textPreview":"RESPONSE","textChars":8,"textLines":1,"bbox":[864,278,330,24]}
+{"kind":"textbox","id":"sh/a10rqtsv","slide":2,"text":"Urgent needs lose\ncritical context","textPreview":"Urgent needs lose | critical context","textChars":34,"textLines":2,"bbox":[864,322,330,106]}
+{"kind":"shape","id":"sh/x4ralobm","slide":2,"bbox":[864,442,330,0]}
+{"kind":"textbox","id":"sh/w3i9sja1","slide":2,"text":"A request is more actionable when the need, location, and responder network move together.","textPreview":"A request is more actionable when the need, location, and responder network move together.","textChars":90,"textLines":1,"bbox":[864,466,330,120]}
+{"kind":"notes","id":"nt/1r2xxf","slide":2,"text":"Frame these as communication gaps the platform is designed to close. Avoid implying measured failure; this is the strategic problem statement behind the feature set.\n\n[Sources]\n- resources/views/dashboard.blade.php\n- resources/views/search_kuya.blade.php\n- resources/views/quick_response.blade.php"}
+{"kind":"slide","id":"sl/1oe1sf","slide":3,"title":"THE PRODUCT IDEA","textShapes":17}
+{"kind":"textbox","id":"sh/b25sbupg","slide":3,"text":"THE PRODUCT IDEA","textPreview":"THE PRODUCT IDEA","textChars":16,"textLines":1,"bbox":[42,34,420,30]}
+{"kind":"textbox","id":"sh/c3etkzq1","slide":3,"text":"One platform connects the member journey","textPreview":"One platform connects the member journey","textChars":40,"textLines":1,"bbox":[42,74,1138,72]}
+{"kind":"shape","id":"sh/x4nad47m","slide":3,"bbox":[42,155,1196,0]}
+{"kind":"textbox","id":"sh/2xcre58z","slide":3,"text":"03","textPreview":"03","textChars":2,"textLines":1,"bbox":[1188,665,50,22]}
+{"kind":"textbox","id":"sh/ny5s7apk","slide":3,"text":"Every module reinforces the same behavior: stay informed, stay reachable, be ready to serve.","textPreview":"Every module reinforces the same behavior: stay informed, stay reachable, be ready to serve.","textChars":92,"textLines":1,"bbox":[42,180,1000,44]}
+{"kind":"shape","id":"sh/ozetgfq5","slide":3,"bbox":[100,374,1060,0]}
+{"kind":"shape","id":"sh/p0na9k7q","slide":3,"bbox":[108,354,40,40]}
+{"kind":"textbox","id":"sh/e9cra583","slide":3,"text":"01","textPreview":"01","textChars":2,"textLines":1,"bbox":[108,360,40,20]}
+{"kind":"textbox","id":"sh/fals3apo","slide":3,"text":"Discover","textPreview":"Discover","textChars":8,"textLines":1,"bbox":[98,420,220,42]}
+{"kind":"textbox","id":"sh/vipcrip8","slide":3,"text":"Announcements and\nclub updates","textPreview":"Announcements and | club updates","textChars":30,"textLines":2,"bbox":[98,472,220,72]}
+{"kind":"shape","id":"sh/uhgbixon","slide":3,"bbox":[385,354,40,40]}
+{"kind":"textbox","id":"sh/hk7utsny","slide":3,"text":"02","textPreview":"02","textChars":2,"textLines":1,"bbox":[385,360,40,20]}
+{"kind":"textbox","id":"sh/gjytkn6t","slide":3,"text":"Connect","textPreview":"Connect","textChars":7,"textLines":1,"bbox":[375,420,220,42]}
+{"kind":"textbox","id":"sh/369cv254","slide":3,"text":"Search, mapping,\nand group chat","textPreview":"Search, mapping, | and group chat","textChars":31,"textLines":2,"bbox":[375,472,220,72]}
+{"kind":"shape","id":"sh/i5gbmxoj","slide":3,"bbox":[662,354,40,40]}
+{"kind":"textbox","id":"sh/58ruxcna","slide":3,"text":"03","textPreview":"03","textChars":2,"textLines":1,"bbox":[662,360,40,20]}
+{"kind":"textbox","id":"sh/47ito76p","slide":3,"text":"Mobilize","textPreview":"Mobilize","textChars":8,"textLines":1,"bbox":[652,420,220,42]}
+{"kind":"textbox","id":"sh/ja5sjyp0","slide":3,"text":"Help request with\nlocation context","textPreview":"Help request with | location context","textChars":34,"textLines":2,"bbox":[652,472,220,72]}
+{"kind":"shape","id":"sh/ypwbatof","slide":3,"bbox":[939,354,40,40]}
+{"kind":"textbox","id":"sh/254fi183","slide":3,"text":"04","textPreview":"04","textChars":2,"textLines":1,"bbox":[939,360,40,20]}
+{"kind":"textbox","id":"sh/n6dwr6po","slide":3,"text":"Serve","textPreview":"Serve","textChars":5,"textLines":1,"bbox":[929,420,220,42]}
+{"kind":"textbox","id":"sh/o7mxkbqt","slide":3,"text":"Faster coordination\nand follow-through","textPreview":"Faster coordination | and follow-through","textChars":38,"textLines":2,"bbox":[929,472,220,72]}
+{"kind":"shape","id":"sh/p8vetg7e","slide":3,"bbox":[42,592,1196,44]}
+{"kind":"textbox","id":"sh/e1kfe18r","slide":3,"text":"The marketing story is the journey—not a list of disconnected features.","textPreview":"The marketing story is the journey—not a list of disconnected features.","textChars":71,"textLines":1,"bbox":[60,602,1160,24]}
+{"kind":"notes","id":"nt/1oe1sf","slide":3,"text":"Use this slide as the bridge from the problem to the product. The platform earns relevance because the modules form a continuous member journey.\n\n[Sources]\n- routes/web.php\n- resources/views/layouts/app.blade.php"}
+{"kind":"slide","id":"sl/ia2q84","slide":4,"title":"SIGNATURE EXPERIENCE","textShapes":12}
+{"kind":"textbox","id":"sh/j2dkfeps","slide":4,"text":"SIGNATURE EXPERIENCE","textPreview":"SIGNATURE EXPERIENCE","textChars":20,"textLines":1,"bbox":[42,34,420,30]}
+{"kind":"textbox","id":"sh/k3mloj6d","slide":4,"text":"A help request arrives with the context to act","textPreview":"A help request arrives with the context to act","textChars":46,"textLines":1,"bbox":[42,74,1138,72]}
+{"kind":"shape","id":"sh/l4v2ho7y","slide":4,"bbox":[42,155,1196,0]}
+{"kind":"textbox","id":"sh/axk3i98b","slide":4,"text":"04","textPreview":"04","textChars":2,"textLines":1,"bbox":[1188,665,50,22]}
+{"kind":"shape","id":"sh/bytkbepw","slide":4,"bbox":[658,178,580,448]}
+{"kind":"textbox","id":"sh/x0v2d472","slide":4,"text":"ALALAYANG AGILA HELP","textPreview":"ALALAYANG AGILA HELP","textChars":20,"textLines":1,"bbox":[740,516,420,24]}
+{"kind":"textbox","id":"sh/uto3utof","slide":4,"text":"Need + details + coordinates","textPreview":"Need + details + coordinates","textChars":28,"textLines":1,"bbox":[740,553,420,34]}
+{"kind":"textbox","id":"sh/vuxknyp0","slide":4,"text":"A member chooses the type of help, explains the situation, and shares current coordinates so other Kuyas can locate the request faster.","textPreview":"A member chooses the type of help, explains the situation, and shares current coordinates so other Kuyas can locate the request faster.","textChars":135,"textLines":1,"bbox":[42,204,540,140]}
+{"kind":"textbox","id":"sh/zylwn6t8","slide":4,"text":"01","textPreview":"01","textChars":2,"textLines":1,"bbox":[42,410,42,30]}
+{"kind":"textbox","id":"sh/yxcve1cn","slide":4,"text":"Choose help type","textPreview":"Choose help type","textChars":16,"textLines":1,"bbox":[92,406,470,36]}
+{"kind":"textbox","id":"sh/l03epwby","slide":4,"text":"02","textPreview":"02","textChars":2,"textLines":1,"bbox":[42,477,42,30]}
+{"kind":"textbox","id":"sh/kzudgbat","slide":4,"text":"Describe the situation","textPreview":"Describe the situation","textChars":22,"textLines":1,"bbox":[92,473,470,36]}
+{"kind":"textbox","id":"sh/725wr6t4","slide":4,"text":"03","textPreview":"03","textChars":2,"textLines":1,"bbox":[42,544,42,30]}
+{"kind":"textbox","id":"sh/m1cvi1sj","slide":4,"text":"Attach location context","textPreview":"Attach location context","textChars":23,"textLines":1,"bbox":[92,540,470,36]}
+{"kind":"image","id":"im/lcv6pwfq","slide":4,"name":"","alt":"Eagle emblem used by the project","bbox":[790,218,318,268]}
+{"kind":"notes","id":"nt/ia2q84","slide":4,"text":"This is the strongest differentiator in the current product: it connects a human request with actionable location context. Keep the language factual—response-time improvement should be measured during a pilot.\n\n[Sources]\n- resources/views/quick_response.blade.php\n- storage/app/public/eaglelogo.png"}
+{"kind":"slide","id":"sl/of656v","slide":5,"title":"MEMBER DISCOVERY","textShapes":10}
+{"kind":"textbox","id":"sh/21snm5wf","slide":5,"text":"MEMBER DISCOVERY","textPreview":"MEMBER DISCOVERY","textChars":16,"textLines":1,"bbox":[42,34,420,30]}
+{"kind":"textbox","id":"sh/p4j6h0vq","slide":5,"text":"Finding the right Kuya becomes a guided path","textPreview":"Finding the right Kuya becomes a guided path","textChars":44,"textLines":1,"bbox":[42,74,1138,72]}
+{"kind":"shape","id":"sh/o3apove5","slide":5,"bbox":[42,155,1196,0]}
+{"kind":"textbox","id":"sh/fyhobqdo","slide":5,"text":"05","textPreview":"05","textChars":2,"textLines":1,"bbox":[1188,665,50,22]}
+{"kind":"textbox","id":"sh/ex8nilw3","slide":5,"text":"Two complementary views turn a directory into a usable network.","textPreview":"Two complementary views turn a directory into a usable network.","textChars":63,"textLines":1,"bbox":[42,180,900,40]}
+{"kind":"shape","id":"sh/10j6d0vu","slide":5,"bbox":[42,270,556,300]}
+{"kind":"shape","id":"sh/gza5kve9","slide":5,"bbox":[640,270,598,300]}
+{"kind":"textbox","id":"sh/ruho76dc","slide":5,"text":"SEARCH A KUYA","textPreview":"SEARCH A KUYA","textChars":13,"textLines":1,"bbox":[74,302,250,24]}
+{"kind":"textbox","id":"sh/698nelw7","slide":5,"text":"Start with a name.\nNarrow by the member\ninformation that matters.","textPreview":"Start with a name. | Narrow by the member | information that matters.","textChars":65,"textLines":3,"bbox":[74,350,450,126]}
+{"kind":"textbox","id":"sh/w7ix4f6p","slide":5,"text":"Direct member discovery","textPreview":"Direct member discovery","textChars":23,"textLines":1,"bbox":[74,514,430,28]}
+{"kind":"textbox","id":"sh/x8rexk7a","slide":5,"text":"KUYA MAPPING","textPreview":"KUYA MAPPING","textChars":12,"textLines":1,"bbox":[674,302,250,24]}
+{"kind":"textbox","id":"sh/al0f2poj","slide":5,"text":"See the network.\nFilter by region or club.\nFocus on a member.","textPreview":"See the network. | Filter by region or club. | Focus on a member.","textChars":61,"textLines":3,"bbox":[674,350,480,126]}
+{"kind":"textbox","id":"sh/bm9wvup4","slide":5,"text":"Geographic connection and reach","textPreview":"Geographic connection and reach","textChars":31,"textLines":1,"bbox":[674,514,480,28]}
+{"kind":"notes","id":"nt/of656v","slide":5,"text":"Position search and mapping as two sides of discoverability: one begins with identity; the other begins with place and organizational context.\n\n[Sources]\n- resources/views/search_kuya.blade.php\n- resources/views/profile/location.blade.php"}
+{"kind":"slide","id":"sl/jlvcux","slide":6,"title":"EVERYDAY ENGAGEMENT","textShapes":13}
+{"kind":"textbox","id":"sh/210vipgn","slide":6,"text":"EVERYDAY ENGAGEMENT","textPreview":"EVERYDAY ENGAGEMENT","textChars":19,"textLines":1,"bbox":[42,34,420,30]}
+{"kind":"textbox","id":"sh/p4bedkfe","slide":6,"text":"Everyday utility builds a service-ready habit","textPreview":"Everyday utility builds a service-ready habit","textChars":45,"textLines":1,"bbox":[42,74,1138,72]}
+{"kind":"shape","id":"sh/432xkfyt","slide":6,"bbox":[42,155,1196,0]}
+{"kind":"textbox","id":"sh/fe9w7axc","slide":6,"text":"06","textPreview":"06","textChars":2,"textLines":1,"bbox":[1188,665,50,22]}
+{"kind":"textbox","id":"sh/ud0ve5gr","slide":6,"text":"Regular utility creates the habit that makes urgent coordination more effective.","textPreview":"Regular utility creates the habit that makes urgent coordination more effective.","textChars":80,"textLines":1,"bbox":[42,180,970,42]}
+{"kind":"shape","id":"sh/h0re9kf2","slide":6,"bbox":[42,278,330,10]}
+{"kind":"textbox","id":"sh/gzidgfyh","slide":6,"text":"INFORM","textPreview":"INFORM","textChars":6,"textLines":1,"bbox":[42,318,330,24]}
+{"kind":"textbox","id":"sh/7apw3ax0","slide":6,"text":"Announcements","textPreview":"Announcements","textChars":13,"textLines":1,"bbox":[42,365,330,76]}
+{"kind":"textbox","id":"sh/69gva5gf","slide":6,"text":"Publish global, regional, or club updates from one managed channel.","textPreview":"Publish global, regional, or club updates from one managed channel.","textChars":67,"textLines":1,"bbox":[42,466,330,110]}
+{"kind":"shape","id":"sh/or650fa1","slide":6,"bbox":[453,278,330,10]}
+{"kind":"textbox","id":"sh/9sfmtkbm","slide":6,"text":"CONVERSE","textPreview":"CONVERSE","textChars":8,"textLines":1,"bbox":[453,318,330,24]}
+{"kind":"textbox","id":"sh/m5onypsb","slide":6,"text":"Club conversations","textPreview":"Club conversations","textChars":18,"textLines":1,"bbox":[453,365,330,76]}
+{"kind":"textbox","id":"sh/nqx4ratw","slide":6,"text":"Keep conversations organized around the groups members already recognize.","textPreview":"Keep conversations organized around the groups members already recognize.","textChars":73,"textLines":1,"bbox":[453,466,330,110]}
+{"kind":"shape","id":"sh/03m5wfa5","slide":6,"bbox":[864,278,330,10]}
+{"kind":"textbox","id":"sh/14fmpkbq","slide":6,"text":"REINFORCE","textPreview":"REINFORCE","textChars":9,"textLines":1,"bbox":[864,318,330,24]}
+{"kind":"textbox","id":"sh/e14nu5sz","slide":6,"text":"Visible feedback","textPreview":"Visible feedback","textChars":16,"textLines":1,"bbox":[864,365,330,76]}
+{"kind":"textbox","id":"sh/z2d4natk","slide":6,"text":"Turn one-way updates into visible participation and community feedback.","textPreview":"Turn one-way updates into visible participation and community feedback.","textChars":71,"textLines":1,"bbox":[864,466,330,110]}
+{"kind":"notes","id":"nt/jlvcux","slide":6,"text":"The marketing value here is habit formation. Announcements create reach, chat creates continuity, and reactions/comments make participation visible.\n\n[Sources]\n- resources/views/announcements/index.blade.php\n- resources/views/chat/index.blade.php\n- database/migrations/2026_04_28_055006_add_reactions_to_messages.php\n- database/migrations/2026_04_28_053956_create_comments_table.php"}
+{"kind":"slide","id":"sl/6kss24","slide":7,"title":"TRUST BY DESIGN","textShapes":15}
+{"kind":"textbox","id":"sh/budkr2p0","slide":7,"text":"TRUST BY DESIGN","textPreview":"TRUST BY DESIGN","textChars":15,"textLines":1,"bbox":[42,34,420,30]}
+{"kind":"textbox","id":"sh/cfmlk7q5","slide":7,"text":"Access follows the structure of the organization","textPreview":"Access follows the structure of the organization","textChars":48,"textLines":1,"bbox":[42,74,1138,72]}
+{"kind":"shape","id":"sh/dgv2tc7q","slide":7,"bbox":[42,155,1196,0]}
+{"kind":"textbox","id":"sh/yh43mh8b","slide":7,"text":"07","textPreview":"07","textChars":2,"textLines":1,"bbox":[1188,665,50,22]}
+{"kind":"textbox","id":"sh/zidkvmpw","slide":7,"text":"IDENTITY","textPreview":"IDENTITY","textChars":8,"textLines":1,"bbox":[42,210,500,24]}
+{"kind":"textbox","id":"sh/0jmlorqh","slide":7,"text":"Google sign-in","textPreview":"Google sign-in","textChars":14,"textLines":1,"bbox":[42,247,500,42]}
+{"kind":"textbox","id":"sh/lkf2xw72","slide":7,"text":"A familiar entry point reduces friction while keeping access tied to an authenticated account.","textPreview":"A familiar entry point reduces friction while keeping access tied to an authenticated account.","textChars":94,"textLines":1,"bbox":[42,301,515,82]}
+{"kind":"textbox","id":"sh/ulkjax87","slide":7,"text":"READINESS","textPreview":"READINESS","textChars":9,"textLines":1,"bbox":[656,210,500,24]}
+{"kind":"textbox","id":"sh/fmtkjips","slide":7,"text":"Member approval","textPreview":"Member approval","textChars":15,"textLines":1,"bbox":[656,247,500,42]}
+{"kind":"textbox","id":"sh/b2p83epk","slide":7,"text":"Pending and profile-completion states help protect the quality of the member network.","textPreview":"Pending and profile-completion states help protect the quality of the member network.","textChars":85,"textLines":1,"bbox":[656,301,515,82]}
+{"kind":"textbox","id":"sh/q1gru9oz","slide":7,"text":"CONTROL","textPreview":"CONTROL","textChars":7,"textLines":1,"bbox":[42,430,500,24]}
+{"kind":"textbox","id":"sh/d47q5o7q","slide":7,"text":"Roles + permissions","textPreview":"Roles + permissions","textChars":19,"textLines":1,"bbox":[42,467,500,42]}
+{"kind":"textbox","id":"sh/c3y9wj65","slide":7,"text":"Access types and per-feature permissions separate what members can view, add, edit, or manage.","textPreview":"Access types and per-feature permissions separate what members can view, add, edit, or manage.","textChars":94,"textLines":1,"bbox":[42,521,515,82]}
+{"kind":"textbox","id":"sh/3y58zep8","slide":7,"text":"SUSTAINABILITY","textPreview":"SUSTAINABILITY","textChars":14,"textLines":1,"bbox":[656,430,500,24]}
+{"kind":"textbox","id":"sh/2xwrq9o3","slide":7,"text":"Maintenance access","textPreview":"Maintenance access","textChars":18,"textLines":1,"bbox":[656,467,500,42]}
+{"kind":"textbox","id":"sh/p07q1o7e","slide":7,"text":"Subscription controls support hosting and technical upkeep without confusing them with club dues.","textPreview":"Subscription controls support hosting and technical upkeep without confusing them with club dues.","textChars":97,"textLines":1,"bbox":[656,521,515,82]}
+{"kind":"notes","id":"nt/6kss24","slide":7,"text":"Trust is a marketing asset. Explain how identity, approval, permissions, and sustainable maintenance make the platform credible for both members and administrators.\n\n[Sources]\n- routes/web.php\n- resources/views/auth/pending.blade.php\n- database/migrations/2026_04_29_031024_create_access_types_table.php\n- database/migrations/2026_04_29_031031_create_access_type_permissions_table.php\n- resources/views/layouts/app.blade.php"}
+{"kind":"slide","id":"sl/cqv2j8","slide":8,"title":"MARKETING VALUE","textShapes":14}
+{"kind":"textbox","id":"sh/47a1kzmh","slide":8,"text":"MARKETING VALUE","textPreview":"MARKETING VALUE","textChars":15,"textLines":1,"bbox":[42,34,420,30]}
+{"kind":"textbox","id":"sh/j6hkbelw","slide":8,"text":"Success should be visible in member behavior","textPreview":"Success should be visible in member behavior","textChars":44,"textLines":1,"bbox":[42,74,1138,72]}
+{"kind":"shape","id":"sh/i58ji94b","slide":8,"bbox":[42,155,1196,0]}
+{"kind":"textbox","id":"sh/h4z2943q","slide":8,"text":"08","textPreview":"08","textChars":2,"textLines":1,"bbox":[1188,665,50,22]}
+{"kind":"textbox","id":"sh/w3q1gzm5","slide":8,"text":"Measure adoption around three outcomes the platform is designed to influence.","textPreview":"Measure adoption around three outcomes the platform is designed to influence.","textChars":77,"textLines":1,"bbox":[42,178,960,42]}
+{"kind":"shape","id":"sh/v2hk7ulk","slide":8,"bbox":[42,296,330,250]}
+{"kind":"textbox","id":"sh/u18jep4z","slide":8,"text":"REACH","textPreview":"REACH","textChars":5,"textLines":1,"bbox":[66,322,282,28]}
+{"kind":"textbox","id":"sh/90z25k3u","slide":8,"text":"More members see\nwhat matters","textPreview":"More members see | what matters","textChars":29,"textLines":2,"bbox":[66,376,282,80]}
+{"kind":"textbox","id":"sh/8zq1cfm9","slide":8,"text":"Track: announcement views and active users","textPreview":"Track: announcement views and active users","textChars":42,"textLines":1,"bbox":[66,482,282,48]}
+{"kind":"shape","id":"sh/elwruxkb","slide":8,"bbox":[453,296,330,250]}
+{"kind":"textbox","id":"sh/fm58321w","slide":8,"text":"ACTION","textPreview":"ACTION","textChars":6,"textLines":1,"bbox":[477,322,282,28]}
+{"kind":"textbox","id":"sh/0ny9w72h","slide":8,"text":"More members know\nwhat to do next","textPreview":"More members know | what to do next","textChars":33,"textLines":2,"bbox":[477,376,282,80]}
+{"kind":"textbox","id":"sh/1o7a5sj2","slide":8,"text":"Track: help requests and coordinated follow-up","textPreview":"Track: help requests and coordinated follow-up","textChars":46,"textLines":1,"bbox":[477,482,282,48]}
+{"kind":"shape","id":"sh/qhwrqdkf","slide":8,"bbox":[864,296,330,250]}
+{"kind":"textbox","id":"sh/ri58zi1k","slide":8,"text":"BELONGING","textPreview":"BELONGING","textChars":9,"textLines":1,"bbox":[888,322,282,28]}
+{"kind":"textbox","id":"sh/sje9sn25","slide":8,"text":"More members feel\npart of the network","textPreview":"More members feel | part of the network","textChars":37,"textLines":2,"bbox":[888,376,282,80]}
+{"kind":"textbox","id":"sh/dknq1sjq","slide":8,"text":"Track: chat participation, comments, and profiles completed","textPreview":"Track: chat participation, comments, and profiles completed","textChars":59,"textLines":1,"bbox":[888,482,282,48]}
+{"kind":"textbox","id":"sh/itcrmdk3","slide":8,"text":"No baseline is assumed—pilot measurement turns the product promise into proof.","textPreview":"No baseline is assumed—pilot measurement turns the product promise into proof.","textChars":78,"textLines":1,"bbox":[42,596,1196,30]}
+{"kind":"notes","id":"nt/cqv2j8","slide":8,"text":"These are proposed success measures, not reported results. This distinction strengthens credibility and gives marketing a clear measurement brief for the pilot.\n\n[Sources]\n- Recommended measures inferred from the repository’s announcement, help, chat, comment, and profile workflows; no external statistics used."}
+{"kind":"slide","id":"sl/g0nvrn","slide":9,"title":"ACTIVATION PLAN","textShapes":13}
+{"kind":"textbox","id":"sh/zmh4z21s","slide":9,"text":"ACTIVATION PLAN","textPreview":"ACTIVATION PLAN","textChars":15,"textLines":1,"bbox":[42,34,420,30]}
+{"kind":"textbox","id":"sh/knq5872d","slide":9,"text":"Launch the habit before scaling the campaign","textPreview":"Launch the habit before scaling the campaign","textChars":44,"textLines":1,"bbox":[42,74,1138,72]}
+{"kind":"shape","id":"sh/lozm1cjy","slide":9,"bbox":[42,155,1196,0]}
+{"kind":"textbox","id":"sh/ah832xkb","slide":9,"text":"09","textPreview":"09","textChars":2,"textLines":1,"bbox":[1188,665,50,22]}
+{"kind":"shape","id":"sh/bih4v2lw","slide":9,"bbox":[92,360,1030,0]}
+{"kind":"shape","id":"sh/cjql472h","slide":9,"bbox":[100,340,40,40]}
+{"kind":"textbox","id":"sh/xkzmxcjm","slide":9,"text":"PHASE 01","textPreview":"PHASE 01","textChars":8,"textLines":1,"bbox":[100,282,270,26]}
+{"kind":"textbox","id":"sh/udsnehkf","slide":9,"text":"Prepare","textPreview":"Prepare","textChars":7,"textLines":1,"bbox":[100,410,280,42]}
+{"kind":"textbox","id":"sh/ve147m10","slide":9,"text":"Complete profiles, validate roles, seed announcements, and brief club leaders.","textPreview":"Complete profiles, validate roles, seed announcements, and brief club leaders.","textChars":78,"textLines":1,"bbox":[100,466,295,104]}
+{"kind":"shape","id":"sh/rutcbuh4","slide":9,"bbox":[480,340,40,40]}
+{"kind":"textbox","id":"sh/qtkv2p0j","slide":9,"text":"PHASE 02","textPreview":"PHASE 02","textChars":8,"textLines":1,"bbox":[480,282,270,26]}
+{"kind":"textbox","id":"sh/dgbud4za","slide":9,"text":"Activate","textPreview":"Activate","textChars":8,"textLines":1,"bbox":[480,410,280,42]}
+{"kind":"textbox","id":"sh/sv2d4zip","slide":9,"text":"Run a focused pilot with weekly content, member discovery, and one response drill.","textPreview":"Run a focused pilot with weekly content, member discovery, and one response drill.","textChars":82,"textLines":1,"bbox":[480,466,295,104]}
+{"kind":"shape","id":"sh/fidcfehg","slide":9,"bbox":[860,340,40,40]}
+{"kind":"textbox","id":"sh/eh4v69gv","slide":9,"text":"PHASE 03","textPreview":"PHASE 03","textChars":8,"textLines":1,"bbox":[860,282,270,26]}
+{"kind":"textbox","id":"sh/1kveh4z6","slide":9,"text":"Prove + scale","textPreview":"Prove + scale","textChars":13,"textLines":1,"bbox":[860,410,280,42]}
+{"kind":"textbox","id":"sh/0jmd8zy1","slide":9,"text":"Review adoption signals, capture member stories, refine onboarding, then expand.","textPreview":"Review adoption signals, capture member stories, refine onboarding, then expand.","textChars":80,"textLines":1,"bbox":[860,466,295,104]}
+{"kind":"shape","id":"sh/nmdwjehc","slide":9,"bbox":[42,610,1196,38]}
+{"kind":"textbox","id":"sh/2l4va9gr","slide":9,"text":"Recommended first campaign: “Know your network. Be ready to serve.”","textPreview":"Recommended first campaign: “Know your network. Be ready to serve.”","textChars":67,"textLines":1,"bbox":[55,618,1170,22]}
+{"kind":"notes","id":"nt/g0nvrn","slide":9,"text":"Recommend a focused pilot rather than a broad launch. The first objective is to build the member habit and capture proof that can power a larger campaign.\n\n[Sources]\n- Activation recommendation based on the project’s profile, announcement, member search, mapping, chat, and help workflows."}
+{"kind":"slide","id":"sl/jj1bbr","slide":10,"title":"THE DECISION","textShapes":12}
+{"kind":"textbox","id":"sh/onepwzy5","slide":10,"text":"THE DECISION","textPreview":"THE DECISION","textChars":12,"textLines":1,"bbox":[54,166,300,28]}
+{"kind":"textbox","id":"sh/9on654fq","slide":10,"text":"Approve a focused pilot\nthat makes service feel\none tap away.","textPreview":"Approve a focused pilot | that makes service feel | one tap away.","textChars":61,"textLines":3,"bbox":[54,214,890,236]}
+{"kind":"shape","id":"sh/apw7y9gb","slide":10,"bbox":[54,496,1170,0]}
+{"kind":"textbox","id":"sh/bq587exg","slide":10,"text":"01","textPreview":"01","textChars":2,"textLines":1,"bbox":[54,530,44,24]}
+{"kind":"textbox","id":"sh/wrep0zy1","slide":10,"text":"Pilot group","textPreview":"Pilot group","textChars":11,"textLines":1,"bbox":[108,526,294,30]}
+{"kind":"textbox","id":"sh/xs7q94fm","slide":10,"text":"Select representative clubs and leaders.","textPreview":"Select representative clubs and leaders.","textChars":40,"textLines":1,"bbox":[108,566,294,54]}
+{"kind":"textbox","id":"sh/ytg729w7","slide":10,"text":"02","textPreview":"02","textChars":2,"textLines":1,"bbox":[446,530,44,24]}
+{"kind":"textbox","id":"sh/jup8bexs","slide":10,"text":"Content owner","textPreview":"Content owner","textChars":13,"textLines":1,"bbox":[500,526,294,30]}
+{"kind":"textbox","id":"sh/72h872hg","slide":10,"text":"Assign a clear announcement and campaign rhythm.","textPreview":"Assign a clear announcement and campaign rhythm.","textChars":48,"textLines":1,"bbox":[500,566,294,54]}
+{"kind":"textbox","id":"sh/6187yx0v","slide":10,"text":"03","textPreview":"03","textChars":2,"textLines":1,"bbox":[838,530,44,24]}
+{"kind":"textbox","id":"sh/t4jq9czm","slide":10,"text":"Success review","textPreview":"Success review","textChars":14,"textLines":1,"bbox":[892,526,294,30]}
+{"kind":"textbox","id":"sh/s3qp07i1","slide":10,"text":"Agree on reach, action, and belonging measures.","textPreview":"Agree on reach, action, and belonging measures.","textChars":47,"textLines":1,"bbox":[892,566,294,54]}
+{"kind":"textbox","id":"sh/jyh832hk","slide":10,"text":"ALALAYANG AGILA • CARAGADOS EAGLES CLUB","textPreview":"ALALAYANG AGILA • CARAGADOS EAGLES CLUB","textChars":39,"textLines":1,"bbox":[54,666,600,20]}
+{"kind":"image","id":"im/ml8ve54f","slide":10,"name":"","alt":"CaragaDos Eagles Club logo","bbox":[54,44,92,92]}
+{"kind":"notes","id":"nt/jj1bbr","slide":10,"text":"Close on a decision, not a thank-you. The ask is intentionally modest: approve the pilot, assign ownership, and agree on the evidence needed for scale.\n\n[Sources]\n- Closing recommendation synthesized from the project feature set; no external claims used.\n- Project brand: public/images/logo.png"}

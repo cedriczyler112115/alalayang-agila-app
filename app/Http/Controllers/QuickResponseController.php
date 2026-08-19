@@ -57,17 +57,12 @@ class QuickResponseController extends Controller implements HasMiddleware
             'location' => $validated['location'],
         ]);
 
-        $this->sendTelegramNotificationAfterResponse($quickResponse);
+        $quickResponse->load(['user.region', 'user.club', 'libHelp']);
+
+        $this->sendTelegramNotification($quickResponse);
         $this->sendNtfyNotification($quickResponse);
 
         return redirect()->route('dashboard')->with('status', 'Your Alalayang Agila help request has been submitted successfully!');
-    }
-
-    private function sendTelegramNotificationAfterResponse(QuickResponse $quickResponse): void
-    {
-        app()->terminating(function () use ($quickResponse) {
-            $this->sendTelegramNotification($quickResponse);
-        });
     }
 
     private function sendNtfyNotification(QuickResponse $quickResponse): void
@@ -81,17 +76,17 @@ class QuickResponseController extends Controller implements HasMiddleware
             return;
         }
 
-        $user = auth()->user();
-        $helpType = $quickResponse->libHelp->name;
+        $user = $quickResponse->user ?? auth()->user();
+        $helpType = $quickResponse->libHelp->name ?? 'N/A';
         $details = $quickResponse->details;
         $location = $quickResponse->location;
-        $region = $user->region->name ?? 'N/A';
-        $club = $user->club->name ?? 'N/A';
-        $iconUrl = $this->publicProfilePhotoUrl($user->profile_photo);
+        $region = $user?->region?->name ?? 'N/A';
+        $club = $user?->club?->name ?? 'N/A';
+        $iconUrl = $this->publicProfilePhotoUrl($user?->profile_photo);
 
         $message = "Alalayang Agila Help Request\n";
         $message .= "Type: {$helpType}\n";
-        $message .= "From: Kuya " . ($user->fullname ?? 'N/A') . "\n";
+        $message .= "From: Kuya " . ($user?->fullname ?? 'N/A') . "\n";
         $message .= "Region: {$region}\n";
         $message .= "Club: {$club}\n";
         $message .= "Details:\n{$details}\n";
@@ -143,15 +138,15 @@ class QuickResponseController extends Controller implements HasMiddleware
         $telegramToken = '8555688646:AAFRitSezZXmTSeXtSxpLOK1BLHQ1qyE-KE';
         $chatId = '-1003711130933';
 
-        $user = auth()->user();
-        $helpType = $quickResponse->libHelp->name;
-        $details = $quickResponse->details;
+        $user = $quickResponse->user ?? auth()->user();
+        $helpType = $quickResponse->libHelp->name ?? 'N/A';
+        $details = $quickResponse->details ?? '';
         $location = $quickResponse->location;
-        $region = $user->region->name ?? 'N/A';
-        $club = $user->club->name ?? 'N/A';
+        $region = $user?->region?->name ?? 'N/A';
+        $club = $user?->club?->name ?? 'N/A';
 
         $helpType = str_replace(['_', '*', '[', ']', '(', ')', '~', '`', '>', '#', '+', '-', '=', '|', '{', '}', '.', '!'], ['\\_', '\\*', '\\[', '\\]', '\\(', '\\)', '\\~', '\\`', '\\>', '\\#', '\\+', '\\-', '\\=', '\\|', '\\{', '\\}', '\\.', '\\!'], $helpType);
-        $fullName = str_replace(['_', '*', '[', ']', '(', ')', '~', '`', '>', '#', '+', '-', '=', '|', '{', '}', '.', '!'], ['\\_', '\\*', '\\[', '\\]', '\\(', '\\)', '\\~', '\\`', '\\>', '\\#', '\\+', '\\-', '\\=', '\\|', '\\{', '\\}', '\\.', '\\!'], $user->fullname);
+        $fullName = str_replace(['_', '*', '[', ']', '(', ')', '~', '`', '>', '#', '+', '-', '=', '|', '{', '}', '.', '!'], ['\\_', '\\*', '\\[', '\\]', '\\(', '\\)', '\\~', '\\`', '\\>', '\\#', '\\+', '\\-', '\\=', '\\|', '\\{', '\\}', '\\.', '\\!'], $user?->fullname ?? 'N/A');
         $region = str_replace(['_', '*', '[', ']', '(', ')', '~', '`', '>', '#', '+', '-', '=', '|', '{', '}', '.', '!'], ['\\_', '\\*', '\\[', '\\]', '\\(', '\\)', '\\~', '\\`', '\\>', '\\#', '\\+', '\\-', '\\=', '\\|', '\\{', '\\}', '\\.', '\\!'], $region);
         $club = str_replace(['_', '*', '[', ']', '(', ')', '~', '`', '>', '#', '+', '-', '=', '|', '{', '}', '.', '!'], ['\\_', '\\*', '\\[', '\\]', '\\(', '\\)', '\\~', '\\`', '\\>', '\\#', '\\+', '\\-', '\\=', '\\|', '\\{', '\\}', '\\.', '\\!'], $club);
         $details = str_replace(['_', '*', '[', ']', '(', ')', '~', '`', '>', '#', '+', '-', '=', '|', '{', '}', '.', '!'], ['\\_', '\\*', '\\[', '\\]', '\\(', '\\)', '\\~', '\\`', '\\>', '\\#', '\\+', '\\-', '\\=', '\\|', '\\{', '\\}', '\\.', '\\!'], $details);
@@ -164,11 +159,11 @@ class QuickResponseController extends Controller implements HasMiddleware
         $message .= "*Details:* " . $details . "\n\n";
 
         if ($location) {
-            $message .= "*Location:* [View on Google Maps](https://www.google.com/maps?q=" . $location . ")";
+            $message .= "*Location:* [View on Google Maps](https://www.google.com/maps?q=" . rawurlencode($location) . ")";
         }
 
         try {
-            if ($user->profile_photo && file_exists(storage_path('app/public/' . $user->profile_photo))) {
+            if ($user?->profile_photo && file_exists(storage_path('app/public/' . $user->profile_photo))) {
                 Http::attach('photo', file_get_contents(storage_path('app/public/' . $user->profile_photo)), 'photo.jpg')
                     ->post("https://api.telegram.org/bot{$telegramToken}/sendPhoto", [
                         'chat_id' => $chatId,

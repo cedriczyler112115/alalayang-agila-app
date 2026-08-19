@@ -41,6 +41,18 @@
                 </label>
             </div>
 
+            <div class="settings-row">
+                <div>
+                    <h3 style="font-size: 1rem; font-weight: 600; color: var(--text-main); margin-bottom: 0.25rem;">Enable "Chat with Kuya" Service</h3>
+                    <p style="color: var(--text-muted); margin: 0;">Turn this off to hide and disable the "Chat with Kuya" service across the platform.</p>
+                </div>
+                <label class="settings-switch">
+                    <input type="hidden" name="chat_with_kuya_enabled" value="0">
+                    <input type="checkbox" name="chat_with_kuya_enabled" value="1" {{ !empty($settings['chat_with_kuya_enabled']) && in_array((string) $settings['chat_with_kuya_enabled'], ['1', 'true'], true) ? 'checked' : '' }}>
+                    <span class="settings-slider"></span>
+                </label>
+            </div>
+
             <div style="margin-top: 1.5rem; padding: 1rem 1.25rem; border-radius: var(--radius-md); background-color: rgba(59, 130, 246, 0.08); border: 1px solid rgba(59, 130, 246, 0.15);">
                 <h3 style="font-size: 1rem; font-weight: 700; color: var(--text-main); margin-bottom: 0.75rem;">Affected Premium Features</h3>
                 <div style="display: flex; flex-wrap: wrap; gap: 0.75rem;">

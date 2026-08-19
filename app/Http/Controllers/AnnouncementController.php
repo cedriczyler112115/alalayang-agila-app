@@ -121,6 +121,7 @@ class AnnouncementController extends Controller implements HasMiddleware
         $announcement = Announcement::create($validated);
 
         if ($validated['status'] === 'published') {
+            $this->sendNotifications($announcement);
             $this->sendNtfyNotification($announcement);
         }
 
@@ -179,15 +180,21 @@ class AnnouncementController extends Controller implements HasMiddleware
         }
 
         // Send Telegram Notification
-        $this->sendTelegramNotification($announcement);
+        if ($announcement->scope === 'global') {
+            $this->sendTelegramNotification($announcement);
+        }
     }
 
     private function sendTelegramNotification($announcement)
     {
+        if ($announcement->scope !== 'global') {
+            return;
+        }
+
         $telegramToken = '8555688646:AAFRitSezZXmTSeXtSxpLOK1BLHQ1qyE-KE';
         $chatId = '-1003711130933';
 
-        $user = Auth::user();
+        $user = $announcement->user ?? Auth::user();
         $title = $announcement->title;
         // Keep basic formatting tags for Telegram HTML mode
         $content = strip_tags($announcement->content, '<b><strong><i><em><u><a><code><pre>');
@@ -197,7 +204,7 @@ class AnnouncementController extends Controller implements HasMiddleware
 
         $message = "📢 <b>NEW ANNOUNCEMENT</b> 📢\n\n";
         $message .= "<b>Title:</b> " . htmlspecialchars($title) . "\n";
-        $message .= "<b>Author:</b> Kuya " . htmlspecialchars($user->fullname) . "\n\n";
+        $message .= "<b>Author:</b> Kuya " . htmlspecialchars($user?->fullname ?? 'N/A') . "\n\n";
         $message .= $content . "\n\n";
         
         $dashboardUrl = route('dashboard');

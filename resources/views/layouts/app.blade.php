@@ -867,9 +867,11 @@
                     <a href="{{ route('search.kuya') }}" class="dropdown-item">
                         Find A Kuya
                     </a>
+                    @if(\App\Models\AppSetting::isChatWithKuyaEnabled())
                     <a href="{{ route('chat.index') }}" class="dropdown-item">
                         Chat with Kuya
                     </a>
+                    @endif
                     <a href="{{ route('announcements.index') }}" class="dropdown-item">
                         Publish Announcement
                     </a>

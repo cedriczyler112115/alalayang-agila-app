@@ -125,6 +125,10 @@ class User extends Authenticatable
 
     public function canUseChatFeature()
     {
+        if (!AppSetting::isChatWithKuyaEnabled()) {
+            return false;
+        }
+
         return $this->canUseSubscriptionFeature('chat');
     }
 }
