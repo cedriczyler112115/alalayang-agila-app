@@ -69,6 +69,8 @@ Route::middleware('auth')->group(function () {
 
         Route::middleware('user.ready')->group(function () {
             Route::get('/dashboard', [DashboardController::class , 'index'])->name('dashboard');
+            Route::get('/notifications/setup', [DashboardController::class, 'notificationsSetup'])->name('notifications.setup');
+            Route::get('/latest-announcements', [AnnouncementController::class, 'latest'])->name('announcements.latest');
             Route::get('/location', [ProfileController::class , 'location'])->name('profile.location');
             // Libraries
             Route::get('/libraries', [LibraryController::class , 'index'])->name('libraries.index');

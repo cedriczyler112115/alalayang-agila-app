@@ -7,16 +7,23 @@
     $canEditUsers = auth()->user()->hasPermission('users', 'edit');
 @endphp
 <div style="margin-top: 2rem; margin-bottom: 4rem;">
-    <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 2.5rem;">
-        <div>
-            <h1 style="font-size: 1.5rem; font-weight: 800; color: var(--text-main); margin-bottom: 0.5rem; letter-spacing: -0.025em;">
-                Users <span style="color: var(--accent);">Management</span>
-            </h1>
-            <p style="color: var(--text-muted); font-size: 1.1rem;">Manage club members and verify new registrations.</p>
-        </div>
-        <div style="background-color: var(--card-bg); padding: 0.75rem 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--border-color); display: flex; align-items: center; gap: 12px; box-shadow: var(--shadow-sm);">
-            <div style="width: 12px; height: 12px; background-color: var(--accent); border-radius: 50%;"></div>
-            <span style="font-weight: 700; font-size: 1rem; color: var(--text-main);">{{ $users->total() }} Total Users</span>
+    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem;">
+        <a href="{{ route('dashboard', ['view' => 'admin']) }}" class="btn btn-outline" style="padding: 0.5rem; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px;" title="Back to Administration">
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+            </svg>
+        </a>
+        <div style="flex: 1; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+            <div>
+                <h1 style="font-size: 1.5rem; font-weight: 800; color: var(--text-main); margin-bottom: 0.25rem; letter-spacing: -0.025em;">
+                    Users <span style="color: var(--accent);">Management</span>
+                </h1>
+                <p style="color: var(--text-muted); font-size: 0.95rem; margin: 0;">Manage club members and verify new registrations.</p>
+            </div>
+            <div style="background-color: var(--card-bg); padding: 0.5rem 1.25rem; border-radius: var(--radius-lg); border: 1px solid var(--border-color); display: flex; align-items: center; gap: 10px; box-shadow: var(--shadow-sm);">
+                <div style="width: 10px; height: 10px; background-color: var(--accent); border-radius: 50%;"></div>
+                <span style="font-weight: 700; font-size: 0.9rem; color: var(--text-main);">{{ $users->total() }} Total Users</span>
+            </div>
         </div>
     </div>
 

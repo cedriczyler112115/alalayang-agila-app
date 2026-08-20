@@ -4,10 +4,15 @@
 
 @section('content')
 <div style="padding: 2rem; width: 100%; margin: 0 auto;">
-    <div style="display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap;">
+    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem;">
+        <a href="{{ route('dashboard', ['view' => 'admin']) }}" class="btn btn-outline" style="padding: 0.5rem; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px;" title="Back to Administration">
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+            </svg>
+        </a>
         <div>
-            <h1 style="font-size: 2rem; font-weight: 700; color: var(--text-main); margin-bottom: 0.35rem;">System Settings</h1>
-            <p style="color: var(--text-muted); margin: 0;">Manage the single premium feature lock for member services.</p>
+            <h1 style="font-size: 1.8rem; font-weight: 700; color: var(--text-main); margin-bottom: 0.25rem;">System <span style="color: var(--accent);">Settings</span></h1>
+            <p style="color: var(--text-muted); margin: 0; font-size: 0.95rem;">Manage system-wide configuration and feature locks.</p>
         </div>
     </div>
 

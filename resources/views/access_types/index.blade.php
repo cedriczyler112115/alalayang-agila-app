@@ -2,8 +2,13 @@
 
 @section('content')
 <div style="padding: 2rem; width: 100%; margin: 0 auto;">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
-        <h3 style="font-size: 2rem; font-weight: bold; color: var(--text-main);">Access Types Management</h3>
+    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem;">
+        <a href="{{ route('dashboard', ['view' => 'admin']) }}" class="btn btn-outline" style="padding: 0.5rem; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px;" title="Back to Administration">
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+            </svg>
+        </a>
+        <h3 style="font-size: 1.8rem; font-weight: bold; color: var(--text-main); margin: 0;">Access Types <span style="color: var(--accent);">Management</span></h3>
     </div>
 
     @if(session('success'))

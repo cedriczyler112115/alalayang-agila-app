@@ -23,14 +23,7 @@
                     $userUrl = $announcement->user_id ? route('members.show', $announcement->user_id) : '#';
                 @endphp
                 <div style="display: flex; align-items: center; gap: 0.65rem; font-size: 0.9rem;">
-                    <a href="{{ $userUrl }}" class="author-profile-link"
-                        data-user-name="Kuya {{ $announcement->user->fullname ?? 'Unknown' }}"
-                        data-user-photo="{{ $authorPhoto }}"
-                        data-user-position="{{ $announcement->user->position->name ?? 'Club Member' }}"
-                        data-user-club="{{ $announcement->user->club->name ?? 'No Club Specified' }}"
-                        data-user-region="{{ $announcement->user->region->name ?? 'No Region Specified' }}"
-                        data-user-address="{{ $announcement->user->address ?? 'No Address Listed' }}"
-                        style="display: inline-flex; text-decoration: none;"
+                    <a href="{{ $userUrl }}" style="display: inline-flex; text-decoration: none;"
                         onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">
                         <img src="{{ $authorPhoto }}" alt="{{ $announcement->user->fullname ?? 'Author' }}"
                             style="width: 36px; height: 36px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent);"
@@ -53,11 +46,10 @@
         </div>
     </div>
 
-    <div class="card" style="padding: 3rem; margin-bottom: 3rem;">
-        <div class="ck-content">
+    <div class="card" style="padding: 2rem; margin-bottom: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--border-color); box-shadow: var(--shadow-sm);">
+        <div class="ck-content" style="font-size: 1.05rem; line-height: 1.7; color: var(--text-main);">
             {!! $announcement->content !!}
         </div>
-
     </div>
 
     <!-- Comments Section -->

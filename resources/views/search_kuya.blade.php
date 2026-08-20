@@ -4,10 +4,15 @@
 
 @section('content')
 <div style="margin-top: 2rem;">
-    <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 2rem;">
+    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem;">
+        <a href="{{ route('dashboard') }}" class="btn btn-outline" style="padding: 0.5rem; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px;" title="Back to Dashboard">
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+            </svg>
+        </a>
         <div>
-            <h1 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5rem; letter-spacing: -0.025em;">Search A <span style="color: var(--accent);">Kuya</span></h1>
-            <p style="color: var(--text-muted); font-size: 1.05rem;">Find and connect with fellow Caragados Eagles Club members.</p>
+            <h1 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 0.25rem; letter-spacing: -0.025em;">Search A <span style="color: var(--accent);">Kuya</span></h1>
+            <p style="color: var(--text-muted); font-size: 0.95rem; margin: 0;">Find and connect with fellow Caragados Eagles Club members.</p>
         </div>
     </div>
 
@@ -69,7 +74,9 @@
                     @endif
                     <div style="flex: 1; min-width: 0;">
                         <h3 style="font-size: 1.1rem; font-weight: 700; color: var(--text-main); margin-bottom: 0.25rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                            <span style="font-family: 'Brush Script MT', cursive; font-size: 1.5rem; font-weight: 400;">Kuya</span> {{ $member->fullname }}
+                            <a href="{{ route('members.show', $member) }}" style="color: inherit; text-decoration: none;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--text-main)'">
+                                Kuya {{ $member->fullname }}
+                            </a>
                         </h3>
                         <div style="font-size: 0.85rem; color: var(--accent); font-weight: 600; margin-bottom: 0.15rem;">{{ $member->club->name ?? 'No Club' }}</div>
                         <div style="font-size: 0.8rem; color: var(--text-muted);">{{ $member->region->name ?? 'No Region' }}</div>
@@ -80,11 +87,10 @@
                         @endif
                     </div>
                 </div>
-                <div style="padding: 1rem 1.5rem; background-color: rgba(0,0,0,0.02); display: flex; justify-content: space-between; align-items: center;">
-                    <div style="font-size: 0.8rem; color: var(--text-muted);">
-                        <span style="display: block; font-weight: 600; color: var(--secondary); text-transform: uppercase; font-size: 0.65rem; letter-spacing: 0.05em; margin-bottom: 0.15rem;">Contact Number</span>
-                        {{ $member->contact_number ?: 'Not Provided' }}
-                    </div>
+                <div style="padding: 0.85rem 1.25rem; background-color: rgba(0,0,0,0.02); display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border-color);">
+                    <a href="{{ route('members.show', $member) }}" class="btn btn-outline btn-sm" style="font-size: 0.78rem; font-weight: 700; padding: 0.3rem 0.85rem; border-radius: 9999px; color: var(--accent); border-color: rgba(59,130,246,0.3);">
+                        View Profile &rarr;
+                    </a>
                     @if($member->location)
                         <a href="{{ route('profile.location') }}" title="View on Member Mapping" style="color: var(--accent); text-decoration: none;">
                             <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">

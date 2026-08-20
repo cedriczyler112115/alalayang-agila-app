@@ -6,14 +6,7 @@
         $commentUserUrl = $comment->user_id ? route('members.show', $comment->user_id) : '#';
     @endphp
     <div style="display: flex; gap: 1rem; align-items: flex-start;">
-        <a href="{{ $commentUserUrl }}" class="author-profile-link"
-            data-user-name="Kuya {{ $comment->user->fullname ?? 'Unknown' }}"
-            data-user-photo="{{ $commentUserPhoto }}"
-            data-user-position="{{ $comment->user->position->name ?? 'Club Member' }}"
-            data-user-club="{{ $comment->user->club->name ?? 'No Club Specified' }}"
-            data-user-region="{{ $comment->user->region->name ?? 'No Region Specified' }}"
-            data-user-address="{{ $comment->user->address ?? 'No Address Listed' }}"
-            style="display: inline-flex; flex-shrink: 0; text-decoration: none;"
+        <a href="{{ $commentUserUrl }}" style="display: inline-flex; flex-shrink: 0; text-decoration: none;"
             onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">
             <img src="{{ $commentUserPhoto }}" alt="{{ $comment->user->fullname ?? 'User Avatar' }}"
                 style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent);"

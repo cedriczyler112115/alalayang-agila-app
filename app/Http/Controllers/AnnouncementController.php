@@ -25,7 +25,7 @@ class AnnouncementController extends Controller implements HasMiddleware
                     return $next($request);
                 }
 
-                if ($request->route()->getActionMethod() === 'show') {
+                if (in_array($request->route()->getActionMethod(), ['show', 'latest'])) {
                     return $next($request);
                 }
 
@@ -45,6 +45,34 @@ class AnnouncementController extends Controller implements HasMiddleware
             }
         ];
     }
+
+    public function latest()
+    {
+        $user = auth()->user();
+
+        $global_announcements = Announcement::where('status', 'published')
+            ->where('scope', 'global')
+            ->with(['user.region', 'user.club', 'user.position'])
+            ->latest('published_at')
+            ->get();
+
+        $regional_announcements = Announcement::where('status', 'published')
+            ->where('scope', 'regional')
+            ->where('lib_region_id', $user->lib_region_id)
+            ->with(['user.region', 'user.club', 'user.position'])
+            ->latest('published_at')
+            ->get();
+
+        $club_announcements = Announcement::where('status', 'published')
+            ->where('scope', 'club')
+            ->where('lib_club_name_id', $user->lib_club_name_id)
+            ->with(['user.region', 'user.club', 'user.position'])
+            ->latest('published_at')
+            ->get();
+
+        return view('announcements.latest', compact('global_announcements', 'regional_announcements', 'club_announcements'));
+    }
+
     public function index(Request $request)
     {
         $query = Announcement::query()->where('status', 'published')->with(['user.club', 'club']);

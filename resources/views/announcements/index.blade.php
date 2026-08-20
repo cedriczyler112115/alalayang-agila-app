@@ -10,19 +10,26 @@
     $canDeleteAnnouncements = !$premiumFeatureLockEnabled || auth()->user()->hasPermission('announcements', 'delete');
 @endphp
 <div style="margin-top: 2rem;">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
-        <div>
-            <h1 style="font-size: 1.6rem; font-weight: 700; margin-bottom: 0.5rem; letter-spacing: -0.025em;">Manage <span style="color: var(--accent);">Announcements</span></h1>
-            <p style="color: var(--text-muted); font-size: 1.05rem;">Create and manage announcements for the club members.</p>
+    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem;">
+        <a href="{{ route('dashboard') }}" class="btn btn-outline" style="padding: 0.5rem; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px;" title="Back to Dashboard">
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+            </svg>
+        </a>
+        <div style="flex: 1; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+            <div>
+                <h1 style="font-size: 1.6rem; font-weight: 700; margin-bottom: 0.25rem; letter-spacing: -0.025em;">Manage <span style="color: var(--accent);">Announcements</span></h1>
+                <p style="color: var(--text-muted); font-size: 0.95rem; margin: 0;">Create and manage announcements for the club members.</p>
+            </div>
+            @if($canAddAnnouncements)
+                <a href="{{ route('announcements.create') }}" class="btn btn-primary">
+                    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="margin-right: 8px;">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"></path>
+                    </svg>
+                    Create
+                </a>
+            @endif
         </div>
-        @if($canAddAnnouncements)
-            <a href="{{ route('announcements.create') }}" class="btn btn-primary">
-                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="margin-right: 8px;">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"></path>
-                </svg>
-                Create
-            </a>
-        @endif
     </div>
 
     @if(session('status'))
@@ -91,14 +98,7 @@
                                 $userUrl = $announcement->user_id ? route('members.show', $announcement->user_id) : '#';
                             @endphp
                             <div style="display: flex; align-items: center; gap: 0.5rem;">
-                                <a href="{{ $userUrl }}" class="author-profile-link"
-                                    data-user-name="Kuya {{ $announcement->user->fullname ?? 'Unknown' }}"
-                                    data-user-photo="{{ $authorPhoto }}"
-                                    data-user-position="{{ $announcement->user->position->name ?? 'Club Member' }}"
-                                    data-user-club="{{ $announcement->user->club->name ?? 'No Club Specified' }}"
-                                    data-user-region="{{ $announcement->user->region->name ?? 'No Region Specified' }}"
-                                    data-user-address="{{ $announcement->user->address ?? 'No Address Listed' }}"
-                                    style="display: inline-flex; text-decoration: none;"
+                                <a href="{{ $userUrl }}" style="display: inline-flex; text-decoration: none;"
                                     onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">
                                     <img src="{{ $authorPhoto }}" alt="Author Avatar"
                                         style="width: 28px; height: 28px; border-radius: 50%; object-fit: cover; border: 1.5px solid var(--accent);"

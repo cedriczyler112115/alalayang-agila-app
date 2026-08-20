@@ -30,24 +30,25 @@
             --accent-hover: #2563eb;
             --bg-color: #f8fafc;
             --card-bg: #ffffff;
-            --text-main: #1e293b;
+            --text-main: #0f172a;
             --text-muted: #64748b;
             --border-color: #e2e8f0;
             --danger: #ef4444;
             --success: #22c55e;
-            --radius-md: 8px;
-            --radius-lg: 12px;
-            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --radius-sm: 6px;
+            --radius-md: 10px;
+            --radius-lg: 16px;
+            --shadow-sm: 0 2px 4px 0 rgb(15 23 42 / 0.04);
+            --shadow-md: 0 6px 12px -2px rgb(15 23 42 / 0.08), 0 3px 6px -3px rgb(15 23 42 / 0.05);
+            --shadow-lg: 0 16px 32px -4px rgb(15 23 42 / 0.12), 0 6px 12px -6px rgb(15 23 42 / 0.08);
             
             /* Professional Header/Footer Colors */
-            --header-bg: #0f172a;
+            --header-bg: #0b1329;
             --header-text: #f8fafc;
             --header-muted: #94a3b8;
             --header-border: #1e293b;
             
-            --footer-bg: #0f172a;
+            --footer-bg: #0b1329;
             --footer-text: #f8fafc;
             --footer-muted: #94a3b8;
             --footer-border: #1e293b;
@@ -62,12 +63,12 @@
                 --card-bg: #0f172a;
                 --text-main: #f8fafc;
                 --text-muted: #94a3b8;
-                --border-color: #1e293b;
+                --border-color: rgba(255, 255, 255, 0.08);
 
                 --header-bg: #020617;
-                --header-border: #1e293b;
+                --header-border: rgba(255, 255, 255, 0.08);
                 --footer-bg: #020617;
-                --footer-border: #1e293b;
+                --footer-border: rgba(255, 255, 255, 0.08);
             }
         }
 
@@ -351,6 +352,68 @@
             .navbar-menu .btn {
                 width: 100%;
                 padding: 0.75rem 1.25rem;
+            }
+        }
+
+        /* Fixed Mobile Bottom Navigation Dock */
+        .mobile-bottom-nav {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 64px;
+            background: var(--header-bg);
+            border-top: 1px solid var(--header-border);
+            z-index: 2500;
+            padding: 0 0.25rem;
+            padding-bottom: env(safe-area-inset-bottom);
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.35);
+            backdrop-filter: blur(12px);
+        }
+
+        .mobile-nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2px;
+            color: var(--header-muted);
+            text-decoration: none;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 6px 4px;
+            border-radius: 10px;
+            transition: all 0.2s ease;
+            flex: 1;
+            text-align: center;
+        }
+
+        .mobile-nav-item svg {
+            transition: transform 0.2s ease, color 0.2s ease;
+        }
+
+        .mobile-nav-item:active {
+            transform: scale(0.92);
+        }
+
+        .mobile-nav-item.active {
+            color: var(--accent);
+        }
+
+        .mobile-nav-item.active svg {
+            color: var(--accent);
+            transform: translateY(-1px);
+        }
+
+        @media (max-width: 768px) {
+            .mobile-bottom-nav {
+                display: flex;
+                justify-content: space-around;
+                align-items: center;
+            }
+            body {
+                padding-bottom: 75px !important;
             }
         }
 
@@ -738,20 +801,10 @@
 
         @media (max-width: 768px) {
             .footer {
-                padding: 3rem 1.5rem 1.5rem;
+                display: none !important;
             }
-            .footer-container {
-                grid-template-columns: 1fr;
-                gap: 2.5rem;
-            }
-            .footer-contact-column {
-                grid-column: span 1;
-            }
-            .footer-bottom {
-                flex-direction: column;
-                gap: 1.5rem;
-                text-align: center;
-                margin-top: 3rem;
+            .container {
+                padding-bottom: 5.5rem !important;
             }
         }
         /* Global Loader Styles */
@@ -957,6 +1010,55 @@
     <main class="container">
         @yield('content')
     </main>
+
+    @auth
+    <!-- Mobile Bottom Navigation Dock (Native Mobile App Experience) -->
+    <nav class="mobile-bottom-nav">
+        <a href="{{ route('dashboard') }}" class="mobile-nav-item {{ request()->routeIs('dashboard') ? 'active' : '' }}">
+            <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+            </svg>
+            <span>Home</span>
+        </a>
+
+        <a href="{{ route('announcements.latest') }}" class="mobile-nav-item {{ request()->routeIs('announcements.latest') ? 'active' : '' }}">
+            <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"></path>
+            </svg>
+            <span>Announcement</span>
+        </a>
+
+        <a href="{{ route('search.kuya') }}" class="mobile-nav-item {{ request()->routeIs('search.kuya') ? 'active' : '' }}">
+            <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+            </svg>
+            <span>Kuya</span>
+        </a>
+
+        <a href="{{ route('quick.response') }}" class="mobile-nav-item {{ request()->routeIs('quick.response') ? 'active' : '' }}">
+            <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+            </svg>
+            <span>Help</span>
+        </a>
+
+        @if(\App\Models\AppSetting::isChatWithKuyaEnabled())
+        <a href="{{ route('chat.index') }}" class="mobile-nav-item {{ request()->routeIs('chat.*') ? 'active' : '' }}">
+            <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+            </svg>
+            <span>Chat</span>
+        </a>
+        @endif
+
+        <a href="{{ route('profile.complete') }}" class="mobile-nav-item {{ request()->routeIs('profile.complete') || request()->routeIs('members.show') ? 'active' : '' }}">
+            <img src="{{ auth()->user()->profile_photo ? asset('storage/' . auth()->user()->profile_photo) : asset('images/default-avatar.svg') }}"
+                alt="Profile" style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover; border: 1.5px solid var(--accent);"
+                onerror="this.src='{{ asset('images/default-avatar.svg') }}'">
+            <span>Profile</span>
+        </a>
+    </nav>
+    @endauth
 
     @auth
     <div id="featureLockModal" class="feature-lock-modal" aria-hidden="true">
@@ -1258,115 +1360,5 @@
         });
     </script>
 
-    <!-- Author Profile Hover Popover Tooltip -->
-    <div id="authorProfilePopover"
-        style="display: none; position: absolute; z-index: 3000; width: 290px; background: var(--card-bg); border: 1px solid var(--border-color); border-radius: var(--radius-lg); box-shadow: 0 14px 35px rgba(0,0,0,0.3); padding: 1.25rem; pointer-events: auto; transition: opacity 0.2s ease, transform 0.2s ease; opacity: 0; transform: translateY(6px);">
-        <div style="display: flex; align-items: center; gap: 0.85rem; margin-bottom: 0.85rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--border-color);">
-            <img id="popoverUserPhoto" src="" alt="User Avatar"
-                style="width: 46px; height: 46px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent); flex-shrink: 0;"
-                onerror="this.src='{{ asset('images/default-avatar.svg') }}'">
-            <div style="overflow: hidden;">
-                <h5 id="popoverUserName" style="font-size: 0.95rem; font-weight: 700; margin: 0 0 2px 0; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"></h5>
-                <span id="popoverUserPosition" style="font-size: 0.78rem; font-weight: 600; color: var(--accent); display: block;"></span>
-            </div>
-        </div>
-        
-        <div style="display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.82rem; color: var(--text-main);">
-            <div style="display: flex; align-items: center; gap: 6px;">
-                <span style="font-weight: 700; color: var(--text-muted); min-width: 60px;">Club:</span>
-                <span id="popoverUserClub" style="font-weight: 600; color: var(--text-main); overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></span>
-            </div>
-            <div style="display: flex; align-items: center; gap: 6px;">
-                <span style="font-weight: 700; color: var(--text-muted); min-width: 60px;">Region:</span>
-                <span id="popoverUserRegion" style="font-weight: 600; color: var(--text-main); overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></span>
-            </div>
-            <div style="display: flex; align-items: flex-start; gap: 6px;">
-                <span style="font-weight: 700; color: var(--text-muted); min-width: 60px;">Address:</span>
-                <span id="popoverUserAddress" style="font-weight: 500; color: var(--text-muted); line-height: 1.3;"></span>
-            </div>
-        </div>
-        <div style="margin-top: 0.85rem; padding-top: 0.5rem; text-align: right; border-top: 1px solid var(--border-color);">
-            <span style="font-size: 0.72rem; color: var(--accent); font-weight: 700;">Click to view full profile &rarr;</span>
-        </div>
-    </div>
-
-    <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const popover = document.getElementById('authorProfilePopover');
-        if (!popover) return;
-
-        let popoverTimeout;
-
-        document.addEventListener('mouseover', function(e) {
-            const target = e.target.closest('.author-profile-link');
-            if (!target) return;
-
-            clearTimeout(popoverTimeout);
-
-            const name = target.getAttribute('data-user-name') || '';
-            const photo = target.getAttribute('data-user-photo') || '';
-            const position = target.getAttribute('data-user-position') || '';
-            const club = target.getAttribute('data-user-club') || '';
-            const region = target.getAttribute('data-user-region') || '';
-            const address = target.getAttribute('data-user-address') || '';
-
-            document.getElementById('popoverUserName').textContent = name;
-            document.getElementById('popoverUserPhoto').src = photo;
-            document.getElementById('popoverUserPosition').textContent = position;
-            document.getElementById('popoverUserClub').textContent = club;
-            document.getElementById('popoverUserRegion').textContent = region;
-            document.getElementById('popoverUserAddress').textContent = address;
-
-            const rect = target.getBoundingClientRect();
-            const popoverWidth = 290;
-            
-            let top = rect.bottom + window.scrollY + 8;
-            let left = rect.left + window.scrollX;
-
-            if (left + popoverWidth > window.innerWidth - 16) {
-                left = window.innerWidth - popoverWidth - 16;
-            }
-            if (left < 16) {
-                left = 16;
-            }
-
-            popover.style.top = top + 'px';
-            popover.style.left = left + 'px';
-            popover.style.display = 'block';
-            
-            requestAnimationFrame(() => {
-                popover.style.opacity = '1';
-                popover.style.transform = 'translateY(0)';
-            });
-        });
-
-        document.addEventListener('mouseout', function(e) {
-            const target = e.target.closest('.author-profile-link');
-            if (!target) return;
-
-            popoverTimeout = setTimeout(() => {
-                if (!popover.matches(':hover')) {
-                    popover.style.opacity = '0';
-                    popover.style.transform = 'translateY(6px)';
-                    setTimeout(() => {
-                        if (popover.style.opacity === '0') {
-                            popover.style.display = 'none';
-                        }
-                    }, 200);
-                }
-            }, 150);
-        });
-
-        popover.addEventListener('mouseleave', function() {
-            popover.style.opacity = '0';
-            popover.style.transform = 'translateY(6px)';
-            setTimeout(() => {
-                if (popover.style.opacity === '0') {
-                    popover.style.display = 'none';
-                }
-            }, 200);
-        });
-    });
-    </script>
 </body>
 </html>
