@@ -65,6 +65,7 @@ class ProfileController extends Controller implements HasMiddleware
             'make_private' => 'nullable', // Will be converted to boolean below
             'profile_photo' => ($user->profile_photo ? 'nullable' : 'required') . '|image|mimes:jpeg,png,jpg,gif',
             'eagle_id_card' => ($user->eagle_id_card ? 'nullable' : 'required') . '|image|mimes:jpeg,png,jpg,gif',
+            'password' => 'nullable|string|min:8|confirmed',
         ]);
 
         $validated['make_private'] = $request->has('make_private');
@@ -77,6 +78,12 @@ class ProfileController extends Controller implements HasMiddleware
         if ($request->hasFile('eagle_id_card')) {
             $path = $request->file('eagle_id_card')->store('eagle-ids', 'public');
             $validated['eagle_id_card'] = $path;
+        }
+
+        if (!empty($validated['password'])) {
+            $validated['password'] = \Illuminate\Support\Facades\Hash::make($validated['password']);
+        } else {
+            unset($validated['password']);
         }
 
         // Update the legacy name field too

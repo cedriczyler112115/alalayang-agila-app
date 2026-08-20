@@ -67,8 +67,8 @@ class GoogleController extends Controller
             $user->update(['google_id' => $googleUser->getId()]);
         }
 
-        Auth::login($user);
-        session()->flash('from_login', true);
+        Auth::login($user, true);
+        session()->flash('show_cookie_popup', true);
 
         return redirect('/dashboard');
     }

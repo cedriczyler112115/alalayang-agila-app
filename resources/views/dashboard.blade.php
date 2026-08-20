@@ -724,17 +724,6 @@
             });
         </script>
 
-        @if(session('from_login') || session('just_logged_in') || session('show_guide_modal'))
-            <script>
-                document.addEventListener('DOMContentLoaded', function () {
-                    const modal = document.getElementById('setupGuideModal');
-                    if (modal) {
-                        modal.style.display = 'flex';
-                    }
-                });
-            </script>
-        @endif
-
         <!-- How to Setup Alalayang Agila Community App Modal -->
         <div id="setupGuideModal"
             style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.65); align-items: center; justify-content: center; z-index: 1000; padding: 1.25rem; backdrop-filter: blur(6px);">
@@ -954,4 +943,117 @@
                 </div>
             </div>
         </div>
+
+        <!-- Persistent Login Credentials & Cookie Consent Modal -->
+        <div id="cookieConsentModal"
+            style="display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.75); align-items: center; justify-content: center; z-index: 1050; padding: 1.25rem; backdrop-filter: blur(8px);">
+            <div class="card"
+                style="width: 100%; max-width: 520px; border-radius: var(--radius-lg); border: 1px solid rgba(59, 130, 246, 0.3); box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4); background: var(--card-bg); overflow: hidden; animation: cookieModalFadeIn 0.3s ease-out;">
+                
+                <!-- Header -->
+                <div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(37, 99, 235, 0.05)); padding: 1.5rem 1.75rem 1.25rem 1.75rem; border-bottom: 1px solid var(--border-color); position: relative;">
+                    <div style="display: flex; align-items: center; gap: 14px;">
+                        <div style="width: 48px; height: 48px; border-radius: 12px; background: linear-gradient(135deg, #3b82f6, #1d4ed8); color: #ffffff; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4); flex-shrink: 0;">
+                            🍪
+                        </div>
+                        <div>
+                            <h3 style="font-size: 1.15rem; font-weight: 700; color: var(--text-main); margin: 0 0 0.2rem 0; letter-spacing: -0.01em;">
+                                Persistent Login & Cookie Notice
+                            </h3>
+                            <span style="font-size: 0.8rem; color: var(--accent); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">
+                                Keep Your Session Active
+                            </span>
+                        </div>
+                    </div>
+                    <button type="button" onclick="closeCookieModal()"
+                        style="position: absolute; top: 1.25rem; right: 1.25rem; background: none; border: none; font-size: 1.5rem; line-height: 1; cursor: pointer; color: var(--text-muted); border-radius: 50%; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; transition: background 0.2s;"
+                        onmouseover="this.style.background='rgba(255,255,255,0.08)'"
+                        onmouseout="this.style.background='none'">&times;</button>
+                </div>
+
+                <!-- Body -->
+                <div style="padding: 1.5rem 1.75rem; font-size: 0.9rem; color: var(--text-main); line-height: 1.6;">
+                    <p style="margin: 0 0 1.25rem 0; color: var(--text-muted);">
+                        We use persistent authentication cookies to keep you signed in on this device. By accepting, <strong>your login credentials will never expire automatically</strong>, giving you instant access anytime.
+                    </p>
+
+                    <div style="display: flex; flex-direction: column; gap: 0.85rem; background: rgba(59, 130, 246, 0.05); border: 1px solid rgba(59, 130, 246, 0.15); border-radius: var(--radius-md); padding: 1rem;">
+                        <div style="display: flex; align-items: flex-start; gap: 10px;">
+                            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="color: var(--accent); flex-shrink: 0; margin-top: 2px;">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                            </svg>
+                            <div>
+                                <strong style="font-size: 0.85rem; color: var(--text-main); display: block;">No Repeated Logins Needed</strong>
+                                <span style="font-size: 0.8rem; color: var(--text-muted);">Your session stays remembered safely in browser cookies.</span>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; align-items: flex-start; gap: 10px;">
+                            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="color: var(--success); flex-shrink: 0; margin-top: 2px;">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                            </svg>
+                            <div>
+                                <strong style="font-size: 0.85rem; color: var(--text-main); display: block;">Encrypted Security Token</strong>
+                                <span style="font-size: 0.8rem; color: var(--text-muted);">Protected via secure HTTPS authentication standards.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Footer -->
+                <div style="padding: 1rem 1.75rem 1.5rem 1.75rem; border-top: 1px solid var(--border-color); display: flex; flex-direction: column; gap: 0.75rem; background: var(--card-bg);">
+                    <button type="button" onclick="acceptCookieRemember()" class="btn btn-primary"
+                        style="width: 100%; justify-content: center; padding: 0.7rem 1.25rem; font-weight: 700; font-size: 0.9rem; border-radius: var(--radius-md); box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);">
+                        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="margin-right: 6px;">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        Accept & Remember My Login Credentials
+                    </button>
+                    <button type="button" onclick="closeCookieModal()" class="btn btn-outline"
+                        style="width: 100%; justify-content: center; padding: 0.5rem 1rem; font-size: 0.82rem; font-weight: 600; color: var(--text-muted); border-color: var(--border-color);">
+                        Close Notice
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            function closeCookieModal() {
+                const modal = document.getElementById('cookieConsentModal');
+                if (modal) modal.style.display = 'none';
+            }
+
+            function acceptCookieRemember() {
+                localStorage.setItem('cookie_remember_accepted', 'true');
+                document.cookie = "cookie_remember_accepted=true; max-age=315360000; path=/; SameSite=Lax";
+
+                fetch("{{ route('accept.cookie.remember') }}", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                    }
+                }).catch(err => console.log(err));
+
+                closeCookieModal();
+            }
+
+            @if(session('show_cookie_popup') || session('from_login'))
+                document.addEventListener('DOMContentLoaded', function () {
+                    const cookieModal = document.getElementById('cookieConsentModal');
+                    if (cookieModal) {
+                        cookieModal.style.display = 'flex';
+                    }
+                });
+            @else
+                document.addEventListener('DOMContentLoaded', function () {
+                    if (!localStorage.getItem('cookie_remember_accepted')) {
+                        const cookieModal = document.getElementById('cookieConsentModal');
+                        if (cookieModal) {
+                            cookieModal.style.display = 'flex';
+                        }
+                    }
+                });
+            @endif
+        </script>
 @endsection

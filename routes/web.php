@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\GoogleController;
+use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QuickResponseController;
 use App\Http\Controllers\LibraryController;
@@ -35,12 +36,15 @@ Route::get('/create-symlink', function () {
     }
 });
 
-Route::get('/login', function () {
-    if (auth()->check()) {
-        return redirect()->route('dashboard');
-    }
-    return view('auth.login');
-})->name('login');
+Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/register', [AuthController::class, 'register'])->name('register');
+
+Route::get('/forgot-password', [AuthController::class, 'showForgotPasswordForm'])->name('password.request');
+Route::post('/forgot-password', [AuthController::class, 'sendResetLinkEmail'])->name('password.email');
+Route::get('/reset-password/{token}', [AuthController::class, 'showResetPasswordForm'])->name('password.reset');
+Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('password.update');
+Route::post('/accept-cookie-remember', [AuthController::class, 'acceptCookieRemember'])->name('accept.cookie.remember');
 
 Route::get('/auth/google', [GoogleController::class , 'redirect'])->name('google.login');
 Route::get('/auth/google/callback', [GoogleController::class , 'callback']);
