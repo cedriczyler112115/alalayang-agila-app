@@ -22,20 +22,26 @@
                         : asset('images/default-avatar.svg');
                     $userUrl = $announcement->user_id ? route('members.show', $announcement->user_id) : '#';
                 @endphp
-                <a href="{{ $userUrl }}" class="author-profile-link"
-                    data-user-name="Kuya {{ $announcement->user->fullname ?? 'Unknown' }}"
-                    data-user-photo="{{ $authorPhoto }}"
-                    data-user-position="{{ $announcement->user->position->name ?? 'Club Member' }}"
-                    data-user-club="{{ $announcement->user->club->name ?? 'No Club Specified' }}"
-                    data-user-region="{{ $announcement->user->region->name ?? 'No Region Specified' }}"
-                    data-user-address="{{ $announcement->user->address ?? 'No Address Listed' }}"
-                    style="display: flex; align-items: center; gap: 0.65rem; text-decoration: none; color: var(--text-muted); font-size: 0.9rem; transition: opacity 0.2s;"
-                    onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">
-                    <img src="{{ $authorPhoto }}" alt="{{ $announcement->user->fullname ?? 'Author' }}"
-                        style="width: 36px; height: 36px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent);"
-                        onerror="this.src='{{ asset('images/default-avatar.svg') }}'">
-                    <span style="font-weight: 600; color: var(--text-main);">Kuya {{ $announcement->user->fullname ?? 'Unknown' }}</span>
-                </a>
+                <div style="display: flex; align-items: center; gap: 0.65rem; font-size: 0.9rem;">
+                    <a href="{{ $userUrl }}" class="author-profile-link"
+                        data-user-name="Kuya {{ $announcement->user->fullname ?? 'Unknown' }}"
+                        data-user-photo="{{ $authorPhoto }}"
+                        data-user-position="{{ $announcement->user->position->name ?? 'Club Member' }}"
+                        data-user-club="{{ $announcement->user->club->name ?? 'No Club Specified' }}"
+                        data-user-region="{{ $announcement->user->region->name ?? 'No Region Specified' }}"
+                        data-user-address="{{ $announcement->user->address ?? 'No Address Listed' }}"
+                        style="display: inline-flex; text-decoration: none;"
+                        onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">
+                        <img src="{{ $authorPhoto }}" alt="{{ $announcement->user->fullname ?? 'Author' }}"
+                            style="width: 36px; height: 36px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent);"
+                            onerror="this.src='{{ asset('images/default-avatar.svg') }}'">
+                    </a>
+                    <a href="{{ $userUrl }}"
+                        style="font-weight: 600; color: var(--text-main); text-decoration: none;"
+                        onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--text-main)'">
+                        Kuya {{ $announcement->user->fullname ?? 'Unknown' }}
+                    </a>
+                </div>
                 <div style="width: 4px; height: 4px; border-radius: 50%; background-color: var(--border-color);"></div>
                 <div style="display: flex; align-items: center; gap: 0.5rem; color: var(--text-muted); font-size: 0.9rem;">
                     <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -76,7 +82,21 @@
         <form action="{{ route('comments.store', $announcement) }}" method="POST" style="margin-bottom: 2rem;">
             @csrf
             <div style="display: flex; gap: 1rem; align-items: flex-start;">
-                <img src="{{ auth()->user()->profile_photo ? asset('storage/' . auth()->user()->profile_photo) : asset('images/default-avatar.svg') }}" style="width: 48px; height: 48px; border-radius: 50%; object-fit: cover;" onerror="this.src='{{ asset('images/default-avatar.svg') }}'">
+                @php
+                    $authUserPhoto = auth()->user()->profile_photo ? asset('storage/' . auth()->user()->profile_photo) : asset('images/default-avatar.svg');
+                    $authUserUrl = route('members.show', auth()->id());
+                @endphp
+                <a href="{{ $authUserUrl }}" class="author-profile-link"
+                    data-user-name="Kuya {{ auth()->user()->fullname }}"
+                    data-user-photo="{{ $authUserPhoto }}"
+                    data-user-position="{{ auth()->user()->position->name ?? 'Club Member' }}"
+                    data-user-club="{{ auth()->user()->club->name ?? 'No Club Specified' }}"
+                    data-user-region="{{ auth()->user()->region->name ?? 'No Region Specified' }}"
+                    data-user-address="{{ auth()->user()->address ?? 'No Address Listed' }}"
+                    style="display: inline-flex; flex-shrink: 0; text-decoration: none;"
+                    onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">
+                    <img src="{{ $authUserPhoto }}" style="width: 48px; height: 48px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent);" onerror="this.src='{{ asset('images/default-avatar.svg') }}'">
+                </a>
                 <div style="flex: 1;">
                     <textarea name="content" class="form-control" rows="3" placeholder="Join the discussion..." required style="resize: vertical;">{{ old('parent_id') ? '' : old('content') }}</textarea>
                     <div style="margin-top: 0.5rem; text-align: right;">

@@ -1,9 +1,31 @@
 <div class="comment" id="comment-{{ $comment->id }}" style="margin-top: 1rem; padding: 1rem; border: 1px solid var(--border-color); border-radius: var(--radius-md); background-color: var(--card-bg);">
+    @php
+        $commentUserPhoto = $comment->user && $comment->user->profile_photo
+            ? asset('storage/' . $comment->user->profile_photo)
+            : asset('images/default-avatar.svg');
+        $commentUserUrl = $comment->user_id ? route('members.show', $comment->user_id) : '#';
+    @endphp
     <div style="display: flex; gap: 1rem; align-items: flex-start;">
-        <img src="{{ $comment->user->profile_photo ? asset('storage/' . $comment->user->profile_photo) : asset('images/default-avatar.svg') }}" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;" onerror="this.src='{{ asset('images/default-avatar.svg') }}'">
+        <a href="{{ $commentUserUrl }}" class="author-profile-link"
+            data-user-name="Kuya {{ $comment->user->fullname ?? 'Unknown' }}"
+            data-user-photo="{{ $commentUserPhoto }}"
+            data-user-position="{{ $comment->user->position->name ?? 'Club Member' }}"
+            data-user-club="{{ $comment->user->club->name ?? 'No Club Specified' }}"
+            data-user-region="{{ $comment->user->region->name ?? 'No Region Specified' }}"
+            data-user-address="{{ $comment->user->address ?? 'No Address Listed' }}"
+            style="display: inline-flex; flex-shrink: 0; text-decoration: none;"
+            onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">
+            <img src="{{ $commentUserPhoto }}" alt="{{ $comment->user->fullname ?? 'User Avatar' }}"
+                style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent);"
+                onerror="this.src='{{ asset('images/default-avatar.svg') }}'">
+        </a>
         <div style="flex: 1;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
-                <span style="font-weight: 700; color: var(--text-main);">Kuya {{ $comment->user->fullname }}</span>
+                <a href="{{ $commentUserUrl }}"
+                    style="font-weight: 700; color: var(--text-main); text-decoration: none;"
+                    onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--text-main)'">
+                    Kuya {{ $comment->user->fullname ?? 'Unknown' }}
+                </a>
                 <span style="font-size: 0.8rem; color: var(--text-muted);">{{ $comment->created_at->diffForHumans() }}</span>
             </div>
             <p style="margin-bottom: 0.75rem; color: var(--text-muted); line-height: 1.5; font-size: 0.95rem;">

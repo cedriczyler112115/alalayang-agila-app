@@ -90,19 +90,26 @@
                                     : asset('images/default-avatar.svg');
                                 $userUrl = $announcement->user_id ? route('members.show', $announcement->user_id) : '#';
                             @endphp
-                            <a href="{{ $userUrl }}" class="author-profile-link"
-                                data-user-name="Kuya {{ $announcement->user->fullname ?? 'Unknown' }}"
-                                data-user-photo="{{ $authorPhoto }}"
-                                data-user-position="{{ $announcement->user->position->name ?? 'Club Member' }}"
-                                data-user-club="{{ $announcement->user->club->name ?? 'No Club Specified' }}"
-                                data-user-region="{{ $announcement->user->region->name ?? 'No Region Specified' }}"
-                                data-user-address="{{ $announcement->user->address ?? 'No Address Listed' }}"
-                                style="display: flex; align-items: center; gap: 0.5rem; text-decoration: none; color: var(--text-main); font-weight: 600;">
-                                <img src="{{ $authorPhoto }}" alt="Author Avatar"
-                                    style="width: 28px; height: 28px; border-radius: 50%; object-fit: cover; border: 1.5px solid var(--accent);"
-                                    onerror="this.src='{{ asset('images/default-avatar.svg') }}'">
-                                <span>{{ $announcement->user->fullname ?? 'Unknown' }}</span>
-                            </a>
+                            <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                <a href="{{ $userUrl }}" class="author-profile-link"
+                                    data-user-name="Kuya {{ $announcement->user->fullname ?? 'Unknown' }}"
+                                    data-user-photo="{{ $authorPhoto }}"
+                                    data-user-position="{{ $announcement->user->position->name ?? 'Club Member' }}"
+                                    data-user-club="{{ $announcement->user->club->name ?? 'No Club Specified' }}"
+                                    data-user-region="{{ $announcement->user->region->name ?? 'No Region Specified' }}"
+                                    data-user-address="{{ $announcement->user->address ?? 'No Address Listed' }}"
+                                    style="display: inline-flex; text-decoration: none;"
+                                    onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">
+                                    <img src="{{ $authorPhoto }}" alt="Author Avatar"
+                                        style="width: 28px; height: 28px; border-radius: 50%; object-fit: cover; border: 1.5px solid var(--accent);"
+                                        onerror="this.src='{{ asset('images/default-avatar.svg') }}'">
+                                </a>
+                                <a href="{{ $userUrl }}"
+                                    style="font-weight: 600; color: var(--text-main); text-decoration: none;"
+                                    onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--text-main)'">
+                                    {{ $announcement->user->fullname ?? 'Unknown' }}
+                                </a>
+                            </div>
                         </td>
                         <td style="padding: 1rem 1.5rem; text-align: right;">
                             @if($canEditAnnouncements || $canDeleteAnnouncements)

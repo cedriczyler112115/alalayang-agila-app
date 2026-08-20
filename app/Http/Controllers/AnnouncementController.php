@@ -75,7 +75,7 @@ class AnnouncementController extends Controller implements HasMiddleware
             'user.position',
             'comments' => function ($query) {
                 $query->whereNull('parent_id')
-                    ->with(['user', 'replies'])
+                    ->with(['user.region', 'user.club', 'user.position', 'replies.user.region', 'replies.user.club', 'replies.user.position'])
                     ->latest();
             },
         ]);

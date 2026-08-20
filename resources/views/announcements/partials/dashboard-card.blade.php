@@ -24,20 +24,26 @@
                 : asset('images/default-avatar.svg');
             $userUrl = $announcement->user_id ? route('members.show', $announcement->user_id) : '#';
         @endphp
-        <a href="{{ $userUrl }}" class="author-profile-link"
-            data-user-name="Kuya {{ $announcement->user->fullname ?? 'Unknown' }}"
-            data-user-photo="{{ $authorPhoto }}"
-            data-user-position="{{ $announcement->user->position->name ?? 'Club Member' }}"
-            data-user-club="{{ $announcement->user->club->name ?? 'No Club Specified' }}"
-            data-user-region="{{ $announcement->user->region->name ?? 'No Region Specified' }}"
-            data-user-address="{{ $announcement->user->address ?? 'No Address Listed' }}"
-            style="display: flex; align-items: center; gap: 0.6rem; text-decoration: none; color: var(--text-muted); font-size: 0.85rem; transition: opacity 0.2s;"
-            onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">
-            <img src="{{ $authorPhoto }}" alt="{{ $announcement->user->fullname ?? 'Author' }}"
-                style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent);"
-                onerror="this.src='{{ asset('images/default-avatar.svg') }}'">
-            <span style="font-weight: 600; color: var(--text-main);">Kuya {{ $announcement->user->fullname ?? 'Unknown' }}</span>
-        </a>
+        <div style="display: flex; align-items: center; gap: 0.6rem; font-size: 0.85rem;">
+            <a href="{{ $userUrl }}" class="author-profile-link"
+                data-user-name="Kuya {{ $announcement->user->fullname ?? 'Unknown' }}"
+                data-user-photo="{{ $authorPhoto }}"
+                data-user-position="{{ $announcement->user->position->name ?? 'Club Member' }}"
+                data-user-club="{{ $announcement->user->club->name ?? 'No Club Specified' }}"
+                data-user-region="{{ $announcement->user->region->name ?? 'No Region Specified' }}"
+                data-user-address="{{ $announcement->user->address ?? 'No Address Listed' }}"
+                style="display: inline-flex; text-decoration: none;"
+                onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">
+                <img src="{{ $authorPhoto }}" alt="{{ $announcement->user->fullname ?? 'Author' }}"
+                    style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent);"
+                    onerror="this.src='{{ asset('images/default-avatar.svg') }}'">
+            </a>
+            <a href="{{ $userUrl }}"
+                style="font-weight: 600; color: var(--text-main); text-decoration: none;"
+                onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--text-main)'">
+                Kuya {{ $announcement->user->fullname ?? 'Unknown' }}
+            </a>
+        </div>
         <div style="width: 4px; height: 4px; border-radius: 50%; background-color: var(--border-color);"></div>
         <div style="display: flex; align-items: center; gap: 0.5rem; color: var(--text-muted); font-size: 0.85rem;">
             <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
