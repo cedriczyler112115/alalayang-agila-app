@@ -79,6 +79,17 @@
                                     <span>{{ $user->region->name }}</span>
                                 </div>
                             @endif
+                            @if($user->contact_number)
+                                <div style="display: flex; align-items: center; gap: 5px;">
+                                    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z">
+                                        </path>
+                                    </svg>
+                                    <a href="tel:{{ $user->contact_number }}" style="color: inherit; text-decoration: none;" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">{{ $user->contact_number }}</a>
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -101,6 +112,19 @@
 
                         <div
                             style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.25rem;">
+                            <div>
+                                <span
+                                    style="display: block; font-size: 0.78rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 2px;">Contact Number</span>
+                                <span
+                                    style="font-size: 0.95rem; font-weight: 600; color: var(--text-main);">
+                                    @if($user->contact_number)
+                                        <a href="tel:{{ $user->contact_number }}" style="color: var(--accent); text-decoration: none;">{{ $user->contact_number }}</a>
+                                    @else
+                                        N/A
+                                    @endif
+                                </span>
+                            </div>
+
                             <div>
                                 <span
                                     style="display: block; font-size: 0.78rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 2px;">Sex</span>
