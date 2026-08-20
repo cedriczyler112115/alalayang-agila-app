@@ -236,14 +236,14 @@
                     <button class="announcement-tab-btn" data-target="tab-regional">Regional</button>
                     <button class="announcement-tab-btn" data-target="tab-club">My Club</button>
                 </div>
-                <button type="button" onclick="document.getElementById('setupGuideModal').style.display='flex'"
+                <button type="button" onclick="document.getElementById('homeScreenGuideModal').style.display='flex'"
                     class="btn btn-outline btn-sm"
                     style="display: inline-flex; align-items: center; gap: 0.5rem; border-color: var(--accent); color: var(--accent); font-weight: 600; padding: 0.5rem 1rem; border-radius: var(--radius-md); margin-bottom: 0.25rem;">
                     <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            d="M12 18h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
                     </svg>
-                    How to Setup Alalayang Agila Community App
+                    How to Add the App in Home Screen
                 </button>
             </div>
 
@@ -445,7 +445,8 @@
                         NTFY PUSH NOTIFICATIONS
                     </h3>
                     <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.4; margin: 0 0 1rem 0;">
-                        Install <strong>ntfy</strong> on your phone, tap <strong>"+"</strong> to add subscriptions, and copy the
+                        Install <strong>ntfy</strong> on your phone, tap <strong>"+"</strong> to add subscriptions, and copy
+                        the
                         topic names below:
                     </p>
 
@@ -724,13 +725,15 @@
             });
         </script>
 
-        <!-- How to Setup Alalayang Agila Community App Modal -->
-        <div id="setupGuideModal"
+
+
+        <!-- How to Add App to Home Screen Modal -->
+        <div id="homeScreenGuideModal"
             style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.65); align-items: center; justify-content: center; z-index: 1000; padding: 1.25rem; backdrop-filter: blur(6px);">
             <div class="card"
                 style="width: 100%; max-width: 760px; max-height: 90vh; display: flex; flex-direction: column; overflow: hidden; border-radius: var(--radius-lg); border: 1px solid var(--border-color); box-shadow: var(--shadow-lg); background: var(--card-bg);">
 
-                <!-- Modal Header -->
+                <!-- Header -->
                 <div class="card-header"
                     style="display: flex; justify-content: space-between; align-items: flex-start; padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--border-color); background: var(--card-bg);">
                     <div>
@@ -741,226 +744,354 @@
                                 <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"
                                     viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253">
+                                        d="M12 18h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z">
                                     </path>
                                 </svg>
                             </div>
-                            How to Setup Alalayang Agila Community App
+                            How to Add App to Home Screen (iOS & Android)
                         </h3>
                         <p style="margin: 0; font-size: 0.85rem; color: var(--text-muted);">
-                            Follow these simple step-by-step instructions to get started and enable push notifications.
+                            Install the CaragaDos EC App on your mobile phone for 1-tap instant access.
                         </p>
                     </div>
-                    <button type="button" onclick="document.getElementById('setupGuideModal').style.display='none'"
+                    <button type="button" onclick="document.getElementById('homeScreenGuideModal').style.display='none'"
                         style="background: none; border: none; font-size: 1.5rem; line-height: 1; cursor: pointer; color: var(--text-muted); border-radius: 50%; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; transition: background 0.2s;"
                         onmouseover="this.style.background='rgba(255,255,255,0.08)'"
                         onmouseout="this.style.background='none'">&times;</button>
                 </div>
 
-                <!-- Modal Body -->
+                <!-- Body -->
                 <div class="card-body"
                     style="overflow-y: auto; padding: 1.5rem; line-height: 1.65; font-size: 0.95rem; color: var(--text-main); display: flex; flex-direction: column; gap: 1.5rem;">
 
-                    <!-- Step 1 Card -->
+                    <!-- OS Selector Tabs -->
                     <div
-                        style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 1.25rem;">
-                        <h4
-                            style="font-size: 1rem; font-weight: 700; color: var(--accent); margin: 0 0 1rem 0; display: flex; align-items: center; gap: 10px;">
-                            <span
-                                style="display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 50%; background: var(--accent); color: #fff; font-size: 0.85rem; font-weight: 700; flex-shrink: 0;">1</span>
-                            Accessing the Alalayang Agila Community App
-                        </h4>
-                        <ol style="margin: 0; padding-left: 1.4rem; display: flex; flex-direction: column; gap: 0.5rem;">
-                            <li>Open your web browser (e.g. Google Chrome or Safari) and visit:
-                                <a href="https://app.tfoe-alalayangagila.org/" target="_blank"
-                                    style="color: var(--accent); font-weight: 600; text-decoration: underline;">https://app.tfoe-alalayangagila.org/</a>
-                            </li>
-                            <li>Click <strong>"Continue with Google"</strong> to register or sign in with your Google
-                                account.</li>
-                            <li>Your account registration will be reviewed and approved by the administrator
-                                (<strong>Malihao Hills EC Technical</strong>).</li>
-                            <li>While waiting for approval, you can update your personal information in your profile.</li>
-                            <li><strong>Important Requirement:</strong> Please ensure all profile details are filled out,
-                                especially your <strong>Exact Address Location on the Map</strong>.</li>
-                            <li>Once your account is approved, you will have full access to all features in the Alalayang
-                                Agila Community App.</li>
-                        </ol>
+                        style="display: flex; gap: 8px; background: rgba(0,0,0,0.05); padding: 4px; border-radius: var(--radius-md); border: 1px solid var(--border-color);">
+                        <button type="button" id="tabBtnIos" onclick="switchHomeScreenTab('ios')"
+                            style="flex: 1; padding: 0.65rem; font-weight: 700; font-size: 0.88rem; border: none; border-radius: var(--radius-sm); cursor: pointer; background: var(--card-bg); color: var(--accent); box-shadow: var(--shadow-sm);">
+                            🍎 iPhone / iPad (iOS)
+                        </button>
+                        <button type="button" id="tabBtnAndroid" onclick="switchHomeScreenTab('android')"
+                            style="flex: 1; padding: 0.65rem; font-weight: 700; font-size: 0.88rem; border: none; border-radius: var(--radius-sm); cursor: pointer; background: transparent; color: var(--text-muted);">
+                            🤖 Android (Chrome)
+                        </button>
                     </div>
 
-                    <!-- Step 2 Card -->
-                    <div
-                        style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 1.25rem;">
-                        <h4
-                            style="font-size: 1rem; font-weight: 700; color: var(--accent); margin: 0 0 1rem 0; display: flex; align-items: center; gap: 10px;">
-                            <span
-                                style="display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 50%; background: var(--accent); color: #fff; font-size: 0.85rem; font-weight: 700; flex-shrink: 0;">2</span>
-                            Installing the Push Notification App (ntfy)
-                        </h4>
-                        <ol style="margin: 0; padding-left: 1.4rem; display: flex; flex-direction: column; gap: 0.5rem;">
-                            <li>On your mobile phone (Android Google Play Store or iPhone App Store), search for and install
-                                <strong>"ntfy"</strong>.
-                                <div
-                                    style="margin-top: 0.75rem; margin-bottom: 0.75rem; display: flex; justify-content: center; width: 100%;">
-                                    <img src="{{ asset('storage/ntfy-app-logo.jpg') }}" alt="ntfy App Logo"
-                                        style="max-width: 320px; width: 100%; height: auto; border-radius: 12px; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); display: block;">
-                                </div>
-                            </li>
-                            <li>Open the <strong>ntfy</strong> application on your phone.</li>
-                            <li>Tap the <strong>"+" (Add Subscription)</strong> button located in the upper-right corner.
-                            </li>
-                            <li>
-                                @if(!empty($userRegionKeyword))
-                                    Type <code
-                                        style="background: rgba(59, 130, 246, 0.1); color: var(--accent); padding: 3px 8px; border-radius: 4px; font-weight: 700; font-family: monospace;">{{ $userRegionKeyword }}</code>
-                                    as the topic name and tap <strong>Subscribe</strong> <em>(for Important Regional
-                                        Announcements)</em>.
-                                @else
-                                    <span style="color: #ef4444; font-style: italic;">No notification topic configured for your
-                                        region.</span>
-                                @endif
-                            </li>
-                            <li>
-                                Tap the <strong>"+"</strong> button again, type <code
-                                    style="background: rgba(59, 130, 246, 0.1); color: var(--accent); padding: 3px 8px; border-radius: 4px; font-weight: 700; font-family: monospace;">ALALAYANG-AGILA-TFOE-PE-2026</code>
-                                as the topic name, and tap <strong>Subscribe</strong> <em>(for Quick Response & Emergency
-                                    Alerts)</em>.
-                            </li>
-                            @if(!empty($userClubKeyword))
-                                <li>
-                                    Tap the <strong>"+"</strong> button again, type <code
-                                        style="background: rgba(59, 130, 246, 0.1); color: var(--accent); padding: 3px 8px; border-radius: 4px; font-weight: 700; font-family: monospace;">{{ $userClubKeyword }}</code>
-                                    as the topic name, and tap <strong>Subscribe</strong> <em>(for {{ $userClubName ?? 'Club' }}
-                                        Announcements)</em>.
-                                </li>
-                            @endif
-                        </ol>
-                    </div>
+                    <!-- iOS Content -->
+                    <div id="paneIosGuide" style="display: flex; flex-direction: column; gap: 1.25rem;">
 
-                    <!-- Step 3 Card -->
-                    <div
-                        style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 1.25rem;">
-                        <h4
-                            style="font-size: 1rem; font-weight: 700; color: var(--accent); margin: 0 0 1rem 0; display: flex; align-items: center; gap: 10px;">
-                            <span
-                                style="display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 50%; background: var(--accent); color: #fff; font-size: 0.85rem; font-weight: 700; flex-shrink: 0;">3</span>
-                            Joining the Emergency & Quick Response Telegram Group
-                        </h4>
-                        <ol style="margin: 0; padding-left: 1.4rem; display: flex; flex-direction: column; gap: 0.6rem;">
-                            <li>Download and install <strong>Telegram</strong> on your smartphone and set it up using your
-                                mobile number.</li>
-                            <li>
-                                Join the official Quick Response group by opening this link:
-                                <a href="https://t.me/+uegRcW7xnsNiYzI1" target="_blank"
-                                    style="color: var(--accent); font-weight: 600; text-decoration: underline;">https://t.me/+uegRcW7xnsNiYzI1</a>
-                                or by scanning the QR code below:
-                            </li>
-                        </ol>
+                        <!-- Step 1 Card -->
                         <div
-                            style="margin: 1.25rem auto 0 auto; display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; max-width: 350px;">
-                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=350x350&data={{ urlencode('https://t.me/+uegRcW7xnsNiYzI1') }}"
-                                alt="Alalayang Agila Telegram QR Code"
-                                style="max-width: 300px; width: 100%; height: auto; border: none; outline: none; display: block; border-radius: 8px;">
-                            <span
-                                style="margin-top: 0.6rem; font-weight: 700; font-size: 0.9rem; color: var(--text-main); text-transform: uppercase; letter-spacing: 0.05em; text-align: center;">ALALAYANG
-                                AGILA</span>
+                            style="background: rgba(59, 130, 246, 0.04); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 1.25rem; display: flex; flex-direction: column; align-items: center; text-align: center;">
+                            <div
+                                style="width: 100%; display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem;">
+                                <span
+                                    style="font-size: 0.85rem; font-weight: 800; color: #ffffff; background: linear-gradient(135deg, #3b82f6, #1d4ed8); padding: 0.3rem 0.85rem; border-radius: var(--radius-md); text-transform: uppercase; letter-spacing: 0.05em;">Step
+                                    1</span>
+                                <span style="font-size: 0.85rem; font-weight: 700; color: var(--accent);">Open Safari
+                                    Browser</span>
+                            </div>
+                            <p
+                                style="font-size: 0.9rem; color: var(--text-main); margin: 0 0 1rem 0; line-height: 1.5; width: 100%; text-align: left;">
+                                Open <strong>Safari</strong> on your iPhone or iPad and navigate to <strong
+                                    style="color: var(--accent);">https://app.tfoe-alalayangagila.org/</strong>. <br> Tap
+                                the 3 dots button below.
+                            </p>
+                            <img src="{{ asset('storage/ios/1.jfif') }}" alt="iOS Step 1 - Open Safari Browser"
+                                style="max-width: 320px; width: 100%; height: auto; border-radius: 12px; border: 1px solid var(--border-color); box-shadow: var(--shadow-md); display: block;">
                         </div>
+
+                        <!-- Step 2 Card -->
+                        <div
+                            style="background: rgba(59, 130, 246, 0.04); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 1.25rem; display: flex; flex-direction: column; align-items: center; text-align: center;">
+                            <div
+                                style="width: 100%; display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem;">
+                                <span
+                                    style="font-size: 0.85rem; font-weight: 800; color: #ffffff; background: linear-gradient(135deg, #3b82f6, #1d4ed8); padding: 0.3rem 0.85rem; border-radius: var(--radius-md); text-transform: uppercase; letter-spacing: 0.05em;">Step
+                                    2</span>
+                                <span style="font-size: 0.85rem; font-weight: 700; color: var(--accent);">Tap the Share
+                                    Button</span>
+                            </div>
+                            <p
+                                style="font-size: 0.9rem; color: var(--text-main); margin: 0 0 1rem 0; line-height: 1.5; width: 100%; text-align: left;">
+                                Tap the <strong>Share icon</strong> <span
+                                    style="display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; background: rgba(59,130,246,0.15); border-radius: 4px; font-weight: 700; color: var(--accent);">⎋</span>
+                                (the square icon with an arrow pointing up on Safari's bottom toolbar).
+                            </p>
+                            <img src="{{ asset('storage/ios/2.jfif') }}" alt="iOS Step 2 - Tap Share Button"
+                                style="max-width: 320px; width: 100%; height: auto; border-radius: 12px; border: 1px solid var(--border-color); box-shadow: var(--shadow-md); display: block;">
+                        </div>
+
+                        <!-- Step 3 Card -->
+                        <div
+                            style="background: rgba(59, 130, 246, 0.04); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 1.25rem; display: flex; flex-direction: column; align-items: center; text-align: center;">
+                            <div
+                                style="width: 100%; display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem;">
+                                <span
+                                    style="font-size: 0.85rem; font-weight: 800; color: #ffffff; background: linear-gradient(135deg, #3b82f6, #1d4ed8); padding: 0.3rem 0.85rem; border-radius: var(--radius-md); text-transform: uppercase; letter-spacing: 0.05em;">Step
+                                    3</span>
+                                <span style="font-size: 0.85rem; font-weight: 700; color: var(--accent);">Tap "View
+                                    More"</span>
+                            </div>
+                            <p
+                                style="font-size: 0.9rem; color: var(--text-main); margin: 0 0 1rem 0; line-height: 1.5; width: 100%; text-align: left;">
+                                Scroll down or tap <strong>View More</strong>
+                            </p>
+                            <img src="{{ asset('storage/ios/3.jfif') }}" alt="iOS Step 3 - Select Add to Home Screen"
+                                style="max-width: 320px; width: 100%; height: auto; border-radius: 12px; border: 1px solid var(--border-color); box-shadow: var(--shadow-md); display: block;">
+                        </div>
+
+                        <!-- Step 4 Card -->
+                        <div
+                            style="background: rgba(59, 130, 246, 0.04); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 1.25rem; display: flex; flex-direction: column; align-items: center; text-align: center;">
+                            <div
+                                style="width: 100%; display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem;">
+                                <span
+                                    style="font-size: 0.85rem; font-weight: 800; color: #ffffff; background: linear-gradient(135deg, #3b82f6, #1d4ed8); padding: 0.3rem 0.85rem; border-radius: var(--radius-md); text-transform: uppercase; letter-spacing: 0.05em;">Step
+                                    4</span>
+                                <span style="font-size: 0.85rem; font-weight: 700; color: var(--accent);">Tap "Add to Home
+                                    Screen"
+                                    "Add"</span>
+                            </div>
+                            <p
+                                style="font-size: 0.9rem; color: var(--text-main); margin: 0 0 1rem 0; line-height: 1.5; width: 100%; text-align: left;">
+                                Tap <strong>"Add to Home Screen"</strong>
+                            </p>
+                            <img src="{{ asset('storage/ios/4.jfif') }}" alt="iOS Step 4 - Confirm and Tap Add"
+                                style="max-width: 320px; width: 100%; height: auto; border-radius: 12px; border: 1px solid var(--border-color); box-shadow: var(--shadow-md); display: block;">
+                        </div>
+
+                        <!-- Step 5 Card -->
+                        <div
+                            style="background: rgba(59, 130, 246, 0.04); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 1.25rem; display: flex; flex-direction: column; align-items: center; text-align: center;">
+                            <div
+                                style="width: 100%; display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem;">
+                                <span
+                                    style="font-size: 0.85rem; font-weight: 800; color: #ffffff; background: linear-gradient(135deg, #3b82f6, #1d4ed8); padding: 0.3rem 0.85rem; border-radius: var(--radius-md); text-transform: uppercase; letter-spacing: 0.05em;">Step
+                                    5</span>
+                                <span style="font-size: 0.85rem; font-weight: 700; color: var(--accent);">Rename label
+                                    Home Screen</span>
+                            </div>
+                            <p
+                                style="font-size: 0.9rem; color: var(--text-main); margin: 0 0 1rem 0; line-height: 1.5; width: 100%; text-align: left;">
+                                Rename the label of the icon in your iPhone Home Screen and Tap <strong>Add</strong> button
+                            </p>
+                            <img src="{{ asset('storage/ios/5.jfif') }}" alt="iOS Step 5 - View App Icon on Home Screen"
+                                style="max-width: 320px; width: 100%; height: auto; border-radius: 12px; border: 1px solid var(--border-color); box-shadow: var(--shadow-md); display: block;">
+                        </div>
+
+                        <!-- Step 6 Card -->
+                        <div
+                            style="background: rgba(59, 130, 246, 0.04); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 1.25rem; display: flex; flex-direction: column; align-items: center; text-align: center;">
+                            <div
+                                style="width: 100%; display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem;">
+                                <span
+                                    style="font-size: 0.85rem; font-weight: 800; color: #ffffff; background: linear-gradient(135deg, #3b82f6, #1d4ed8); padding: 0.3rem 0.85rem; border-radius: var(--radius-md); text-transform: uppercase; letter-spacing: 0.05em;">Step
+                                    6</span>
+                                <span style="font-size: 0.85rem; font-weight: 700; color: var(--accent);">Launch App with
+                                    1-Tap Access</span>
+                            </div>
+                            <p
+                                style="font-size: 0.9rem; color: var(--text-main); margin: 0 0 1rem 0; line-height: 1.5; width: 100%; text-align: left;">
+                                Tap the Home Screen icon anytime for instant, full-screen access to CaragaDos EC.
+                            </p>
+                            <img src="{{ asset('storage/ios/6.jfif') }}" alt="iOS Step 6 - Launch App with 1-Tap Access"
+                                style="max-width: 320px; width: 100%; height: auto; border-radius: 12px; border: 1px solid var(--border-color); box-shadow: var(--shadow-md); display: block;">
+                        </div>
+
                     </div>
 
-                    <!-- Step 4 Card -->
-                    <div
-                        style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 1.25rem;">
-                        <h4
-                            style="font-size: 1rem; font-weight: 700; color: var(--accent); margin: 0 0 1rem 0; display: flex; align-items: center; gap: 10px;">
-                            <span
-                                style="display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 50%; background: var(--accent); color: #fff; font-size: 0.85rem; font-weight: 700; flex-shrink: 0;">4</span>
-                            Joining Your Club Announcement Telegram Group
-                        </h4>
-                        <ol style="margin: 0; padding-left: 1.4rem; display: flex; flex-direction: column; gap: 0.6rem;">
-                            <li>Open <strong>Telegram</strong> on your smartphone.</li>
-                            <li>
-                                Join your specific club's announcement channel by using the link or scanning the QR code
-                                below:
-                                @if(!empty($userTelegramLink))
-                                    <div style="margin-top: 0.4rem;">
-                                        <a href="{{ $userTelegramLink }}" target="_blank"
-                                            style="color: var(--accent); font-weight: 600; text-decoration: underline;">{{ $userTelegramLink }}</a>
-                                    </div>
-                                @else
-                                    <div
-                                        style="background-color: rgba(239, 68, 68, 0.08); border: 1px solid rgba(239, 68, 68, 0.25); color: #ef4444; padding: 0.85rem 1.15rem; border-radius: var(--radius-md); margin-top: 0.6rem; display: flex; align-items: flex-start; gap: 10px;">
-                                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"
-                                            viewBox="0 0 24 24" style="flex-shrink: 0; margin-top: 2px;">
-                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z">
-                                            </path>
-                                        </svg>
-                                        <div style="font-size: 0.88rem; line-height: 1.4;">
-                                            <div style="font-weight: 700; margin-bottom: 2px;">No Telegram link configured
-                                                (PENDING REGISTRATION IN TELEGRAM) for your club.</div>
-                                            <div style="font-size: 0.82rem; opacity: 0.9;">We will notify you once the Telegram
-                                                Group Bot Chat is available.</div>
-                                        </div>
-                                    </div>
-                                @endif
-                            </li>
-                        </ol>
+                    <!-- Android Content -->
+                    <div id="paneAndroidGuide" style="display: none; flex-direction: column; gap: 1.25rem;">
 
-                        @if(!empty($userTelegramLink))
+                        <!-- Step 1 Card -->
+                        <div
+                            style="background: rgba(34, 197, 94, 0.04); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 1.25rem; display: flex; flex-direction: column; align-items: center; text-align: center;">
                             <div
-                                style="margin: 1.25rem auto 0 auto; display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; max-width: 350px;">
-                                <img src="https://api.qrserver.com/v1/create-qr-code/?size=350x350&data={{ urlencode($userTelegramLink) }}"
-                                    alt="Club Announcement Telegram QR Code"
-                                    style="max-width: 300px; width: 100%; height: auto; border: none; outline: none; display: block; border-radius: 8px;">
+                                style="width: 100%; display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem;">
                                 <span
-                                    style="margin-top: 0.6rem; font-weight: 700; font-size: 0.9rem; color: var(--text-main); text-transform: uppercase; letter-spacing: 0.05em; text-align: center;">CLUB
-                                    ANNOUNCEMENT</span>
-                                @if(!empty($userClubName))
-                                    <span
-                                        style="margin-top: 0.25rem; font-weight: 700; font-size: 0.85rem; color: var(--accent); text-transform: uppercase; letter-spacing: 0.04em; text-align: center;">({{ $userClubName }})</span>
-                                @endif
-                                <div class="warning-blinking"
-                                    style="background-color: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); color: #ef4444; border-radius: var(--radius-md); padding: 0.5rem 0.75rem; margin-top: 0.6rem; display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.02em; text-align: center; width: 100%;">
-                                    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"
-                                        viewBox="0 0 24 24" style="flex-shrink: 0;">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z">
-                                        </path>
-                                    </svg>
-                                    <span>Do not scan this if you are not a member of this club</span>
-                                </div>
+                                    style="font-size: 0.85rem; font-weight: 800; color: #ffffff; background: linear-gradient(135deg, #22c55e, #15803d); padding: 0.3rem 0.85rem; border-radius: var(--radius-md); text-transform: uppercase; letter-spacing: 0.05em;">Step
+                                    1</span>
+                                <span style="font-size: 0.85rem; font-weight: 700; color: var(--success);">Open Chrome
+                                    Browser</span>
                             </div>
-                        @endif
+                            <p
+                                style="font-size: 0.9rem; color: var(--text-main); margin: 0 0 1rem 0; line-height: 1.5; width: 100%; text-align: left;">
+                                Open <strong>Google Chrome</strong> on your Android phone and navigate to <strong
+                                    style="color: var(--success);">https://app.tfoe-alalayangagila.org/</strong>. <br>Tap 3
+                                dots
+                                button in the top right
+                            </p>
+                            <img src="{{ asset('storage/android/1.jfif') }}" alt="Android Step 1 - Open Chrome Browser"
+                                style="max-width: 320px; width: 100%; height: auto; border-radius: 12px; border: 1px solid var(--border-color); box-shadow: var(--shadow-md); display: block;">
+                        </div>
+
+                        <!-- Step 2 Card -->
+                        <div
+                            style="background: rgba(34, 197, 94, 0.04); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 1.25rem; display: flex; flex-direction: column; align-items: center; text-align: center;">
+                            <div
+                                style="width: 100%; display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem;">
+                                <span
+                                    style="font-size: 0.85rem; font-weight: 800; color: #ffffff; background: linear-gradient(135deg, #22c55e, #15803d); padding: 0.3rem 0.85rem; border-radius: var(--radius-md); text-transform: uppercase; letter-spacing: 0.05em;">Step
+                                    2</span>
+                                <span style="font-size: 0.85rem; font-weight: 700; color: var(--success);">Tap
+                                    <strong>"Install and create shortcut"</strong></span>
+                            </div>
+                            <p
+                                style="font-size: 0.9rem; color: var(--text-main); margin: 0 0 1rem 0; line-height: 1.5; width: 100%; text-align: left;">
+                                Tap the <strong>Install and create shortcut</strong> option from the menu
+                            </p>
+                            <img src="{{ asset('storage/android/2.jfif') }}" alt="Android Step 2 - Tap Three Dots Menu"
+                                style="max-width: 320px; width: 100%; height: auto; border-radius: 12px; border: 1px solid var(--border-color); box-shadow: var(--shadow-md); display: block;">
+                        </div>
+
+                        <!-- Step 3 Card -->
+                        <div
+                            style="background: rgba(34, 197, 94, 0.04); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 1.25rem; display: flex; flex-direction: column; align-items: center; text-align: center;">
+                            <div
+                                style="width: 100%; display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem;">
+                                <span
+                                    style="font-size: 0.85rem; font-weight: 800; color: #ffffff; background: linear-gradient(135deg, #22c55e, #15803d); padding: 0.3rem 0.85rem; border-radius: var(--radius-md); text-transform: uppercase; letter-spacing: 0.05em;">Step
+                                    3</span>
+                                <span style="font-size: 0.85rem; font-weight: 700; color: var(--success);">TA "Install or
+                                    Create Shortcut"</span>
+                            </div>
+                            <p
+                                style="font-size: 0.9rem; color: var(--text-main); margin: 0 0 1rem 0; line-height: 1.5; width: 100%; text-align: left;">
+                                Tap <strong>"Install"</strong> or <strong>"Create Shortcut"</strong> from the menu options.
+                            </p>
+                            <img src="{{ asset('storage/android/3.jfif') }}"
+                                alt="Android Step 3 - Select Add to Home Screen"
+                                style="max-width: 320px; width: 100%; height: auto; border-radius: 12px; border: 1px solid var(--border-color); box-shadow: var(--shadow-md); display: block;">
+                        </div>
+
+                        <!-- Step 4 Card -->
+                        <div
+                            style="background: rgba(34, 197, 94, 0.04); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 1.25rem; display: flex; flex-direction: column; align-items: center; text-align: center;">
+                            <div
+                                style="width: 100%; display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem;">
+                                <span
+                                    style="font-size: 0.85rem; font-weight: 800; color: #ffffff; background: linear-gradient(135deg, #22c55e, #15803d); padding: 0.3rem 0.85rem; border-radius: var(--radius-md); text-transform: uppercase; letter-spacing: 0.05em;">Step
+                                    4</span>
+                                <span style="font-size: 0.85rem; font-weight: 700; color: var(--success);">Tap "Install"
+                                </span>
+                            </div>
+                            <p
+                                style="font-size: 0.9rem; color: var(--text-main); margin: 0 0 1rem 0; line-height: 1.5; width: 100%; text-align: left;">
+                                Tap <strong>"Install"</strong>.
+                            </p>
+                            <img src="{{ asset('storage/android/4.jfif') }}" alt="Android Step 4 - Confirm and Tap Add"
+                                style="max-width: 320px; width: 100%; height: auto; border-radius: 12px; border: 1px solid var(--border-color); box-shadow: var(--shadow-md); display: block;">
+                        </div>
+
+                        <!-- Step 5 Card -->
+                        <div
+                            style="background: rgba(34, 197, 94, 0.04); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 1.25rem; display: flex; flex-direction: column; align-items: center; text-align: center;">
+                            <div
+                                style="width: 100%; display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem;">
+                                <span
+                                    style="font-size: 0.85rem; font-weight: 800; color: #ffffff; background: linear-gradient(135deg, #22c55e, #15803d); padding: 0.3rem 0.85rem; border-radius: var(--radius-md); text-transform: uppercase; letter-spacing: 0.05em;">Step
+                                    5</span>
+                                <span style="font-size: 0.85rem; font-weight: 700; color: var(--success);">View App Icon on
+                                    Home Screen</span>
+                            </div>
+                            <p
+                                style="font-size: 0.9rem; color: var(--text-main); margin: 0 0 1rem 0; line-height: 1.5; width: 100%; text-align: left;">
+                                The <strong>CaragaDos EC</strong> app shortcut icon is placed on your Android phone's Home
+                                Screen.
+                            </p>
+                            <img src="{{ asset('storage/android/5.jfif') }}"
+                                alt="Android Step 5 - View App Icon on Home Screen"
+                                style="max-width: 320px; width: 100%; height: auto; border-radius: 12px; border: 1px solid var(--border-color); box-shadow: var(--shadow-md); display: block;">
+                        </div>
+
+                        <!-- Step 6 Card -->
+                        <div
+                            style="background: rgba(34, 197, 94, 0.04); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 1.25rem; display: flex; flex-direction: column; align-items: center; text-align: center;">
+                            <div
+                                style="width: 100%; display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem;">
+                                <span
+                                    style="font-size: 0.85rem; font-weight: 800; color: #ffffff; background: linear-gradient(135deg, #22c55e, #15803d); padding: 0.3rem 0.85rem; border-radius: var(--radius-md); text-transform: uppercase; letter-spacing: 0.05em;">Step
+                                    6</span>
+                                <span style="font-size: 0.85rem; font-weight: 700; color: var(--success);">Launch App with
+                                    1-Tap Access</span>
+                            </div>
+                            <p
+                                style="font-size: 0.9rem; color: var(--text-main); margin: 0 0 1rem 0; line-height: 1.5; width: 100%; text-align: left;">
+                                Tap the Home Screen icon anytime for instant, standalone full-screen access to CaragaDos EC.
+                            </p>
+                            <img src="{{ asset('storage/android/6.jfif') }}"
+                                alt="Android Step 6 - Launch App with 1-Tap Access"
+                                style="max-width: 320px; width: 100%; height: auto; border-radius: 12px; border: 1px solid var(--border-color); box-shadow: var(--shadow-md); display: block;">
+                        </div>
+
                     </div>
 
                 </div>
 
-                <!-- Modal Footer -->
+                <!-- Footer -->
                 <div class="card-footer"
                     style="padding: 1rem 1.5rem; border-top: 1px solid var(--border-color); display: flex; justify-content: flex-end; background: var(--card-bg);">
-                    <button type="button" onclick="document.getElementById('setupGuideModal').style.display='none'"
-                        class="btn btn-primary" style="padding: 0.5rem 1.5rem; font-weight: 600;">Got It, Close
-                        Guide</button>
+                    <button type="button" onclick="document.getElementById('homeScreenGuideModal').style.display='none'"
+                        class="btn btn-primary" style="padding: 0.5rem 1.5rem; font-weight: 600;">Got It, Close</button>
                 </div>
             </div>
         </div>
+
+        <script>
+            function switchHomeScreenTab(os) {
+                const btnIos = document.getElementById('tabBtnIos');
+                const btnAndroid = document.getElementById('tabBtnAndroid');
+                const paneIos = document.getElementById('paneIosGuide');
+                const paneAndroid = document.getElementById('paneAndroidGuide');
+
+                if (os === 'android') {
+                    btnAndroid.style.background = 'var(--card-bg)';
+                    btnAndroid.style.color = 'var(--success)';
+                    btnAndroid.style.boxShadow = 'var(--shadow-sm)';
+
+                    btnIos.style.background = 'transparent';
+                    btnIos.style.color = 'var(--text-muted)';
+                    btnIos.style.boxShadow = 'none';
+
+                    paneAndroid.style.display = 'flex';
+                    paneIos.style.display = 'none';
+                } else {
+                    btnIos.style.background = 'var(--card-bg)';
+                    btnIos.style.color = 'var(--accent)';
+                    btnIos.style.boxShadow = 'var(--shadow-sm)';
+
+                    btnAndroid.style.background = 'transparent';
+                    btnAndroid.style.color = 'var(--text-muted)';
+                    btnAndroid.style.boxShadow = 'none';
+
+                    paneIos.style.display = 'flex';
+                    paneAndroid.style.display = 'none';
+                }
+            }
+        </script>
 
         <!-- Persistent Login Credentials & Cookie Consent Modal -->
         <div id="cookieConsentModal"
             style="display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.75); align-items: center; justify-content: center; z-index: 1050; padding: 1.25rem; backdrop-filter: blur(8px);">
             <div class="card"
                 style="width: 100%; max-width: 520px; border-radius: var(--radius-lg); border: 1px solid rgba(59, 130, 246, 0.3); box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4); background: var(--card-bg); overflow: hidden; animation: cookieModalFadeIn 0.3s ease-out;">
-                
+
                 <!-- Header -->
-                <div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(37, 99, 235, 0.05)); padding: 1.5rem 1.75rem 1.25rem 1.75rem; border-bottom: 1px solid var(--border-color); position: relative;">
+                <div
+                    style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(37, 99, 235, 0.05)); padding: 1.5rem 1.75rem 1.25rem 1.75rem; border-bottom: 1px solid var(--border-color); position: relative;">
                     <div style="display: flex; align-items: center; gap: 14px;">
-                        <div style="width: 48px; height: 48px; border-radius: 12px; background: linear-gradient(135deg, #3b82f6, #1d4ed8); color: #ffffff; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4); flex-shrink: 0;">
+                        <div
+                            style="width: 48px; height: 48px; border-radius: 12px; background: linear-gradient(135deg, #3b82f6, #1d4ed8); color: #ffffff; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4); flex-shrink: 0;">
                             🍪
                         </div>
                         <div>
-                            <h3 style="font-size: 1.15rem; font-weight: 700; color: var(--text-main); margin: 0 0 0.2rem 0; letter-spacing: -0.01em;">
+                            <h3
+                                style="font-size: 1.15rem; font-weight: 700; color: var(--text-main); margin: 0 0 0.2rem 0; letter-spacing: -0.01em;">
                                 Persistent Login & Cookie Notice
                             </h3>
-                            <span style="font-size: 0.8rem; color: var(--accent); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">
+                            <span
+                                style="font-size: 0.8rem; color: var(--accent); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">
                                 Keep Your Session Active
                             </span>
                         </div>
@@ -974,37 +1105,52 @@
                 <!-- Body -->
                 <div style="padding: 1.5rem 1.75rem; font-size: 0.9rem; color: var(--text-main); line-height: 1.6;">
                     <p style="margin: 0 0 1.25rem 0; color: var(--text-muted);">
-                        We use persistent authentication cookies to keep you signed in on this device. By accepting, <strong>your login credentials will never expire automatically</strong>, giving you instant access anytime.
+                        We use persistent authentication cookies to keep you signed in on this device. By accepting,
+                        <strong>your login credentials will never expire automatically</strong>, giving you instant access
+                        anytime.
                     </p>
 
-                    <div style="display: flex; flex-direction: column; gap: 0.85rem; background: rgba(59, 130, 246, 0.05); border: 1px solid rgba(59, 130, 246, 0.15); border-radius: var(--radius-md); padding: 1rem;">
+                    <div
+                        style="display: flex; flex-direction: column; gap: 0.85rem; background: rgba(59, 130, 246, 0.05); border: 1px solid rgba(59, 130, 246, 0.15); border-radius: var(--radius-md); padding: 1rem;">
                         <div style="display: flex; align-items: flex-start; gap: 10px;">
-                            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="color: var(--accent); flex-shrink: 0; margin-top: 2px;">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"
+                                viewBox="0 0 24 24" style="color: var(--accent); flex-shrink: 0; margin-top: 2px;">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z">
+                                </path>
                             </svg>
                             <div>
-                                <strong style="font-size: 0.85rem; color: var(--text-main); display: block;">No Repeated Logins Needed</strong>
-                                <span style="font-size: 0.8rem; color: var(--text-muted);">Your session stays remembered safely in browser cookies.</span>
+                                <strong style="font-size: 0.85rem; color: var(--text-main); display: block;">No Repeated
+                                    Logins Needed</strong>
+                                <span style="font-size: 0.8rem; color: var(--text-muted);">Your session stays remembered
+                                    safely in browser cookies.</span>
                             </div>
                         </div>
 
                         <div style="display: flex; align-items: flex-start; gap: 10px;">
-                            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="color: var(--success); flex-shrink: 0; margin-top: 2px;">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"
+                                viewBox="0 0 24 24" style="color: var(--success); flex-shrink: 0; margin-top: 2px;">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z">
+                                </path>
                             </svg>
                             <div>
-                                <strong style="font-size: 0.85rem; color: var(--text-main); display: block;">Encrypted Security Token</strong>
-                                <span style="font-size: 0.8rem; color: var(--text-muted);">Protected via secure HTTPS authentication standards.</span>
+                                <strong style="font-size: 0.85rem; color: var(--text-main); display: block;">Encrypted
+                                    Security Token</strong>
+                                <span style="font-size: 0.8rem; color: var(--text-muted);">Protected via secure HTTPS
+                                    authentication standards.</span>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Footer -->
-                <div style="padding: 1rem 1.75rem 1.5rem 1.75rem; border-top: 1px solid var(--border-color); display: flex; flex-direction: column; gap: 0.75rem; background: var(--card-bg);">
+                <div
+                    style="padding: 1rem 1.75rem 1.5rem 1.75rem; border-top: 1px solid var(--border-color); display: flex; flex-direction: column; gap: 0.75rem; background: var(--card-bg);">
                     <button type="button" onclick="acceptCookieRemember()" class="btn btn-primary"
                         style="width: 100%; justify-content: center; padding: 0.7rem 1.25rem; font-weight: 700; font-size: 0.9rem; border-radius: var(--radius-md); box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);">
-                        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="margin-right: 6px;">
+                        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"
+                            style="margin-right: 6px;">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
                         </svg>
                         Accept & Remember My Login Credentials
