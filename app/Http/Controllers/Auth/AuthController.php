@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\AppSetting;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -72,6 +73,8 @@ class AuthController extends Controller
         ]);
         $fullName = implode(' ', $nameParts);
 
+        $autoApprove = AppSetting::isAutoApproveNewUsersEnabled();
+
         $user = User::create([
             'first_name' => $request->first_name,
             'middle_name' => $request->middle_name,
@@ -80,8 +83,9 @@ class AuthController extends Controller
             'name' => $fullName,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'status' => 0, // Pending Approval
-            'access_type_id' => 5, // Member (Not Availed)
+            'status' => $autoApprove ? 1 : 0,
+            'is_admin' => 0,
+            'access_type_id' => $autoApprove ? 4 : null,
         ]);
 
         // Auto login with remember token

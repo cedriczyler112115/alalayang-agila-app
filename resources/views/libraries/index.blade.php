@@ -8,6 +8,34 @@
     $canEditLibraries = auth()->user()->hasPermission('libraries', 'edit');
     $canDeleteLibraries = auth()->user()->hasPermission('libraries', 'delete');
 @endphp
+<style>
+    .library-tab-pill {
+        border-radius: 9999px;
+        padding: 0.5rem 1.35rem;
+        font-weight: 600;
+        font-size: 0.88rem;
+        color: var(--text-muted);
+        background-color: transparent;
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .library-tab-pill:hover:not(.active) {
+        color: var(--accent) !important;
+        background-color: rgba(59, 130, 246, 0.15) !important;
+        box-shadow: 0 2px 8px rgba(59, 130, 246, 0.15);
+    }
+
+    .library-tab-pill.active {
+        color: #ffffff !important;
+        background-color: var(--accent) !important;
+        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.35);
+    }
+</style>
+
 <div style="margin-top: 2rem;">
     <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem;">
         <a href="{{ route('dashboard') }}" class="btn btn-outline" style="padding: 0.5rem; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px;" title="Back to Dashboard">
@@ -25,14 +53,14 @@
         </div>
     @endif
 
-    <div style="display: flex; gap: 1rem; margin-bottom: 2rem; border-bottom: 1px solid var(--border-color); padding-bottom: 1rem; flex-wrap: wrap;">
-        <a href="{{ route('libraries.index', ['tab' => 'global']) }}" class="nav-link {{ $tab === 'global' ? 'active' : '' }}" style="border-radius: 9999px; padding: 0.5rem 1.5rem;">Global</a>
-        <a href="{{ route('libraries.index', ['tab' => 'regions']) }}" class="nav-link {{ $tab === 'regions' ? 'active' : '' }}" style="border-radius: 9999px; padding: 0.5rem 1.5rem;">Regions</a>
-        <a href="{{ route('libraries.index', ['tab' => 'regional-positions']) }}" class="nav-link {{ $tab === 'regional-positions' ? 'active' : '' }}" style="border-radius: 9999px; padding: 0.5rem 1.5rem;">Regional Positions</a>
-        <a href="{{ route('libraries.index', ['tab' => 'clubs']) }}" class="nav-link {{ $tab === 'clubs' ? 'active' : '' }}" style="border-radius: 9999px; padding: 0.5rem 1.5rem;">Eagle Club Names</a>
-        <a href="{{ route('libraries.index', ['tab' => 'help']) }}" class="nav-link {{ $tab === 'help' ? 'active' : '' }}" style="border-radius: 9999px; padding: 0.5rem 1.5rem;">Help Types</a>
-        <a href="{{ route('libraries.index', ['tab' => 'positions']) }}" class="nav-link {{ $tab === 'positions' ? 'active' : '' }}" style="border-radius: 9999px; padding: 0.5rem 1.5rem;">Club Positions</a>
-        <a href="{{ route('libraries.index', ['tab' => 'national-officers']) }}" class="nav-link {{ $tab === 'national-officers' ? 'active' : '' }}" style="border-radius: 9999px; padding: 0.5rem 1.5rem;">National Officers</a>
+    <div style="display: flex; gap: 0.75rem; margin-bottom: 2rem; border-bottom: 1px solid var(--border-color); padding-bottom: 1rem; flex-wrap: wrap;">
+        <a href="{{ route('libraries.index', ['tab' => 'global']) }}" class="library-tab-pill {{ $tab === 'global' ? 'active' : '' }}">Global</a>
+        <a href="{{ route('libraries.index', ['tab' => 'regions']) }}" class="library-tab-pill {{ $tab === 'regions' ? 'active' : '' }}">Regions</a>
+        <a href="{{ route('libraries.index', ['tab' => 'regional-positions']) }}" class="library-tab-pill {{ $tab === 'regional-positions' ? 'active' : '' }}">Regional Positions</a>
+        <a href="{{ route('libraries.index', ['tab' => 'clubs']) }}" class="library-tab-pill {{ $tab === 'clubs' ? 'active' : '' }}">Eagle Club Names</a>
+        <a href="{{ route('libraries.index', ['tab' => 'help']) }}" class="library-tab-pill {{ $tab === 'help' ? 'active' : '' }}">Help Types</a>
+        <a href="{{ route('libraries.index', ['tab' => 'positions']) }}" class="library-tab-pill {{ $tab === 'positions' ? 'active' : '' }}">Club Positions</a>
+        <a href="{{ route('libraries.index', ['tab' => 'national-officers']) }}" class="library-tab-pill {{ $tab === 'national-officers' ? 'active' : '' }}">National Officers</a>
     </div>
 
     @if($tab === 'global')

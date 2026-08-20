@@ -70,6 +70,31 @@
             </div>
         </section>
 
+        <!-- New User Account Approval Section -->
+        <section style="background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 1.75rem; margin-top: 1.5rem;">
+            <div style="margin-bottom: 1.25rem;">
+                <h2 style="font-size: 1.2rem; font-weight: 700; color: var(--text-main); margin-bottom: 0.35rem;">New User Account Approval</h2>
+                <p style="color: var(--text-muted); margin: 0; font-size: 0.92rem;">
+                    Configure default account activation rules for newly created user accounts (Google Sign-In & Email/Password).
+                </p>
+            </div>
+
+            <div class="settings-row" style="border-top: none; padding-top: 0;">
+                <div>
+                    <h3 style="font-size: 1rem; font-weight: 600; color: var(--text-main); margin-bottom: 0.25rem;">Auto-Approve Newly Created Accounts</h3>
+                    <p style="color: var(--text-muted); margin: 0; font-size: 0.88rem; line-height: 1.6;">
+                        <strong style="color: var(--success);">Enabled:</strong> Do not require approval — automatically sets <code style="background: rgba(16, 185, 129, 0.1); color: var(--success); padding: 2px 6px; border-radius: 4px;">status = 1</code>, <code style="background: rgba(16, 185, 129, 0.1); color: var(--success); padding: 2px 6px; border-radius: 4px;">is_admin = 0</code>, and <code style="background: rgba(16, 185, 129, 0.1); color: var(--success); padding: 2px 6px; border-radius: 4px;">access_type_id = 4</code>.<br>
+                        <strong style="color: var(--danger);">Disabled:</strong> Requires manual admin approval — sets <code style="background: rgba(239, 68, 68, 0.1); color: var(--danger); padding: 2px 6px; border-radius: 4px;">status = 0</code>, <code style="background: rgba(239, 68, 68, 0.1); color: var(--danger); padding: 2px 6px; border-radius: 4px;">is_admin = 0</code>, and <code style="background: rgba(239, 68, 68, 0.1); color: var(--danger); padding: 2px 6px; border-radius: 4px;">access_type_id = NULL</code>.
+                    </p>
+                </div>
+                <label class="settings-switch">
+                    <input type="hidden" name="auto_approve_new_users" value="0">
+                    <input type="checkbox" name="auto_approve_new_users" value="1" {{ !empty($settings['auto_approve_new_users']) && in_array((string) $settings['auto_approve_new_users'], ['1', 'true'], true) ? 'checked' : '' }}>
+                    <span class="settings-slider"></span>
+                </label>
+            </div>
+        </section>
+
         <div style="display: flex; justify-content: flex-end; margin-top: 1.5rem;">
             <button type="submit" class="btn btn-primary" style="background-color: var(--accent); border-color: var(--accent); min-width: 200px;">
                 Save Settings

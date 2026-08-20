@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\AppSetting;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -51,6 +52,8 @@ class GoogleController extends Controller
                 }
             }
 
+            $autoApprove = AppSetting::isAutoApproveNewUsersEnabled();
+
             $user = User::create([
                 'name' => $fullName,
                 'first_name' => $firstName,
@@ -58,8 +61,9 @@ class GoogleController extends Controller
                 'extension_name' => $extensionName,
                 'email' => $googleUser->getEmail(),
                 'google_id' => $googleUser->getId(),
-                'status' => 0, // Approve
-                'access_type_id' => 5, // Member (Not Availed)
+                'status' => $autoApprove ? 1 : 0,
+                'is_admin' => 0,
+                'access_type_id' => $autoApprove ? 4 : null,
             ]);
         }
         elseif (!$user->google_id) {

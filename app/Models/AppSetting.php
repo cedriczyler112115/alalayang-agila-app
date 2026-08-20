@@ -17,6 +17,7 @@ class AppSetting extends Model
     protected static array $defaults = [
         'premium_feature_lock_enabled' => '1',
         'chat_with_kuya_enabled' => '1',
+        'auto_approve_new_users' => '0',
     ];
 
     protected static ?array $cachedSettings = null;
@@ -78,6 +79,11 @@ class AppSetting extends Model
     public static function isChatWithKuyaEnabled(): bool
     {
         return static::getBool('chat_with_kuya_enabled', true);
+    }
+
+    public static function isAutoApproveNewUsersEnabled(): bool
+    {
+        return static::getBool('auto_approve_new_users', false);
     }
 
     public static function premiumFeatureLabels(): array
