@@ -68,6 +68,7 @@ class GoogleController extends Controller
         }
 
         Auth::login($user);
+        session()->flash('from_login', true);
 
         return redirect('/dashboard');
     }

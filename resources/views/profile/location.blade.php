@@ -111,6 +111,7 @@
                 const lng = parseFloat(coords[1]);
                 const fullName = `${member.last_name}, ${member.first_name} ${member.middle_name || ''} ${member.extension_name || ''}`.trim().replace(/\s+/g, ' ');
                 const clubName = member.club ? member.club.name : 'No Club';
+                const clubColor = (member.club && member.club.color) ? member.club.color : '#3B82F6';
                 const regionName = member.region ? member.region.name : 'No Region';
                 const regionId = member.region ? String(member.region.id) : '';
                 const clubId = member.club ? String(member.club.id) : '';
@@ -122,6 +123,7 @@
                     lng,
                     fullName,
                     clubName,
+                    clubColor,
                     regionName,
                     regionId,
                     clubId,
@@ -162,15 +164,34 @@
             width: '100%'
         });
 
+        function createPinIcon(color) {
+            const svgHtml = `
+                <svg width="32" height="42" viewBox="0 0 32 42" fill="none" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0px 3px 6px rgba(0,0,0,0.4)); display: block;">
+                    <path d="M16 0C7.163 0 0 7.163 0 16C0 26.5 16 42 16 42C16 42 32 26.5 32 16C32 7.163 24.837 0 16 0Z" fill="${color}" stroke="#FFFFFF" stroke-width="2"/>
+                    <circle cx="16" cy="15" r="5.5" fill="#FFFFFF"/>
+                </svg>
+            `;
+            return L.divIcon({
+                className: 'custom-club-pin',
+                html: svgHtml,
+                iconSize: [32, 42],
+                iconAnchor: [16, 42],
+                popupAnchor: [0, -40]
+            });
+        }
+
         function buildPopupContent(member) {
             return `
                 <div style="display: flex; gap: 12px; min-width: 250px; padding: 5px; align-items: center;">
                     <div style="flex-shrink: 0;">
-                        <img loading="lazy" src="${member.photoUrl}" style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent); display: block;" onerror="this.src='${logoUrl}'">
+                        <img loading="lazy" src="${member.photoUrl}" style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 2px solid ${member.clubColor}; display: block;" onerror="this.src='${logoUrl}'">
                     </div>
                     <div style="flex: 1;">
                         <div style="font-weight: 700; color: var(--text-main); font-size: 1rem; margin-bottom: 2px; line-height: 1.2;"><span style="font-family: 'Brush Script MT', cursive; font-size: 1.5rem; font-weight: 400;">Kuya</span> ${member.fullName}</div>
-                        <div style="font-size: 0.8rem; color: var(--accent); font-weight: 600; margin-bottom: 2px;">${member.clubName}</div>
+                        <div style="font-size: 0.8rem; color: ${member.clubColor}; font-weight: 600; margin-bottom: 2px; display: flex; align-items: center; gap: 6px;">
+                            <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; background-color: ${member.clubColor}; flex-shrink: 0;"></span>
+                            ${member.clubName}
+                        </div>
                         <div style="font-size: 0.75rem; color: var(--text-muted);">${member.regionName}</div>
                     </div>
                 </div>
@@ -216,7 +237,8 @@
             markersMap.clear();
 
             filteredMembers.forEach(member => {
-                const marker = L.marker([member.lat, member.lng]).bindPopup(buildPopupContent(member));
+                const pinIcon = createPinIcon(member.clubColor);
+                const marker = L.marker([member.lat, member.lng], { icon: pinIcon }).bindPopup(buildPopupContent(member));
                 markerLayer.addLayer(marker);
                 markersMap.set(String(member.id), marker);
 
@@ -320,6 +342,11 @@
 
     .mapping-filters .select2-container--default .select2-selection--single .select2-selection__placeholder {
         color: var(--text-muted);
+    }
+
+    .custom-club-pin {
+        background: none !important;
+        border: none !important;
     }
 
     /* Custom Leaflet Popup Styling to match UI */

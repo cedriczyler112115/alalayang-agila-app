@@ -164,7 +164,12 @@
                         <tr style="border-bottom: 1px solid var(--border-color);">
                             <td style="padding: 1rem;">{{ $club->id }}</td>
                             <td style="padding: 1rem;">{{ $club->region->name ?? 'N/A' }}</td>
-                            <td style="padding: 1rem;">{{ $club->name }}</td>
+                            <td style="padding: 1rem;">
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <span style="display: inline-block; width: 14px; height: 14px; border-radius: 50%; background-color: {{ $club->color ?? '#3B82F6' }}; border: 1px solid rgba(0,0,0,0.15); flex-shrink: 0;" title="{{ $club->color }}"></span>
+                                    <span>{{ $club->name }}</span>
+                                </div>
+                            </td>
                             <td style="padding: 1rem;">{{ $club->notification_keyword ?? 'N/A' }}</td>
                             <td style="padding: 1rem; text-align: right; display: flex; gap: 0.5rem; justify-content: flex-end;">
                                 @if($canEditLibraries)
@@ -204,6 +209,10 @@
                         <div class="form-group">
                             <label class="form-label">Club Name</label>
                             <input type="text" name="name" class="form-control" required>
+                        </div>
+                        <div class="form-group" style="margin-top: 1rem;">
+                            <label class="form-label">Map Pin Color</label>
+                            <input type="color" name="color" class="form-control" value="#3B82F6" style="height: 40px; padding: 2px; cursor: pointer;">
                         </div>
                         <div style="display: flex; gap: 0.5rem; margin-top: 1.5rem;">
                             <button type="submit" class="btn btn-primary" style="flex: 1;">Save</button>

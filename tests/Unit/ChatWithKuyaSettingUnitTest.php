@@ -4,10 +4,13 @@ namespace Tests\Unit;
 
 use App\Models\AppSetting;
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class ChatWithKuyaSettingUnitTest extends TestCase
 {
+    use RefreshDatabase;
+
     public function test_chat_with_kuya_setting_toggle(): void
     {
         AppSetting::putMany(['chat_with_kuya_enabled' => false]);

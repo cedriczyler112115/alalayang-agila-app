@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Announcement;
+use App\Models\LibTelegram;
 use Illuminate\Http\Request;
 
 use Illuminate\Routing\Controllers\HasMiddleware;
@@ -36,6 +37,21 @@ class DashboardController extends Controller implements HasMiddleware
             ->latest('published_at')
             ->get();
 
-        return view('dashboard', compact('global_announcements', 'regional_announcements', 'club_announcements'));
+        $userTelegramLink = null;
+        $userClubName = null;
+        $userClubKeyword = null;
+        if ($user->lib_club_name_id) {
+            $userTelegramLink = LibTelegram::where('club_id', $user->lib_club_name_id)->value('link');
+            $club = $user->club ?? \App\Models\LibClubName::find($user->lib_club_name_id);
+            $userClubName = $club?->name;
+            $userClubKeyword = $club?->notification_keyword;
+        }
+
+        $userRegionKeyword = null;
+        if ($user->lib_region_id) {
+            $userRegionKeyword = $user->region?->notification_keyword ?? \App\Models\LibRegion::where('id', $user->lib_region_id)->value('notification_keyword');
+        }
+
+        return view('dashboard', compact('global_announcements', 'regional_announcements', 'club_announcements', 'userTelegramLink', 'userClubName', 'userClubKeyword', 'userRegionKeyword'));
     }
 }

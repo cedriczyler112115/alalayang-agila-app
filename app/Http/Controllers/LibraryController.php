@@ -151,9 +151,14 @@ class LibraryController extends Controller implements HasMiddleware
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'lib_region_id' => 'required|exists:lib_region,id'
+            'lib_region_id' => 'required|exists:lib_region,id',
+            'color' => 'nullable|string|max:30',
         ]);
-        LibClubName::create($request->only('name', 'lib_region_id'));
+        $data = $request->only('name', 'lib_region_id', 'color');
+        if (empty($data['color'])) {
+            $data['color'] = '#' . substr(md5(uniqid(mt_rand(), true)), 0, 6);
+        }
+        LibClubName::create($data);
         return redirect()->route('libraries.index', ['tab' => 'clubs'])->with('status', 'Club added successfully!');
     }
 
@@ -167,10 +172,11 @@ class LibraryController extends Controller implements HasMiddleware
             'name' => 'required|string|max:255',
             'lib_region_id' => 'required|exists:lib_region,id',
             'notification_keyword' => 'nullable|string|max:255',
-            'logo' => 'nullable|image|mimes:jpeg,png,jpg,webp'
+            'logo' => 'nullable|image|mimes:jpeg,png,jpg,webp',
+            'color' => 'nullable|string|max:30',
         ]);
         
-        $data = $request->only('name', 'lib_region_id');
+        $data = $request->only('name', 'lib_region_id', 'color');
         if ($user->is_admin) {
             $data['notification_keyword'] = $request->input('notification_keyword');
         }

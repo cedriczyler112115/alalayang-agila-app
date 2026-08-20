@@ -4,13 +4,17 @@ namespace Tests\Unit;
 
 use App\Http\Controllers\AnnouncementController;
 use App\Models\Announcement;
+use App\Models\LibTelegram;
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Http;
 use Tests\TestCase;
 
 class AnnouncementTelegramUnitTest extends TestCase
 {
-    public function test_telegram_notification_sent_only_for_global_scope(): void
+    use RefreshDatabase;
+
+    public function test_global_telegram_notification(): void
     {
         Http::fake();
 
@@ -32,20 +36,39 @@ class AnnouncementTelegramUnitTest extends TestCase
             return str_contains($request->url(), 'api.telegram.org/bot') &&
                 str_contains($request['text'], 'Global Announcement');
         });
+    }
 
+    public function test_club_telegram_notification_using_lib_telegram_config(): void
+    {
         Http::fake();
 
-        $clubAnnouncement = new Announcement([
-            'title' => 'Club Announcement',
-            'content' => '<p>Club body</p>',
-            'scope' => 'club',
+        LibTelegram::create([
+            'club_id' => 5,
+            'token' => 'test-token-123',
+            'group_id' => -100123456789,
+            't_group_name' => 'Test Club Group',
         ]);
-        $clubAnnouncement->setRelation('user', new User(['fullname' => 'Admin']));
+
+        $controller = new AnnouncementController();
+        $reflection = new \ReflectionClass($controller);
+        $method = $reflection->getMethod('sendTelegramNotification');
+        $method->setAccessible(true);
+
+        $clubAnnouncement = new Announcement([
+            'title' => 'Test Club Announcement',
+            'content' => '<p>Club Announcement Body</p>',
+            'scope' => 'club',
+            'lib_club_name_id' => 5,
+        ]);
+        $user = new User(['fullname' => 'John Doe', 'lib_club_name_id' => 5]);
+        $clubAnnouncement->setRelation('user', $user);
 
         $method->invoke($controller, $clubAnnouncement);
 
-        Http::assertNotSent(function ($request) {
-            return str_contains($request->url(), 'api.telegram.org/bot');
+        Http::assertSent(function ($request) {
+            return str_contains($request->url(), 'api.telegram.org/bottest-token-123/sendMessage') &&
+                $request['chat_id'] === -100123456789 &&
+                str_contains($request['text'], 'Test Club Announcement');
         });
     }
 }

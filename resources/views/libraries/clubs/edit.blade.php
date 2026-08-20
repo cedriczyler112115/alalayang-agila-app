@@ -78,6 +78,15 @@
             </div>
 
             <div class="form-group" style="margin-bottom: 2rem;">
+                <label class="form-label" for="color">Map Pin Color</label>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <input type="color" id="color_picker" value="{{ old('color', $club->color ?? '#3B82F6') }}" style="width: 50px; height: 42px; border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 2px; cursor: pointer;" onchange="document.getElementById('color').value = this.value">
+                    <input type="text" id="color" name="color" class="form-control" value="{{ old('color', $club->color ?? '#3B82F6') }}" maxlength="30" placeholder="#3B82F6" onchange="document.getElementById('color_picker').value = this.value">
+                </div>
+                <small style="display: block; margin-top: 0.5rem; color: var(--text-muted);">Color of the pin marker on the member location map.</small>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 2rem;">
                 <label class="form-label" for="notification_keyword">Notification keyword</label>
                 @if(auth()->user()->is_admin)
                     <input type="text" id="notification_keyword" name="notification_keyword" class="form-control" value="{{ old('notification_keyword', $club->notification_keyword) }}" maxlength="255" placeholder="Enter notification keyword">

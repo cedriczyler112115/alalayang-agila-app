@@ -7,6 +7,7 @@ use App\Models\Announcement;
 use App\Models\GlobalKeyword;
 use App\Models\LibClubName;
 use App\Models\LibRegion;
+use App\Models\LibTelegram;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
@@ -170,17 +171,22 @@ class AnnouncementController extends Controller implements HasMiddleware
     private function sendNotifications($announcement)
     {
         // Send Telegram Notification
-        if ($announcement->scope === 'global') {
+        if ($announcement->scope === 'global' || $announcement->scope === 'club') {
             $this->sendTelegramNotification($announcement);
         }
     }
 
     private function sendTelegramNotification($announcement)
     {
-        if ($announcement->scope !== 'global') {
-            return;
+        if ($announcement->scope === 'global') {
+            $this->sendGlobalTelegramNotification($announcement);
+        } elseif ($announcement->scope === 'club') {
+            $this->sendClubTelegramNotification($announcement);
         }
+    }
 
+    private function sendGlobalTelegramNotification($announcement)
+    {
         $telegramToken = '8555688646:AAFRitSezZXmTSeXtSxpLOK1BLHQ1qyE-KE';
         $chatId = '-1003711130933';
 
@@ -208,6 +214,53 @@ class AnnouncementController extends Controller implements HasMiddleware
             ]);
         } catch (\Exception $e) {
             \Log::error("Telegram announcement notification failed: " . $e->getMessage());
+        }
+    }
+
+    private function sendClubTelegramNotification($announcement)
+    {
+        $user = $announcement->user ?? Auth::user();
+        $clubId = $announcement->lib_club_name_id ?? $user?->lib_club_name_id;
+
+        if (!$clubId) {
+            \Log::warning('Club Telegram notification skipped: No club ID found for announcement.', [
+                'announcement_id' => $announcement->id,
+            ]);
+            return;
+        }
+
+        $telegramConfig = LibTelegram::where('club_id', $clubId)->first();
+
+        if (!$telegramConfig || !$telegramConfig->token || !$telegramConfig->group_id) {
+            \Log::warning('Club Telegram notification skipped: Missing Telegram config in lib_telegram.', [
+                'announcement_id' => $announcement->id,
+                'club_id' => $clubId,
+            ]);
+            return;
+        }
+
+        $clubName = $user?->club?->name ?? LibClubName::where('id', $clubId)->value('name') ?? 'N/A';
+        $title = $announcement->title;
+        $content = strip_tags($announcement->content, '<b><strong><i><em><u><a><code><pre>');
+        $content = str_replace(['<strong>', '</strong>', '<em>', '</em>'], ['<b>', '</b>', '<i>', '</i>'], $content);
+
+        $message = "📢 <b>NEW CLUB ANNOUNCEMENT</b> 📢\n\n";
+        $message .= "<b>Club:</b> " . htmlspecialchars($clubName) . "\n";
+        $message .= "<b>Title:</b> " . htmlspecialchars($title) . "\n";
+        $message .= "<b>Author:</b> Kuya " . htmlspecialchars($user?->fullname ?? 'N/A') . "\n\n";
+        $message .= $content;
+
+        try {
+            Http::post("https://api.telegram.org/bot{$telegramConfig->token}/sendMessage", [
+                'chat_id' => $telegramConfig->group_id,
+                'text' => $message,
+                'parse_mode' => 'HTML',
+            ]);
+        } catch (\Exception $e) {
+            \Log::error("Club Telegram notification failed: " . $e->getMessage(), [
+                'announcement_id' => $announcement->id,
+                'club_id' => $clubId,
+            ]);
         }
     }
 
