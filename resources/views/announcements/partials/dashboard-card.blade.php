@@ -18,11 +18,16 @@
     <h3 style="font-size: 1.5rem; font-weight: 800; color: var(--text-main); margin-bottom: 1rem; line-height: 1.2;">{{ $announcement->title }}</h3>
     
     <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
-        <div style="display: flex; align-items: center; gap: 0.5rem; color: var(--text-muted); font-size: 0.85rem;">
-            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                <path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
-            </svg>
-            <span>Kuya {{ $announcement->user->fullname ?? 'Unknown' }}</span>
+        @php
+            $authorPhoto = $announcement->user && $announcement->user->profile_photo
+                ? asset('storage/' . $announcement->user->profile_photo)
+                : asset('images/default-avatar.svg');
+        @endphp
+        <div style="display: flex; align-items: center; gap: 0.6rem; color: var(--text-muted); font-size: 0.85rem;">
+            <img src="{{ $authorPhoto }}" alt="{{ $announcement->user->fullname ?? 'Author' }}"
+                style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent);"
+                onerror="this.src='{{ asset('images/default-avatar.svg') }}'">
+            <span style="font-weight: 600; color: var(--text-main);">Kuya {{ $announcement->user->fullname ?? 'Unknown' }}</span>
         </div>
         <div style="width: 4px; height: 4px; border-radius: 50%; background-color: var(--border-color);"></div>
         <div style="display: flex; align-items: center; gap: 0.5rem; color: var(--text-muted); font-size: 0.85rem;">

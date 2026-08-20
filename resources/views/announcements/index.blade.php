@@ -84,7 +84,17 @@
                             @endif
                         </td>
                         <td style="padding: 1rem 1.5rem; color: var(--text-muted); font-size: 0.9rem;">
-                            {{ $announcement->user->fullname ?? 'Unknown' }}
+                            @php
+                                $authorPhoto = $announcement->user && $announcement->user->profile_photo
+                                    ? asset('storage/' . $announcement->user->profile_photo)
+                                    : asset('images/default-avatar.svg');
+                            @endphp
+                            <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                <img src="{{ $authorPhoto }}" alt="Author Avatar"
+                                    style="width: 28px; height: 28px; border-radius: 50%; object-fit: cover; border: 1.5px solid var(--accent);"
+                                    onerror="this.src='{{ asset('images/default-avatar.svg') }}'">
+                                <span>{{ $announcement->user->fullname ?? 'Unknown' }}</span>
+                            </div>
                         </td>
                         <td style="padding: 1rem 1.5rem; text-align: right;">
                             @if($canEditAnnouncements || $canDeleteAnnouncements)
