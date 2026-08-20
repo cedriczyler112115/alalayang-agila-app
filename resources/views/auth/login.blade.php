@@ -148,55 +148,55 @@
                 <form method="POST" action="{{ route('register') }}">
                     @csrf
 
-                    <!-- 1. Last Name -->
+                    <!-- Last Name -->
                     <div style="margin-bottom: 1rem;">
                         <label for="reg_last_name" style="display: block; font-size: 0.82rem; font-weight: 700; color: var(--text-main); text-transform: uppercase; letter-spacing: 0.03em; margin-bottom: 0.35rem;">
-                            1. Last Name <span style="color: #ef4444;">*</span>
+                            Last Name <span style="color: #ef4444;">*</span>
                         </label>
                         <input type="text" id="reg_last_name" name="last_name" value="{{ old('last_name') }}" required placeholder="Cruz" class="auth-input-field"
                             style="width: 100%; padding: 0.75rem 1rem; border-radius: var(--radius-md); border: 1px solid var(--border-color); background: var(--bg-main); color: var(--text-main); font-size: 0.9rem; outline: none;">
                     </div>
 
-                    <!-- 2. First Name -->
+                    <!-- First Name -->
                     <div style="margin-bottom: 1rem;">
                         <label for="reg_first_name" style="display: block; font-size: 0.82rem; font-weight: 700; color: var(--text-main); text-transform: uppercase; letter-spacing: 0.03em; margin-bottom: 0.35rem;">
-                            2. First Name <span style="color: #ef4444;">*</span>
+                            First Name <span style="color: #ef4444;">*</span>
                         </label>
                         <input type="text" id="reg_first_name" name="first_name" value="{{ old('first_name') }}" required placeholder="Juan" class="auth-input-field"
                             style="width: 100%; padding: 0.75rem 1rem; border-radius: var(--radius-md); border: 1px solid var(--border-color); background: var(--bg-main); color: var(--text-main); font-size: 0.9rem; outline: none;">
                     </div>
 
-                    <!-- 3. Middle Name -->
+                    <!-- Middle Name -->
                     <div style="margin-bottom: 1rem;">
                         <label for="reg_middle_name" style="display: block; font-size: 0.82rem; font-weight: 700; color: var(--text-main); text-transform: uppercase; letter-spacing: 0.03em; margin-bottom: 0.35rem;">
-                            3. Middle Name <span style="font-size: 0.75rem; color: var(--text-muted); font-weight: 400;">(Optional)</span>
+                            Middle Name <span style="font-size: 0.75rem; color: var(--text-muted); font-weight: 400;">(Optional)</span>
                         </label>
                         <input type="text" id="reg_middle_name" name="middle_name" value="{{ old('middle_name') }}" placeholder="Dela" class="auth-input-field"
                             style="width: 100%; padding: 0.75rem 1rem; border-radius: var(--radius-md); border: 1px solid var(--border-color); background: var(--bg-main); color: var(--text-main); font-size: 0.9rem; outline: none;">
                     </div>
 
-                    <!-- 4. Extension Name -->
+                    <!-- Extension Name -->
                     <div style="margin-bottom: 1rem;">
                         <label for="reg_extension_name" style="display: block; font-size: 0.82rem; font-weight: 700; color: var(--text-main); text-transform: uppercase; letter-spacing: 0.03em; margin-bottom: 0.35rem;">
-                            4. Extension Name <span style="font-size: 0.75rem; color: var(--text-muted); font-weight: 400;">(Optional, e.g. Jr., III)</span>
+                            Extension Name <span style="font-size: 0.75rem; color: var(--text-muted); font-weight: 400;">(Optional, e.g. Jr., III)</span>
                         </label>
                         <input type="text" id="reg_extension_name" name="extension_name" value="{{ old('extension_name') }}" placeholder="Jr., III" class="auth-input-field"
                             style="width: 100%; padding: 0.75rem 1rem; border-radius: var(--radius-md); border: 1px solid var(--border-color); background: var(--bg-main); color: var(--text-main); font-size: 0.9rem; outline: none;">
                     </div>
 
-                    <!-- 5. Email Address -->
+                    <!-- Email Address -->
                     <div style="margin-bottom: 1rem;">
                         <label for="reg_email" style="display: block; font-size: 0.82rem; font-weight: 700; color: var(--text-main); text-transform: uppercase; letter-spacing: 0.03em; margin-bottom: 0.35rem;">
-                            5. Email Address <span style="color: #ef4444;">*</span>
+                            Email Address <span style="color: #ef4444;">*</span>
                         </label>
                         <input type="email" id="reg_email" name="email" value="{{ old('email') }}" required placeholder="juan.cruz@example.com" class="auth-input-field"
                             style="width: 100%; padding: 0.75rem 1rem; border-radius: var(--radius-md); border: 1px solid var(--border-color); background: var(--bg-main); color: var(--text-main); font-size: 0.9rem; outline: none;">
                     </div>
 
-                    <!-- 6. Password & Verify Password -->
+                    <!-- Password & Verify Password -->
                     <div style="margin-bottom: 1rem;">
                         <label for="reg_password" style="display: block; font-size: 0.82rem; font-weight: 700; color: var(--text-main); text-transform: uppercase; letter-spacing: 0.03em; margin-bottom: 0.35rem;">
-                            6. Password <span style="color: #ef4444;">*</span>
+                            Password <span style="color: #ef4444;">*</span>
                         </label>
                         <input type="password" id="reg_password" name="password" required placeholder="Min. 8 characters" class="auth-input-field"
                             style="width: 100%; padding: 0.75rem 1rem; border-radius: var(--radius-md); border: 1px solid var(--border-color); background: var(--bg-main); color: var(--text-main); font-size: 0.9rem; outline: none;">
@@ -204,7 +204,7 @@
 
                     <div style="margin-bottom: 1.35rem;">
                         <label for="reg_password_confirmation" style="display: block; font-size: 0.82rem; font-weight: 700; color: var(--text-main); text-transform: uppercase; letter-spacing: 0.03em; margin-bottom: 0.35rem;">
-                            7. Verify Password <span style="color: #ef4444;">*</span>
+                            Verify Password <span style="color: #ef4444;">*</span>
                         </label>
                         <input type="password" id="reg_password_confirmation" name="password_confirmation" required placeholder="Repeat password" class="auth-input-field"
                             style="width: 100%; padding: 0.75rem 1rem; border-radius: var(--radius-md); border: 1px solid var(--border-color); background: var(--bg-main); color: var(--text-main); font-size: 0.9rem; outline: none;">
