@@ -169,13 +169,21 @@
                             <label class="form-label" for="profile_photo">Profile Photo</label>
                             <input type="file" id="profile_photo" name="profile_photo" class="form-control" accept="image/*"
                                 {{ !$user->profile_photo ? 'required' : '' }}>
-                            <div style="margin-top: 1rem;">
+                            <div style="margin-top: 1rem; position: relative; display: inline-block;">
                                 @php
                                     $photoUrl = $user->profile_photo ? asset('storage/profile-photos/' . basename($user->profile_photo)) : asset('images/default-avatar.svg');
                                 @endphp
                                 <img id="profile_photo_preview" loading="lazy" src="{{ $photoUrl }}" alt="Profile Photo"
-                                    style="width: 120px; height: 120px; object-fit: cover; border-radius: 50%; border: 3px solid var(--accent); display: block;"
+                                    title="Click to view full image"
+                                    onclick="openImagePopup(this.src, 'Profile Photo')"
+                                    style="width: 120px; height: 120px; object-fit: cover; border-radius: 50%; border: 3px solid var(--accent); display: block; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;"
+                                    onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 6px 16px rgba(59,130,246,0.4)';"
+                                    onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none';"
                                     onerror="this.src='{{ asset('images/default-avatar.svg') }}'">
+                                <span onclick="openImagePopup(document.getElementById('profile_photo_preview').src, 'Profile Photo')"
+                                    style="font-size: 0.75rem; color: var(--accent); cursor: pointer; font-weight: 600; display: inline-flex; align-items: center; gap: 4px; margin-top: 0.4rem;">
+                                    🔍 View Full Photo
+                                </span>
                             </div>
                         </div>
 
@@ -183,13 +191,21 @@
                             <label class="form-label" for="eagle_id_card">Eagle Identification Card</label>
                             <input type="file" id="eagle_id_card" name="eagle_id_card" class="form-control" accept="image/*"
                                 {{ !$user->eagle_id_card ? 'required' : '' }}>
-                            <div style="margin-top: 1rem;">
+                            <div style="margin-top: 1rem; position: relative; display: inline-block;">
                                 @php
                                     $eagleUrl = $user->eagle_id_card ? asset('storage/eagle-ids/' . basename($user->eagle_id_card)) : asset('images/logo.png');
                                 @endphp
                                 <img id="eagle_id_card_preview" loading="lazy" src="{{ $eagleUrl }}" alt="Eagle ID Card"
-                                    style="width: 100%; max-width: 250px; height: 160px; object-fit: cover; border-radius: var(--radius-md); border: 1px solid var(--border-color); display: block;"
+                                    title="Click to view full image"
+                                    onclick="openImagePopup(this.src, 'Eagle Identification Card')"
+                                    style="width: 100%; max-width: 250px; height: 160px; object-fit: cover; border-radius: var(--radius-md); border: 1px solid var(--border-color); display: block; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;"
+                                    onmouseover="this.style.transform='scale(1.03)'; this.style.boxShadow='0 6px 16px rgba(0,0,0,0.2)';"
+                                    onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none';"
                                     onerror="this.src='{{ asset('images/logo.png') }}'">
+                                <span onclick="openImagePopup(document.getElementById('eagle_id_card_preview').src, 'Eagle Identification Card')"
+                                    style="font-size: 0.75rem; color: var(--accent); cursor: pointer; font-weight: 600; display: inline-flex; align-items: center; gap: 4px; margin-top: 0.4rem;">
+                                    🔍 View Full ID Card
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -397,5 +413,40 @@
                 }
             }
         });
+
+        function openImagePopup(src, title) {
+            if (!src) return;
+            document.getElementById('imageModalSrc').src = src;
+            document.getElementById('imageModalTitle').textContent = title || 'Image Preview';
+            document.getElementById('imagePreviewModal').style.display = 'flex';
+        }
+
+        function closeImagePopup(event) {
+            if (!event || event.target.id === 'imagePreviewModal' || event.target.tagName === 'BUTTON') {
+                document.getElementById('imagePreviewModal').style.display = 'none';
+            }
+        }
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeImagePopup();
+            }
+        });
     </script>
+
+    <!-- Image Preview Modal -->
+    <div id="imagePreviewModal" onclick="closeImagePopup(event)"
+        style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); align-items: center; justify-content: center; z-index: 2000; padding: 1.5rem; backdrop-filter: blur(8px);">
+        <div style="position: relative; max-width: 90vw; max-height: 90vh; display: flex; flex-direction: column; align-items: center; background: var(--card-bg); padding: 1rem; border-radius: var(--radius-lg); border: 1px solid var(--border-color); box-shadow: var(--shadow-lg);" onclick="event.stopPropagation();">
+            <div style="width: 100%; display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; color: var(--text-main);">
+                <h4 id="imageModalTitle" style="margin: 0; font-size: 1.05rem; font-weight: 700;">Full View</h4>
+                <button type="button" onclick="closeImagePopup()"
+                    style="background: none; border: none; font-size: 1.5rem; line-height: 1; cursor: pointer; color: var(--text-muted); border-radius: 50%; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;"
+                    onmouseover="this.style.background='rgba(255,255,255,0.1)'"
+                    onmouseout="this.style.background='none'">&times;</button>
+            </div>
+            <img id="imageModalSrc" src="" alt="Preview"
+                style="max-width: 85vw; max-height: 75vh; object-fit: contain; border-radius: var(--radius-md); border: 1px solid var(--border-color); display: block;">
+        </div>
+    </div>
 @endsection
