@@ -30,16 +30,37 @@
             height: 100% !important;
             top: 0 !important;
         }
+        @media (max-width: 640px) {
+            .page-header-flex {
+                flex-direction: column;
+                align-items: flex-start !important;
+                gap: 0.75rem;
+            }
+            .edit-library-card {
+                padding: 1.25rem !important;
+            }
+            .officers-grid {
+                grid-template-columns: 1fr !important;
+                gap: 1rem !important;
+            }
+            .form-actions-row {
+                flex-direction: column;
+                gap: 0.75rem !important;
+            }
+            .form-actions-row .btn {
+                width: 100%;
+            }
+        }
     </style>
-    <div style="display: flex; align-items: center; margin-bottom: 2rem;">
-        <a href="{{ route('libraries.index', ['tab' => 'regions']) }}" class="btn btn-outline" style="margin-right: 1rem; padding: 0.5rem; border-radius: 50%;">
+    <div class="page-header-flex" style="display: flex; align-items: center; margin-bottom: 2rem;">
+        <a href="{{ route('libraries.index', ['tab' => 'regions']) }}" class="btn btn-outline" style="margin-right: 1rem; padding: 0.5rem; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; flex-shrink: 0;">
             <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
             </svg>
         </a>
         <div>
-            <h1 style="font-size: 2rem; font-weight: 700; margin-bottom: 0.25rem; letter-spacing: -0.025em;">Edit <span style="color: var(--accent);">Region</span></h1>
-            <p style="color: var(--text-muted); font-size: 1.05rem;">Manage the region details and dynamically assign officers to positions.</p>
+            <h1 style="font-size: 1.75rem; font-weight: 700; margin-bottom: 0.25rem; letter-spacing: -0.025em;">Edit <span style="color: var(--accent);">Region</span></h1>
+            <p style="color: var(--text-muted); font-size: 1rem; margin: 0;">Manage the region details and dynamically assign officers to positions.</p>
         </div>
     </div>
 
@@ -48,7 +69,7 @@
         Assignment saved!
     </div>
 
-    <div class="card" style="padding: 2rem; margin-bottom: 2rem;">
+    <div class="card edit-library-card" style="padding: 2rem; margin-bottom: 2rem;">
         @if($errors->any())
             <div style="background-color: rgba(239, 68, 68, 0.1); color: var(--danger); padding: 1rem; border-radius: var(--radius-md); margin-bottom: 1.5rem; font-size: 0.9rem;">
                 <ul style="margin-left: 1.5rem; margin-bottom: 0;">
@@ -92,7 +113,7 @@
             <h2 style="font-size: 1.25rem; font-weight: 600; color: var(--text-main); margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border-color);">Assign Dynamic Officers</h2>
             <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.5rem;">Select active users to fill the region's officer positions. Users who are already actively serving in another region will not appear in the available dropdown lists.</p>
 
-            <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+            <div class="grid officers-grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
                 @foreach($regional_positions as $position)
                     @php
                         // Check if the region has an active officer assigned to this specific position
@@ -123,7 +144,7 @@
                 @endforeach
             </div>
 
-            <div style="display: flex; gap: 1rem; padding-top: 1.5rem; border-top: 1px solid var(--border-color);">
+            <div class="form-actions-row" style="display: flex; gap: 1rem; padding-top: 1.5rem; border-top: 1px solid var(--border-color);">
                 <button type="submit" class="btn btn-primary" style="flex: 1; padding: 0.8rem;">Save Region Name</button>
                 <a href="{{ route('libraries.index', ['tab' => 'regions']) }}" class="btn btn-outline" style="flex: 1; padding: 0.8rem;">Finish & Go Back</a>
             </div>
