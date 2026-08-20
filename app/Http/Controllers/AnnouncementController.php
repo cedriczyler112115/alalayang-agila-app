@@ -70,7 +70,9 @@ class AnnouncementController extends Controller implements HasMiddleware
         }
 
         $announcement->load([
-            'user',
+            'user.region',
+            'user.club',
+            'user.position',
             'comments' => function ($query) {
                 $query->whereNull('parent_id')
                     ->with(['user', 'replies'])

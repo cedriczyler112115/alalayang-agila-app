@@ -20,13 +20,22 @@
                     $authorPhoto = $announcement->user && $announcement->user->profile_photo
                         ? asset('storage/' . $announcement->user->profile_photo)
                         : asset('images/default-avatar.svg');
+                    $userUrl = $announcement->user_id ? route('members.show', $announcement->user_id) : '#';
                 @endphp
-                <div style="display: flex; align-items: center; gap: 0.65rem; color: var(--text-muted); font-size: 0.9rem;">
+                <a href="{{ $userUrl }}" class="author-profile-link"
+                    data-user-name="Kuya {{ $announcement->user->fullname ?? 'Unknown' }}"
+                    data-user-photo="{{ $authorPhoto }}"
+                    data-user-position="{{ $announcement->user->position->name ?? 'Club Member' }}"
+                    data-user-club="{{ $announcement->user->club->name ?? 'No Club Specified' }}"
+                    data-user-region="{{ $announcement->user->region->name ?? 'No Region Specified' }}"
+                    data-user-address="{{ $announcement->user->address ?? 'No Address Listed' }}"
+                    style="display: flex; align-items: center; gap: 0.65rem; text-decoration: none; color: var(--text-muted); font-size: 0.9rem; transition: opacity 0.2s;"
+                    onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">
                     <img src="{{ $authorPhoto }}" alt="{{ $announcement->user->fullname ?? 'Author' }}"
                         style="width: 36px; height: 36px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent);"
                         onerror="this.src='{{ asset('images/default-avatar.svg') }}'">
                     <span style="font-weight: 600; color: var(--text-main);">Kuya {{ $announcement->user->fullname ?? 'Unknown' }}</span>
-                </div>
+                </a>
                 <div style="width: 4px; height: 4px; border-radius: 50%; background-color: var(--border-color);"></div>
                 <div style="display: flex; align-items: center; gap: 0.5rem; color: var(--text-muted); font-size: 0.9rem;">
                     <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">

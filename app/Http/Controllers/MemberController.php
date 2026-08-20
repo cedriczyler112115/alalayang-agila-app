@@ -77,4 +77,10 @@ class MemberController extends Controller implements HasMiddleware
             'clubs' => $clubs,
         ]);
     }
+
+    public function show(User $user)
+    {
+        $user->load(['region', 'club', 'position']);
+        return view('members.show', compact('user'));
+    }
 }

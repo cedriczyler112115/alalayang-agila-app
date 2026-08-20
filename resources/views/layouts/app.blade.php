@@ -1257,5 +1257,116 @@
             @endif
         });
     </script>
+
+    <!-- Author Profile Hover Popover Tooltip -->
+    <div id="authorProfilePopover"
+        style="display: none; position: absolute; z-index: 3000; width: 290px; background: var(--card-bg); border: 1px solid var(--border-color); border-radius: var(--radius-lg); box-shadow: 0 14px 35px rgba(0,0,0,0.3); padding: 1.25rem; pointer-events: auto; transition: opacity 0.2s ease, transform 0.2s ease; opacity: 0; transform: translateY(6px);">
+        <div style="display: flex; align-items: center; gap: 0.85rem; margin-bottom: 0.85rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--border-color);">
+            <img id="popoverUserPhoto" src="" alt="User Avatar"
+                style="width: 46px; height: 46px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent); flex-shrink: 0;"
+                onerror="this.src='{{ asset('images/default-avatar.svg') }}'">
+            <div style="overflow: hidden;">
+                <h5 id="popoverUserName" style="font-size: 0.95rem; font-weight: 700; margin: 0 0 2px 0; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"></h5>
+                <span id="popoverUserPosition" style="font-size: 0.78rem; font-weight: 600; color: var(--accent); display: block;"></span>
+            </div>
+        </div>
+        
+        <div style="display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.82rem; color: var(--text-main);">
+            <div style="display: flex; align-items: center; gap: 6px;">
+                <span style="font-weight: 700; color: var(--text-muted); min-width: 60px;">Club:</span>
+                <span id="popoverUserClub" style="font-weight: 600; color: var(--text-main); overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 6px;">
+                <span style="font-weight: 700; color: var(--text-muted); min-width: 60px;">Region:</span>
+                <span id="popoverUserRegion" style="font-weight: 600; color: var(--text-main); overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></span>
+            </div>
+            <div style="display: flex; align-items: flex-start; gap: 6px;">
+                <span style="font-weight: 700; color: var(--text-muted); min-width: 60px;">Address:</span>
+                <span id="popoverUserAddress" style="font-weight: 500; color: var(--text-muted); line-height: 1.3;"></span>
+            </div>
+        </div>
+        <div style="margin-top: 0.85rem; padding-top: 0.5rem; text-align: right; border-top: 1px solid var(--border-color);">
+            <span style="font-size: 0.72rem; color: var(--accent); font-weight: 700;">Click to view full profile &rarr;</span>
+        </div>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const popover = document.getElementById('authorProfilePopover');
+        if (!popover) return;
+
+        let popoverTimeout;
+
+        document.addEventListener('mouseover', function(e) {
+            const target = e.target.closest('.author-profile-link');
+            if (!target) return;
+
+            clearTimeout(popoverTimeout);
+
+            const name = target.getAttribute('data-user-name') || '';
+            const photo = target.getAttribute('data-user-photo') || '';
+            const position = target.getAttribute('data-user-position') || '';
+            const club = target.getAttribute('data-user-club') || '';
+            const region = target.getAttribute('data-user-region') || '';
+            const address = target.getAttribute('data-user-address') || '';
+
+            document.getElementById('popoverUserName').textContent = name;
+            document.getElementById('popoverUserPhoto').src = photo;
+            document.getElementById('popoverUserPosition').textContent = position;
+            document.getElementById('popoverUserClub').textContent = club;
+            document.getElementById('popoverUserRegion').textContent = region;
+            document.getElementById('popoverUserAddress').textContent = address;
+
+            const rect = target.getBoundingClientRect();
+            const popoverWidth = 290;
+            
+            let top = rect.bottom + window.scrollY + 8;
+            let left = rect.left + window.scrollX;
+
+            if (left + popoverWidth > window.innerWidth - 16) {
+                left = window.innerWidth - popoverWidth - 16;
+            }
+            if (left < 16) {
+                left = 16;
+            }
+
+            popover.style.top = top + 'px';
+            popover.style.left = left + 'px';
+            popover.style.display = 'block';
+            
+            requestAnimationFrame(() => {
+                popover.style.opacity = '1';
+                popover.style.transform = 'translateY(0)';
+            });
+        });
+
+        document.addEventListener('mouseout', function(e) {
+            const target = e.target.closest('.author-profile-link');
+            if (!target) return;
+
+            popoverTimeout = setTimeout(() => {
+                if (!popover.matches(':hover')) {
+                    popover.style.opacity = '0';
+                    popover.style.transform = 'translateY(6px)';
+                    setTimeout(() => {
+                        if (popover.style.opacity === '0') {
+                            popover.style.display = 'none';
+                        }
+                    }, 200);
+                }
+            }, 150);
+        });
+
+        popover.addEventListener('mouseleave', function() {
+            popover.style.opacity = '0';
+            popover.style.transform = 'translateY(6px)';
+            setTimeout(() => {
+                if (popover.style.opacity === '0') {
+                    popover.style.display = 'none';
+                }
+            }, 200);
+        });
+    });
+    </script>
 </body>
 </html>

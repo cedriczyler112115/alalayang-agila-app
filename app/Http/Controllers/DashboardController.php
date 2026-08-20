@@ -22,18 +22,21 @@ class DashboardController extends Controller implements HasMiddleware
 
         $global_announcements = Announcement::where('status', 'published')
             ->where('scope', 'global')
+            ->with(['user.region', 'user.club', 'user.position'])
             ->latest('published_at')
             ->get();
 
         $regional_announcements = Announcement::where('status', 'published')
             ->where('scope', 'regional')
             ->where('lib_region_id', $user->lib_region_id)
+            ->with(['user.region', 'user.club', 'user.position'])
             ->latest('published_at')
             ->get();
 
         $club_announcements = Announcement::where('status', 'published')
             ->where('scope', 'club')
             ->where('lib_club_name_id', $user->lib_club_name_id)
+            ->with(['user.region', 'user.club', 'user.position'])
             ->latest('published_at')
             ->get();
 

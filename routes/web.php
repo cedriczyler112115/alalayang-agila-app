@@ -104,6 +104,7 @@ Route::middleware('auth')->group(function () {
             Route::post('/quick-response', [QuickResponseController::class , 'store']);
 
             Route::get('/search-kuya', [MemberController::class , 'index'])->name('search.kuya');
+            Route::get('/members/{user}', [MemberController::class, 'show'])->name('members.show');
 
             Route::get('/organizational-structure', function() {
                 $regions = \App\Models\LibRegion::orderBy('name', 'asc')->get();
