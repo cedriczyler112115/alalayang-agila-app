@@ -760,11 +760,8 @@
                         onmouseout="this.style.background='none'">&times;</button>
                 </div>
 
-                <!-- Body -->
-                <div class="card-body"
-                    style="overflow-y: auto; padding: 1.5rem; line-height: 1.65; font-size: 0.95rem; color: var(--text-main); display: flex; flex-direction: column; gap: 1.5rem;">
-
-                    <!-- OS Selector Tabs -->
+                <!-- Fixed OS Selector Tabs Bar -->
+                <div style="padding: 0.85rem 1.5rem; border-bottom: 1px solid var(--border-color); background: var(--card-bg); flex-shrink: 0;">
                     <div
                         style="display: flex; gap: 8px; background: rgba(0,0,0,0.05); padding: 4px; border-radius: var(--radius-md); border: 1px solid var(--border-color);">
                         <button type="button" id="tabBtnIos" onclick="switchHomeScreenTab('ios')"
@@ -776,6 +773,11 @@
                             🤖 Android (Chrome)
                         </button>
                     </div>
+                </div>
+
+                <!-- Scrollable Body -->
+                <div class="card-body"
+                    style="overflow-y: auto; padding: 1.5rem; line-height: 1.65; font-size: 0.95rem; color: var(--text-main); display: flex; flex-direction: column; gap: 1.5rem;">
 
                     <!-- iOS Content -->
                     <div id="paneIosGuide" style="display: flex; flex-direction: column; gap: 1.25rem;">
